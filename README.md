@@ -3,7 +3,7 @@ An ultra simple sparql explorer based on the original idea from [SNORQL](https:/
 
 [AngularJS](http://angularjs.org) + [Brunch](http://brunch.io) + [Bootstrap](http://twitter.github.com/bootstrap/)
 
-The purpose of this project is to develop a ultra simple modern SNORQL interface available for any sparql endpoint. This version is based on the standard html5 framework and is screen responsive. 
+The purpose of this project is to develop a new version of the original [SNORQL](https://github.com/kurtjx/SNORQL) interface with the lastest standards. This version is based on the html5 frameworks and is screen responsive. 
 
 ## Installation
   >npm install
