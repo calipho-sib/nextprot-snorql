@@ -2,16 +2,31 @@
 
 var app = angular.module('snorql', ['ngRoute', 'ui.codemirror']);
 
+app.config([
+    '$routeProvider',
+    '$locationProvider',
+    '$httpProvider',
+    function ($routeProvider, $locationProvider, $httpProvider) {
+
+        // List of routes of the application
+        $routeProvider
+            .when('/', {title: 'welcome to snorql', templateUrl: '/partials/home.html'});
 
 
+        // Without serve side support html5 must be disabled.
+        $locationProvider.html5Mode(true);
+        //$locationProvider.hashPrefix = '!';
+    }
+]);
 
-app.controller('SnorqlCtrl', function($scope, $timeout, $location, $routeParams, snorql) {
+app.controller('SnorqlCtrl', function($scope, $timeout, $location, snorql) {
   //
   // publish The scope
   $scope.snorql=snorql;
 
   $scope.outputs=['html','json','csv','xml'];
   $scope.output='html';
+  $scope.message="Excuting query ...";
   
   $scope.waiting=false;
   
@@ -26,10 +41,17 @@ app.controller('SnorqlCtrl', function($scope, $timeout, $location, $routeParams,
    
   $scope.executeQuery=function(sparql){
     $scope.waiting=true;
-    $location.search('query', sparql);
-    var params=angular.extend($routeParams,{output:$scope.output});
+    $scope.error=false;
+    $location.search('query',sparql)
+    $location.search('class',null)
+    $location.search('property',null)
+    $location.search('describe',null)
+    var params=angular.extend($location.search(),{output:$scope.output});
     snorql.executeQuery(sparql, params).$promise.then(function(){
       $scope.waiting=false;
+    },function(reason){
+      $scope.error=reason.data
+      $scope.waiting=false
     });
   };
   
@@ -43,50 +65,27 @@ app.controller('SnorqlCtrl', function($scope, $timeout, $location, $routeParams,
   $scope.reset=function(){
     snorql.reset();
   };
+
+  //
+  // load sparql examples
+  snorql.loadExamples();
   
   //
   // kind of queries,
   // query, describe, class, property
-  snorql.setQuery($routeParams);
+  snorql.updateQuery($location.search())
+  // $scope.executeQuery(snorql.updateQuery($location.search()));
   
-  //
-  // load sparql examples
-  snorql.loadExamples();
 });
 
 
 /*
  * create snorql service
  */
-app.factory('snorql', function($http, $q, $timeout) {
+app.factory('snorql', function($http, $q, $timeout, $location) {
 
   //
-  // list your namespaces
-  var namespacePrefixes_ = {
-      rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-      rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
-      owl: 'http://www.w3.org/2002/07/owl#',
-      dc: 'http://purl.org/dc/elements/1.1/',
-      dcterms: 'http://purl.org/dc/terms/',
-      foaf: 'http://xmlns.com/foaf/0.1/',
-      sim: 'http://purl.org/ontology/similarity/',
-      mo: 'http://purl.org/ontology/mo/',
-      ov: 'http://open.vocab.org/terms/',
-      xsd: 'http://www.w3.org/2001/XMLSchema#',
-      '': 'http://nextprot.org/rdf#',
-      entry: 'http://nextprot.org/rdf/entry/',
-      isoform: 'http://nextprot.org/rdf/isoform/',
-      annotation: 'http://nextprot.org/rdf/annotation/',
-      evidence: 'http://nextprot.org/rdf/evidence/',
-      xref: 'http://nextprot.org/rdf/xref/',
-      publication: 'http://nextprot.org/rdf/publication/',
-      term: 'http://nextprot.org/rdf/terminology/',
-      gene: 'http://nextprot.org/rdf/gene/',
-      source: 'http://nextprot.org/rdf/source/',
-      db: 'http://nextprot.org/rdf/db/',
-      context: 'http://nextprot.org/rdf/context/'
-  };
-  
+  // list your namespaces here
   var namespacePrefixes={
        owl:'http://www.w3.org/2002/07/owl#',
        xsd:'http://www.w3.org/2001/XMLSchema#',
@@ -98,6 +97,9 @@ app.factory('snorql', function($http, $q, $timeout) {
        dbpedia2: 'http://dbpedia.org/property/',
        dbpedia: 'http://dbpedia.org/',
        skos: 'http://www.w3.org/2004/02/skos/core#',
+       category: 'http://dbpedia.org/resource/Category:',
+       dcterms: 'http://purl.org/dc/terms/',
+       ontology: 'http://dbpedia.org/ontology/',
        virtuoso:'http://www.openlinksw.com/virtrdf-data-formats'
   };
   
@@ -120,6 +122,7 @@ app.factory('snorql', function($http, $q, $timeout) {
                   
     query:   'SELECT DISTINCT * WHERE {\n  ?s ?p ?o\n}\nLIMIT 10',
     
+    // set your endpoint here
     sparqlEndpoint:'http://dbpedia.org/sparql',
     sparqlUrlExamples:'queries.json'
   };
@@ -200,7 +203,7 @@ app.factory('snorql', function($http, $q, $timeout) {
      return this;
    }
    this.$promise=this.$promise.then(function(){
-       return $http({method:'GET',url:this.examplesUrl});
+       return $http({method:'GET',url:self.examplesUrl});
    });
    
    this.$promise.then(function(config){
@@ -211,18 +214,19 @@ app.factory('snorql', function($http, $q, $timeout) {
   };
   
   // manage default snorql state
-  Snorql.prototype.setQuery=function(params){
-    // service
+  Snorql.prototype.updateQuery=function(params){
     if(params.class){
-      this.query=defaultSnorql['class'].replace('URI_COMPONENT',params.class);
+      this.query=defaultSnorql['class'].replace(/URI_COMPONENT/g,params.class);
     }else
     if(params.property){
-      this.query=defaultSnorql['property'].replace('URI_COMPONENT',params.property);
+      this.query=defaultSnorql['property'].replace(/URI_COMPONENT/g,params.property);
     }else
     if(params.describe){
-      this.query=defaultSnorql['describe'].replace('URI_COMPONENT',params.describe);
-    }else
-      this.query=params.query||defaultSnorql.query;
+      this.query=defaultSnorql['describe'].replace(/URI_COMPONENT/g,params.describe);
+    }else{
+      this.query=params.query;
+    }
+    return this.query
   }
 
 	
@@ -231,14 +235,19 @@ app.factory('snorql', function($http, $q, $timeout) {
 	//  http filter define : query* (default), describe, class, property and output=json* (default)
   Snorql.prototype.executeQuery=function(sparql,filter){
    var self=this;
+   if (!sparql||sparql==='')
+      return self;
 
-   var prefixes=query_getPrefixes();
-  
-   var params=angular.extend({query:prefixes+' '+sparql}, defaultSparqlParams,filter);
-   
+   this.reset();
+   var params=angular.extend(defaultSparqlParams,filter, {query:sparql});
+
+   // setup prefixes   
+   params.query=query_getPrefixes()+'\n'+params.query
+
    var accept={'Accept':defaultAcceptHeaders[params.output]};
 
    var url=defaultSnorql.sparqlEndpoint;
+
 
    if(params.output!=='html'){
      self.reset();
@@ -379,10 +388,23 @@ app.factory('snorql', function($http, $q, $timeout) {
                 a.appendChild(document.createTextNode(qname));
                 span.appendChild(a);
             } else {
-                a.appendChild(document.createTextNode(node.value));
-                span.appendChild(document.createTextNode('<'));
-                span.appendChild(a);
-                span.appendChild(document.createTextNode('>'));
+                match = node.value.match(/\.(png|gif|jpg)$/);
+                if (match) {
+                    img = document.createElement('img');
+                    img.src =node.value;
+                    img.title = node.value;
+                    img.className = 'media';
+
+                    a.appendChild(img);
+                    span.appendChild(a);
+                }else{
+                  a.appendChild(document.createTextNode(node.value));
+                  span.appendChild(document.createTextNode('<'));
+                  span.appendChild(a);
+                  span.appendChild(document.createTextNode('>'));
+
+                }
+
             }
             match = node.value.match(/^(https?|ftp|mailto|irc|gopher|news):/);
             if (match) {
@@ -390,12 +412,15 @@ app.factory('snorql', function($http, $q, $timeout) {
                 var externalLink = document.createElement('a');
                 externalLink.href = node.value;
                 img = document.createElement('img');
-                img.src = '../resources/img/link.png';
+                img.src = '/img/link.png';
                 img.alt = '[' + match[1] + ']';
                 img.title = 'Go to Web page';
                 externalLink.appendChild(img);
                 span.appendChild(externalLink);
             }
+
+
+
             return span;
         }
     
@@ -473,7 +498,7 @@ app.directive("menuToggle",[function() {
     function link(scope, element, attrs) {
       element.click(function () {
         $('.row-offcanvas').toggleClass('active')
-        $('html').toggleClass('overvlow-hidden')
+        //$('html').toggleClass('overvlow-hidden')
       });
     }
     
