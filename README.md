@@ -21,6 +21,6 @@ Starting sparql with an empty screen is not the easy way. This version of SNORQL
 You can set your own sparql endpoint in the [app.js](app/js/app.js) file
 
  
-## build and minimize the project for production (do not use -m option to debug application)
+### minimize the project for production
   >./node_modules/.bin/brunch build -m
 
