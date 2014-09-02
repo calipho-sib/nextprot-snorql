@@ -35,7 +35,7 @@
         "query": "SELECT ?s WHERE {\n  ?s ontology:birthPlace :Brooklyn \n}\nlimit 100"
     }
     ,{
-        "tags":"dbpedia",
+        "tags":"dbpedia photos",
         "title":"other musical artists who have the most common 'associatedActs of' Eminem.",
         "query":"SELECT ?c ?i ?count WHERE {\n {SELECT ?c (COUNT(*) AS ?count) WHERE {\n  {\n  ?b dbpedia2:associatedActs :Eminem.\n  ?b dbpedia2:associatedActs ?c .\n  }\n  } group by ?c order by desc(?count) LIMIT 10\n } . ?c <http://dbpedia.org/ontology/thumbnail> ?i \n}"
     }

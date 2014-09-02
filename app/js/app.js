@@ -8,6 +8,10 @@ app.config([
     '$httpProvider',
     function ($routeProvider, $locationProvider, $httpProvider) {
 
+        // intercept errors
+        $httpProvider.interceptors.push('errorInterceptor')
+
+
         // List of routes of the application
         $routeProvider
             .when('/', {title: 'welcome to snorql', templateUrl: '/partials/home.html'});
@@ -18,6 +22,36 @@ app.config([
         //$locationProvider.hashPrefix = '!';
     }
 ]);
+
+app.factory('errorInterceptor', ['$q', '$rootScope', '$location',
+    function ($q, $rootScope, $location) {
+        return {
+            request: function (config) {
+                return config || $q.when(config);
+            },
+            requestError: function(request){
+                return $q.reject(request);
+            },
+            response: function (response) {
+                return response || $q.when(response);
+            },
+            responseError: function (response) {
+                if (response && response.status === 0) {
+                  $rootScope.error="The API is not accessible";
+                }
+                if (response && response.status === 401) {
+                  $rootScope.error="You are not authorized to access the resource. Please login or review your privileges.";
+                }
+                if (response && response.status === 404) {
+                  $rootScope.error="URL not found";
+                }
+                if (response && response.status >= 500) {
+                  $rootScope.error="Request Failed";
+                }
+                return $q.reject(response);
+            }
+        };
+}]);
 
 app.controller('SnorqlCtrl', function($scope, $timeout, $location, snorql) {
   //
@@ -57,8 +91,7 @@ app.controller('SnorqlCtrl', function($scope, $timeout, $location, snorql) {
   
   $scope.selectExample=function(elm){
     snorql.query=snorql.examples[elm].query;
-    $('.examples a').removeClass('active');
-    $('.examples .query-'+elm).addClass('active');
+    $scope.qSelected=elm
     $('#toggle-examples').click();
   };
   

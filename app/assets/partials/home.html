@@ -54,7 +54,7 @@
         <!-- DISPLAY SPARQL EXAMPLES -->
         <div class="col-xs-6 col-sm-6 col-md-5 sidebar-offcanvas" id="sidebar" role="navigation" >
           <div class="list-group examples">
-            <a href="#" ng-click="selectExample($index)"
+            <a href="#" ng-click="selectExample($index)" ng-class="{'active':qSelected===$index}"
                class="list-group-item query-{{$index}}" ng-repeat="example in snorql.examples">
               <h5 class="list-group-item-heading">{{example.title}}</h5>
               <p class="list-group-item-text"><span class="label label-default">{{example.tags}}</span></p>
