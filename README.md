@@ -14,11 +14,11 @@ The purpose of this project is to develop a new version of the original [SNORQL]
 ##Sparql config,
 
 * Examples
-Starting sparql with an empty screen is not the easy way. This version of SNORQL will display examples from the file [queries.json](app/assets/queries.json) in the interface. 
+This version of SNORQL will display examples from the file [queries.json](app/assets/queries.json) on the interface. 
 
 
 * Endpoint
-You can set your own sparql endpoint in the [app.js](app/js/app.js) file
+You can set your own sparql endpoint by setting the variables (namespacePrefixes and sparqlEndpoint) in the file  [app.js](app/js/app.js) 
 
  
 ### minimize the project for production
