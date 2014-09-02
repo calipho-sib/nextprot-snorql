@@ -1,0 +1,44 @@
+{
+  "name": "angular-snorql",
+  "version": "0.0.1",
+  "description": "Angular SnorQL",
+  "authors": [
+    "Olivier Evalet <evaleto@gmail.com>"
+  ],
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git@"
+  },
+  "scripts": {},
+  "dependencies": {
+    "auto-reload-brunch": ">= 1.3",
+    "bower": ">=1.3.1",
+    "brunch": ">= 1.4",
+    "brunch-signature": "~1.0.1",
+    "clean-css-brunch": "~1.7.1",
+    "coffee-script-brunch": ">= 1.0 ",
+    "connect-livereload": "^0.4.0",
+    "cookie-parser": "^1.3.2",
+    "css-brunch": "~1.7.0",
+    "ejs": "*",
+    "email-templates": "0.0.5",
+    "express": "4.x.x",
+    "jade-brunch": "~1.8.1",
+    "javascript-brunch": "~1.7.1",
+    "less-brunch": ">= 1.4",
+    "marked": "0.2.x",
+    "ngmin-uglify-js-brunch": "~1.7.13",
+    "nodemailer": "0.3.x",
+    "static-jade-brunch": ">= 1.4",
+    "stylus-brunch": "~1.8.0",
+    "uglify-js": "~2.4.13",
+    "uglify-js-brunch": "~1.7.7"
+  },
+  "devDependencies": {
+    "karma": "~0.10",
+    "karma-junit-reporter": "0.*",
+    "karma-story-reporter": "0.*",
+    "karma-ng-scenario": "~0.1"
+  }
+}

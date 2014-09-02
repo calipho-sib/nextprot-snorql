@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html ng-app="snorql">
+
+<head>
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>AngularJS SnorQL</title>
+
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+  <!-- codemirror -->
+  <link rel="stylesheet" type="text/css" href="//codemirror.net/lib/codemirror.css"/>
+  <link rel="stylesheet" type="text/css" href="//codemirror.net/theme/twilight.css"/>
+
+  <!-- application -->
+  <link rel="stylesheet" href="css/snorql.css" />
+  <link rel="stylesheet" href="css/app.css" />
+
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-route.min.js"></script>
+
+  <script src="//codemirror.net/lib/codemirror.js"></script>
+  <script src="//codemirror.net/mode/sparql/sparql.js"></script>
+  <script src="//rawgithub.com/angular-ui/ui-codemirror/bower/ui-codemirror.min.js"></script>
+  
+  <!-- application script -->
+  <script src="js/app.js"></script>
+</head>
+
+<body ng-controller="SnorqlCtrl">
+
+   <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+      <div class="">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><i class="glyphicon glyphicon-cloud pink"></i> SnorQL </a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div><!-- /.nav-collapse -->
+      </div><!-- /.container -->
+    </div><!-- /.navbar -->
+
+    <div class="nav-menu hide" >
+          <div class="list-group">
+            <a href="#" class="list-group-item active">
+              <h4 class="list-group-item-heading">List group item heading</h4>
+              <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+            </a>
+            <a href="#" class="list-group-item">
+              <h4 class="list-group-item-heading">List group item heading</h4>
+              <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+            </a>
+            <a href="#" class="list-group-item">
+              <h4 class="list-group-item-heading">List group item heading</h4>
+              <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+            </a>
+          </div>      
+    </div>
+
+    <div id="content" class="content ">
+
+      <div class="row row-offcanvas row-offcanvas-right">
+
+        <div class="col-xs-12 col-sm-12 col-md-7 ">
+          <p class="pull-right visible-sm visible-xs -visible-md">
+            <button id="toggle-examples" type="button" class="btn btn-primary btn-xs" menu-toggle="offcanvas">sparql example</button>
+          </p>
+          <div class="snorql">
+            <h5>SPARQL explorer for <a ng-href="{{snorql.endpoint()}}">{{snorql.endpoint()}}</a></h5>
+            <ul  class="list-unstyled prefixes">
+              <li ng-repeat="(prefix, url) in snorql.prefixes()">PREFIX {{prefix}}:&lt;{{url}}&gt;</li>
+            </ul>
+            <form>
+              <textarea class="form-control" rows="13" ui-codemirror="cmOption" ng-model="snorql.query"></textarea>
+
+              <div class=" form-inline">
+                  <select class="form-control" ng-disabled="waiting" ng-model="output" ng-options="output for output in outputs"></select>
+                  <button type="button" class="btn btn-primary" ng-disabled="waiting" ng-click="executeQuery(snorql.query)">Go</button>
+                  <button type="button" class="btn btn-default" ng-disabled="waiting" ng-click="snorql.reset()">Reset</button>
+              </div>
+            </form>
+          </div>
+          
+          <!-- DISPLAY SPARQL RESULT -->
+          <div class=" snorql" style="overflow-x:auto">
+            <div class=" " sparql-formatter="snorql.result"></div>
+          </div>
+          
+          
+          <!-- DISPLAY SITE INFO -->
+          <div class="row" ng-show="!snorql.result.head.vars">
+            <div class="col-6 col-sm-6 col-lg-4">
+              <h2>Heading</h2>
+              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div><!--/span-->
+            <div class="col-6 col-sm-6 col-lg-4">
+              <h2>Heading</h2>
+              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div><!--/span-->
+            <div class="col-6 col-sm-6 col-lg-4">
+              <h2>Heading</h2>
+              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+            </div><!--/span-->
+          </div><!--/row-->
+        </div><!--/span-->
+
+        <!-- DISPLAY SPARQL EXAMPLES -->
+        <div class="col-xs-6 col-sm-6 col-md-5 sidebar-offcanvas" id="sidebar" role="navigation" >
+          <div class="list-group examples">
+            <a href="#" ng-click="selectExample($index)"
+               class="list-group-item query-{{$index}}" ng-repeat="example in snorql.examples">
+              <h5 class="list-group-item-heading">{{example.title}}</h5>
+              <p class="list-group-item-text">{{example.tags}}</p>
+            </a>
+
+          </div>
+        </div><!--/span-->
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>&copy; CALIPHO @ SIB 2014</p>
+      </footer>
+
+    </div><!--/.container-->
+</body>
+
+</html>
