@@ -95,6 +95,8 @@ angular.module('snorql.service',[])
     
     // queries examples
     this.examples=[];
+    // examples tags
+    this.tags=[]
     
     // initial sparql result
     this.result={head:[],results:[]};
@@ -130,7 +132,14 @@ angular.module('snorql.service',[])
    });
    
    this.$promise.then(function(config){
+      var index=0;
       self.examples=(config.data);
+      self.examples.forEach(function(example){
+        example.index=index++;
+        if(self.tags.indexOf(example.tags)==-1){
+          self.tags.push(example.tags)
+        }
+      })
    });
    
    return this;
@@ -147,7 +156,7 @@ angular.module('snorql.service',[])
     if(params.describe){
       this.query=defaultSnorql['describe'].replace(/URI_COMPONENT/g,params.describe);
     }else{
-      this.query=params.query;
+      this.query=params.query||defaultSnorql.query;
     }
     return this.query
   }
@@ -309,7 +318,8 @@ angular.module('snorql.service',[])
                 a.appendChild(document.createTextNode(qname));
                 span.appendChild(a);
             } else {
-                match = node.value.match(/\.(png|gif|jpg)$/);
+              // embed image object
+                match = node.value.match(/\.(png|gif|jpg)(\?.+)?$/);
                 if (match) {
                     img = document.createElement('img');
                     img.src =node.value;

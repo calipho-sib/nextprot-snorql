@@ -20,6 +20,10 @@ footer {
   font-family: monospace;
   font-size: 80%;  
 }
+.click{
+  cursor: hand;
+  border-bottom: 1px dotted #ddd;
+}
 
 textarea, button, input, select {
   margin: 10px 5px 0 0;
@@ -28,11 +32,6 @@ textarea, button, input, select {
 textarea.form-control{
   font-family: monospace;
   font-size: 11px;
-}
-
-.snorql{
-  background-color: #ccf;
-  padding:4px;
 }
 
 .overvlow-hidden{
@@ -48,6 +47,9 @@ textarea.form-control{
   color:#FF00DD;
 }
 
+.filter-search{
+  padding: 14px 1px ;
+}
 
 /*
  * Off Canvas

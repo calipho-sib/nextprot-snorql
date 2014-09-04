@@ -38,3 +38,8 @@ img{ width:16px;position:absolute;top:10px;left:50%;}
 	color:gray;
 	padding: 10px;
 }
+
+.snorql{
+  background-color: #ccf;
+  padding:4px;
+}

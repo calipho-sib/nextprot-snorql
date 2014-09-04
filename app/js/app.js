@@ -7,6 +7,77 @@ var app = angular.module('snorql', [
   'ngRoute', 'ui.codemirror','snorql.service','snorql.ui'
 ]);
 
+app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql', function($scope, $timeout, $location, snorql) {
+  //
+  // snorql service provide examples, examples tags, config and executeQuery
+  $scope.snorql=snorql;
+
+  //
+  // setup default output
+  $scope.outputs=['html','json','csv','xml'];
+  $scope.output='html';
+
+  //
+  // default message
+  $scope.message="Excuting query ...";
+
+  $scope.waiting=false;
+  $scope.filter=""
+  
+  // codemirror option
+  $scope.cmOption = {
+    lineNumbers: false,
+    indentWithTabs: true,
+    uiRefresh:true,
+    mode:'sparql'
+  };
+
+   
+  $scope.executeQuery=function(sparql){
+    $scope.waiting=true;
+    $scope.error=false;
+    $location.search('query',sparql)
+    $location.search('class',null)
+    $location.search('property',null)
+    $location.search('describe',null)
+    var params=angular.extend($location.search(),{output:$scope.output});
+    snorql.executeQuery(sparql, params).$promise.then(function(){
+      $scope.waiting=false;
+    },function(reason){
+      $scope.error=reason.data
+      $scope.waiting=false
+    });
+  };
+  
+  $scope.selectExample=function(elm){
+    snorql.query=snorql.examples[elm].query;
+    $scope.qSelected=elm
+    $('#toggle-examples').click();
+  };
+  
+  $scope.reset=function(){
+    snorql.reset();
+  };
+
+  //
+  // load sparql examples
+  snorql.loadExamples()
+  
+  //
+  // kind of queries,
+  // query, describe, class, property
+  snorql.updateQuery($location.search())
+  // $scope.executeQuery(snorql.updateQuery($location.search()));
+  $scope.$on('$locationChangeSuccess',function(url){
+    snorql.updateQuery($location.search())
+  })
+  
+}]);
+
+
+/**
+ * ANGULAR BOOTSTRAP 
+ */
 app.config([
     '$routeProvider',
     '$locationProvider',
@@ -57,66 +128,6 @@ app.factory('errorInterceptor', ['$q', '$rootScope', '$location',
             }
         };
 }]);
-
-app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql', function($scope, $timeout, $location, snorql) {
-  //
-  // publish The scope
-  $scope.snorql=snorql;
-
-  $scope.outputs=['html','json','csv','xml'];
-  $scope.output='html';
-  $scope.message="Excuting query ...";
-  
-  $scope.waiting=false;
-  
-  // codemirror option
-  $scope.cmOption = {
-    lineNumbers: false,
-    indentWithTabs: true,
-    uiRefresh:true,
-    mode:'sparql'
-  };
-
-   
-  $scope.executeQuery=function(sparql){
-    $scope.waiting=true;
-    $scope.error=false;
-    $location.search('query',sparql)
-    $location.search('class',null)
-    $location.search('property',null)
-    $location.search('describe',null)
-    var params=angular.extend($location.search(),{output:$scope.output});
-    snorql.executeQuery(sparql, params).$promise.then(function(){
-      $scope.waiting=false;
-    },function(reason){
-      $scope.error=reason.data
-      $scope.waiting=false
-    });
-  };
-  
-  $scope.selectExample=function(elm){
-    snorql.query=snorql.examples[elm].query;
-    $scope.qSelected=elm
-    $('#toggle-examples').click();
-  };
-  
-  $scope.reset=function(){
-    snorql.reset();
-  };
-
-  //
-  // load sparql examples
-  snorql.loadExamples();
-  
-  //
-  // kind of queries,
-  // query, describe, class, property
-  snorql.updateQuery($location.search())
-  // $scope.executeQuery(snorql.updateQuery($location.search()));
-  
-}]);
-
-
 
 
   

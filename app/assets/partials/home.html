@@ -53,11 +53,31 @@
 
         <!-- DISPLAY SPARQL EXAMPLES -->
         <div class="col-xs-6 col-sm-6 col-md-5 sidebar-offcanvas" id="sidebar" role="navigation" >
+
+
           <div class="list-group examples">
-            <a href="#" ng-click="selectExample($index)" ng-class="{'active':qSelected===$index}"
-               class="list-group-item query-{{$index}}" ng-repeat="example in snorql.examples">
+            <div class="input-group">
+
+            </div>
+
+            <div class="input-group filter-search  has-feedback">
+                  <div class="input-group-btn ">
+                    <button type="button" class="btn btn-default " data-toggle="dropdown">Section<span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu">
+                      <li ng-repeat="tag in snorql.tags" ng-click="$parent.filter = tag;"><a href="" >{{tag}}</a></li>
+                      <li class="divider"></li>
+                      <li ng-click="filter = '';"><a href="#" >Clear filter</a></li>                      
+                    </ul>
+                  </div><!-- /btn-group -->
+                <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                <input type="text" class="form-control" placeholder="Filter sparql examples" ng-model="filter">
+            </div>
+
+            <a href="#" ng-click="selectExample(example.index)" ng-class="{'active':qSelected===example.index}"
+               class="list-group-item query-{{example.index}}" ng-repeat="example in snorql.examples|filter:filter">
               <h5 class="list-group-item-heading">{{example.title}}</h5>
-              <p class="list-group-item-text"><span class="label label-default">{{example.tags}}</span></p>
+              <p class="list-group-item-text"><span  class=" label label-default"  >
+                {{example.tags}}</span></p>
             </a>
 
           </div>
