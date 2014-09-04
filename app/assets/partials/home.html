@@ -1,4 +1,4 @@
-    <div id="content" class="content " ng-controller="SnorqlCtrl">
+    <div id="content" class="content " >
 
       <div class="row row-offcanvas row-offcanvas-right">
 
@@ -24,7 +24,7 @@
           </div>
           
           <!-- DISPLAY SPARQL RESULT -->
-          <div class=" snorql " style="-overflow-x:auto">
+          <div class=" snorql " style="min-height:60px">
             <div class="snorql-info" ng-show="waiting">{{message}}</div>
             <div class="snorql-info" ng-show="error">{{error}}</div>
             <div class=" " sparql-formatter="snorql.result"></div>

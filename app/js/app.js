@@ -296,9 +296,7 @@ app.factory('snorql', function($http, $q, $timeout, $location) {
    //
    // html output is done by parsing json
    params.output='json'
-   this.$promise=this.$promise.then(function(){
-       return $http({method:'GET', url:url,params:params,headers:accept});
-   });
+   this.$promise=$http({method:'GET', url:url,params:params,headers:accept});
    
    this.$promise.then(function(config){
       self.result=(config.data);
