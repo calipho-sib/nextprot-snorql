@@ -3,7 +3,7 @@ A sparql explorer ultra simple based on the original idea of [SNORQL](https://gi
 
 [AngularJS](http://angularjs.org) + [Brunch](http://brunch.io) + [Bootstrap](http://twitter.github.com/bootstrap/)
 
-The purpose of this project is to develop a new version of the original [SNORQL](https://github.com/kurtjx/SNORQL) interface that use the latest web standards for javascript and CSS.
+The purpose of this project is to develop a new version of the original [SNORQL](https://github.com/kurtjx/SNORQL) interface that use the latest web standards for javascript and CSS. Live site http://evaletolab.github.io/angular-snorql
 
 ## Installation
   >npm install
