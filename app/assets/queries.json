@@ -10,16 +10,6 @@
         "query": "SELECT DISTINCT ?class\nWHERE { [] a ?class }\nORDER BY ?class LIMIT 500"
     },
     {
-        "tags" : "schema",
-        "title": "List of all properties",
-        "query": "SELECT DISTINCT ?property\nWHERE { [] ?property [] }\nORDER BY ?property LIMIT 500"
-    },
-    {
-        "tags" : "schema",
-        "title": "List of all named graphs",
-        "query": "SELECT DISTINCT ?namedgraph ?label\nWHERE {\n  GRAPH ?namedgraph { ?s ?p ?o }\n  OPTIONAL { ?namedgraph rdfs:label ?label }\n}\nORDER BY ?namedgraph"
-    },
-    {
         "tags": "dbpedia",
         "title": "10 species for which the binomial authority was Fabricus",
         "query": "SELECT ?y WHERE {\n  ?y dbpedia2:binomialAuthority :Johan_Christian_Fabricius.\n}\nlimit 10"
