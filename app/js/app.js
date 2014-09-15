@@ -90,7 +90,7 @@ app.config([
 
         // List of routes of the application
         $routeProvider
-            .when('/', {title: 'welcome to snorql', templateUrl: '/partials/home.html'});
+            .when('/', {title: 'welcome to snorql', templateUrl: 'partials/home.html'});
 
 
         // Without serve side support html5 must be disabled.
