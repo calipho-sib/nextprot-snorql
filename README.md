@@ -6,18 +6,23 @@ A sparql explorer ultra simple based on the original idea of [SNORQL](https://gi
 The purpose of this project is to develop a new version of the original [SNORQL](https://github.com/kurtjx/SNORQL) interface that use the latest web standards for javascript and CSS. Live site http://evaletolab.github.io/angular-snorql
 
 ## Installation
-  >npm install
-  >node_modules/.bin/bower install
-
+```
+$ npm install
+$ node_modules/.bin/bower install
+```
 ## Usage
-  >node app
+```
+$ node app
+```
 
 ##Sparql config: add your own SPARQL endpoint and examples
 You can provide SPARQL examples to the user interface by editing file [queries.json](app/assets/queries.json). 
-You can also set your own sparql endpoint by setting the variables (*namespacePrefixes* and *sparqlEndpoint*) in the file  [app.js](app/js/app.js) 
+You can also set your own sparql endpoint by setting the variables (*namespacePrefixes* and *sparqlEndpoint*) in the file  [app.js](app/js/app.factory.js) 
 
  
 ### minimize the project for production
-  >./node_modules/.bin/brunch build -m
+```
+$ ./node_modules/.bin/brunch build -m
+```
 
 Enjoy SPARQLing
