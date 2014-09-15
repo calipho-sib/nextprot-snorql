@@ -18,7 +18,7 @@
               <div class=" form-inline">
                   <select class="form-control" ng-disabled="waiting||!snorql.query" ng-model="output" ng-options="output for output in outputs"></select>
                   <button type="button" class="btn btn-primary" ng-disabled="waiting||!snorql.query" ng-click="executeQuery(snorql.query)">Go</button>
-                  <button type="button" class="btn btn-default" ng-disabled="waiting||!snorql.query" ng-click="snorql.reset()">Reset</button>
+                  <button type="button" class="btn btn-default"  ng-click="snorql.reset()">Reset</button>
               </div>
             </form>
           </div>

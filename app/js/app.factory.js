@@ -15,6 +15,7 @@ angular.module('snorql.service',[])
        rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
        rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
        foaf: 'http://xmlns.com/foaf/0.1/',
+       geo:'http://www.w3.org/2003/01/geo/wgs84_pos#',
        dc: 'http://purl.org/dc/elements/1.1/',
        '': 'http://dbpedia.org/resource/',
        dbpedia2: 'http://dbpedia.org/property/',
@@ -110,10 +111,16 @@ angular.module('snorql.service',[])
     //
     // wrap promise to this object
     this.$promise=$q.when(this);
+
+    //
+    // manage cancel
+    this.canceler = $q.defer();    
   };
 
   Snorql.prototype.reset=function(){
+    this.canceler.resolve()
     this.result={head:[],results:[]};
+    this.canceler = $q.defer();    
   };
   
   Snorql.prototype.endpoint=function(){
@@ -195,8 +202,8 @@ angular.module('snorql.service',[])
    //
    // html output is done by parsing json
    params.output='json'
-   this.$promise=$http({method:'GET', url:url,params:params,headers:accept});
-   
+   this.$promise=$http({method:'GET', url:url,params:params,headers:accept, timeout: this.canceler.promise});
+   console.log(this.$promise)
    this.$promise.then(function(config){
       self.result=(config.data);
       console.log(self.result);
@@ -236,7 +243,7 @@ angular.module('snorql.service',[])
             } else if (varName == 'class') {
                 return function(uri) { return '?class=' + encodeURIComponent(uri); };
             } else {
-                return function(uri) { return '/?describe=' + encodeURIComponent(uri); };
+                return function(uri) { return '?describe=' + encodeURIComponent(uri); };
             }
         }
     
@@ -343,7 +350,7 @@ angular.module('snorql.service',[])
                 var externalLink = document.createElement('a');
                 externalLink.href = node.value;
                 img = document.createElement('img');
-                img.src = '/img/link.png';
+                img.src = 'img/link.png';
                 img.alt = '[' + match[1] + ']';
                 img.title = 'Go to Web page';
                 externalLink.appendChild(img);
