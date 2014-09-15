@@ -3,6 +3,7 @@
 
 # define your rebase directory
 BASE_DIR=/angular-snorql/
+GH_DEST=origin
 
 # exit on control+c
 control_c(){
@@ -38,5 +39,5 @@ git add --all
 git commit -m "deploy a new version" .
 
 echo "READY to deploy in github gh-pages"
-git push origin gh-pages && git checkout master
+git push $GH_DEST gh-pages && git checkout master
 
