@@ -23,8 +23,9 @@ git checkout gh-pages
 
 # remove everything and copy the new version
 rm -rf css fonts js partials && cp -a build/* .
+git add --all
 
-git status
 
+echo "READY to apply git push origin gh-pages"
 
 
