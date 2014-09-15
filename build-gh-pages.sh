@@ -4,6 +4,14 @@
 # define your rebase directory
 BASE_DIR=/angular-snorql/
 
+# exit on control+c
+control_c(){
+  echo -en "\n*** Ouch! Exiting ***\n"
+  exit 1
+}
+
+echo "deploying application on github/$BASE_DIR"
+
 [ -f app.js ] || {
   echo "run $0 from root directory"
   exit 1
@@ -29,7 +37,6 @@ rm -rf css fonts js partials && cp -a build/* .
 git add --all
 git commit -m "deploy a new version" .
 
-echo "READY to apply git push origin gh-pages"
-git push origin gh-pages
-
+echo "READY to deploy in github gh-pages"
+git push origin gh-pages && git checkout master
 
