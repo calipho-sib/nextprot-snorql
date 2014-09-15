@@ -11,6 +11,11 @@
     },
     {
         "tags":"dbpedia",
+        "title":"About Albert Einstein"
+        "query":"SELECT DISTINCT ?property ?hasValue \nWHERE {\n  <http://dbpedia.org/resource/Albert_Einstein> ?property ?hasValue \n}\nORDER BY ?property ?hasValue"
+    },
+    {
+        "tags":"dbpedia",
         "query":"SELECT ?name ?birth ?death ?person WHERE {\n     ?person ontology:birthPlace :Berlin .\n     ?person ontology:birthDate ?birth .\n     ?person foaf:name ?name .\n     ?person ontology:deathDate ?death .\n     FILTER (?birth < \"1900-01-01\"^^xsd:date) .\n}\nORDER BY ?name limit 100",
         "title":"People who were born in Berlin before 1900"
     },
