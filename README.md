@@ -19,10 +19,13 @@ $ node app
 You can provide SPARQL examples to the user interface by editing file [queries.json](app/assets/queries.json). 
 You can also set your own sparql endpoint by setting the variables (*namespacePrefixes* and *sparqlEndpoint*) in the file  [app.js](app/js/app.factory.js) 
 
+### deploy application on github pages (NOTE: change your project base directory in the script)
+sh build-gh-pages.sh
  
 ### minimize the project for production
 ```
 $ ./node_modules/.bin/brunch build -m
 ```
+
 
 Enjoy SPARQLing
