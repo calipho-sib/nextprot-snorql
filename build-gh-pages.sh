@@ -1,6 +1,9 @@
 # Shell script to build gh-pages.
 # Run from root directory.
 
+# define your rebase directory
+BASE_DIR=/angular-snorql/
+
 [ -f app.js ] || {
   echo "run $0 from root directory"
   exit 1
@@ -12,7 +15,7 @@
 }
 
 # build current version of the aplication
-BASE=/angular-snorql ./node_modules/.bin/brunch build -P
+BASE=$BASE_DIR ./node_modules/.bin/brunch build -P
 
 # switch branch to gh-pages
 git checkout gh-pages
