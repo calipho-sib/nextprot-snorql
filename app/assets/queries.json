@@ -11,7 +11,7 @@
     },
     {
         "tags":"dbpedia",
-        "title":"About Albert Einstein"
+        "title":"About Albert Einstein",
         "query":"SELECT DISTINCT ?property ?hasValue \nWHERE {\n  <http://dbpedia.org/resource/Albert_Einstein> ?property ?hasValue \n}\nORDER BY ?property ?hasValue"
     },
     {
