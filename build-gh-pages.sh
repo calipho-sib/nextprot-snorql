@@ -5,6 +5,9 @@
 BASE_DIR=/angular-snorql/
 GH_DEST=origin
 
+[ -n "$1" ] && BASE_DIR=$1
+[ -n "$2" ] && GH_DEST=$2
+
 # exit on control+c
 control_c(){
   echo -en "\n*** Ouch! Exiting ***\n"
