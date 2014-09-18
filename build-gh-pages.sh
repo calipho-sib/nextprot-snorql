@@ -2,7 +2,7 @@
 # Run from root directory.
 
 # define your rebase directory
-BASE_DIR=/angular-snorql/
+BASE_DIR=/nextprot-snorql/
 GH_DEST=origin
 
 [ -n "$1" ] && BASE_DIR=$1
