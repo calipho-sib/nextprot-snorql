@@ -4,7 +4,7 @@
  * create application snorql and load deps
  */
 var app = angular.module('snorql', [
-  'ngRoute', 'ui.codemirror','snorql.service','snorql.ui'
+  'ngRoute', 'ui.codemirror', 'snorql.config', 'snorql.service','snorql.ui'
 ]);
 
 app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql', function($scope, $timeout, $location, snorql) {
@@ -23,7 +23,7 @@ app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql', function
 
   $scope.waiting=false;
   $scope.filter=""
-  
+
   // codemirror option
   $scope.cmOption = {
     lineNumbers: false,
@@ -32,7 +32,7 @@ app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql', function
     mode:'sparql'
   };
 
-   
+
   $scope.executeQuery=function(sparql){
     $scope.waiting=true;
     $scope.error=false;
@@ -48,13 +48,13 @@ app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql', function
       $scope.waiting=false
     });
   };
-  
+
   $scope.selectExample=function(elm){
     snorql.query=snorql.examples[elm].query;
     $scope.qSelected=elm
     $('#toggle-examples').click();
   };
-  
+
   $scope.reset=function(){
     snorql.reset();
   };
@@ -62,7 +62,7 @@ app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql', function
   //
   // load sparql examples
   snorql.loadExamples()
-  
+
   //
   // kind of queries,
   // query, describe, class, property
@@ -71,12 +71,12 @@ app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql', function
   $scope.$on('$locationChangeSuccess',function(url){
     snorql.updateQuery($location.search())
   })
-  
+
 }]);
 
 
 /**
- * ANGULAR BOOTSTRAP 
+ * ANGULAR BOOTSTRAP
  */
 app.config([
     '$routeProvider',
@@ -128,6 +128,3 @@ app.factory('errorInterceptor', ['$q', '$rootScope', '$location',
             }
         };
 }]);
-
-
-  

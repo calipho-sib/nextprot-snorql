@@ -3,39 +3,19 @@
  * create snorql service
  */
 
-angular.module('snorql.service',[]) 
+angular.module('snorql.service',[])
 
-.factory('snorql', function($http, $q, $timeout, $location) {
+.factory('snorql', ["$http", "$q", "$timeout", "$location", "config",function($http, $q, $timeout, $location, config) {
 
-  //
-  // list your namespaces here
-  var namespacePrefixes={
-       owl:'http://www.w3.org/2002/07/owl#',
-       xsd:'http://www.w3.org/2001/XMLSchema#',
-       rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
-       rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-       foaf: 'http://xmlns.com/foaf/0.1/',
-       geo:'http://www.w3.org/2003/01/geo/wgs84_pos#',
-       dc: 'http://purl.org/dc/elements/1.1/',
-       '': 'http://dbpedia.org/resource/',
-       dbpedia2: 'http://dbpedia.org/property/',
-       dbpedia: 'http://dbpedia.org/',
-       skos: 'http://www.w3.org/2004/02/skos/core#',
-       category: 'http://dbpedia.org/resource/Category:',
-       dcterms: 'http://purl.org/dc/terms/',
-       ontology: 'http://dbpedia.org/ontology/',
-       virtuoso:'http://www.openlinksw.com/virtrdf-data-formats'
-  };
-  
   var defaultSnorql={
     property:'SELECT DISTINCT ?resource ?value\n' +
                   'WHERE { ?resource <URI_COMPONENT> ?value }\n' +
                   'ORDER BY ?resource ?value',
-                  
+
     clazz :  'SELECT DISTINCT ?instance\n' +
                   'WHERE { ?instance a <URI_COMPONENT> }\n' +
                   'ORDER BY ?instance',
-                  
+
     describe:'SELECT DISTINCT ?property ?hasValue ?isValueOf\n' +
                   'WHERE {\n' +
                   '  { <URI_COMPONENT> ?property ?hasValue }\n' +
@@ -43,68 +23,68 @@ angular.module('snorql.service',[])
                   '  { ?isValueOf ?property <URI_COMPONENT> }\n' +
                   '}\n' +
                   'ORDER BY (!BOUND(?hasValue)) ?property ?hasValue ?isValueOf',
-                  
+
     query:   'SELECT DISTINCT * WHERE {\n  ?s ?p ?o\n}\nLIMIT 10',
-    
+
     // set your endpoint here
-    sparqlEndpoint:'http://dbpedia.org/sparql',
-    sparqlUrlExamples:'queries.json'
+    sparqlEndpoint:config.sparql.endpoint,
+    sparqlUrlExamples:config.sparql.examples
   };
-  
-  
+
+
   var defaultSnorqlTitle={
     property:'All uses of property URI_COMPONENT:',
-                  
+
     clazz :  'All instances of class URI_COMPONENT:',
 
     describe:'Description of URI_COMPONENT:',
 
     query:   'SPARQL results'
   };
-    
-  
+
+
   var defaultSparqlParams={
     'default-graph-uri':null,
     'named-graph-uri':null,
      output:'json',
   };
-  
+
   var defaultAcceptHeaders={
     html:'application/sparql-results+json,*/*',
     json:'application/sparql-results+json,*/*',
     xml:'application/sparql-results+xml,*/*',
     csv:'application/sparql-results+csv,*/*'
   };
-  
+
   //
-  // serialize prefixes 
+  // serialize prefixes
   var query_getPrefixes = function() {
-    prefixes = '';
-    for (var prefix in namespacePrefixes) {
-        var uri = namespacePrefixes[prefix];
+    var prefixes = '';
+    for (var prefix in config.sparql.prefixes) {
+        var uri = config.sparql.prefixes[prefix];
         prefixes = prefixes + 'PREFIX ' + prefix + ': <' + uri + '>\n';
     }
     return prefixes;
   };
-  
-  
+
+
   var Snorql=function(){
     //
     // this service depend on two $resources (eg. dao in Java world)
-    // this.$dao={queries:$resource('queries.json'), sparqlQuery:$resource('sparql.json')}; 
-  
-    
+    // this.$dao={queries:$resource('queries.json'), sparqlQuery:$resource('sparql.json')};
+
+
     // queries examples
     this.examples=[];
     // examples tags
     this.tags=[]
-    
+
     // initial sparql result
     this.result={head:[],results:[]};
-    
+
     // initial sparql query
     this.query=defaultSnorql.query;
-    
+
     // initial url for examples
     this.examplesUrl=defaultSnorql.sparqlUrlExamples;
 
@@ -114,15 +94,15 @@ angular.module('snorql.service',[])
 
     //
     // manage cancel
-    this.canceler = $q.defer();    
+    this.canceler = $q.defer();
   };
 
   Snorql.prototype.reset=function(){
     this.canceler.resolve()
     this.result={head:[],results:[]};
-    this.canceler = $q.defer();    
+    this.canceler = $q.defer();
   };
-  
+
   Snorql.prototype.endpoint=function(){
     return defaultSnorql.sparqlEndpoint;
   };
@@ -137,7 +117,7 @@ angular.module('snorql.service',[])
    this.$promise=this.$promise.then(function(){
        return $http({method:'GET',url:self.examplesUrl});
    });
-   
+
    this.$promise.then(function(config){
       var index=0;
       self.examples=(config.data);
@@ -148,10 +128,10 @@ angular.module('snorql.service',[])
         }
       })
    });
-   
+
    return this;
   };
-  
+
   // manage default snorql state
   Snorql.prototype.updateQuery=function(params){
     if(params.class){
@@ -168,7 +148,7 @@ angular.module('snorql.service',[])
     return this.query
   }
 
-  
+
   //
   // start a sparql query,
   //  http filter define : query* (default), describe, class, property and output=json* (default)
@@ -180,7 +160,7 @@ angular.module('snorql.service',[])
    this.reset();
    var params=angular.extend(defaultSparqlParams,filter, {query:sparql});
 
-   // setup prefixes   
+   // setup prefixes
    params.query=query_getPrefixes()+'\n'+params.query
 
    var accept={'Accept':defaultAcceptHeaders[params.output]};
@@ -198,7 +178,7 @@ angular.module('snorql.service',[])
      },200)
      return self;
    }
-   
+
    //
    // html output is done by parsing json
    params.output='json'
@@ -209,23 +189,23 @@ angular.module('snorql.service',[])
       console.log(self.result);
    })
    return this;
-  }  
+  }
 
   // access the singleton
   Snorql.prototype.prefixes=function(){
-    return namespacePrefixes;
+    return config.sparql.prefixes;
   }
-  
+
   /**
    * SPARQLResultFormatter: Renders a SPARQL/JSON result set into an HTML table.
-   */  
+   */
   Snorql.prototype.SPARQLResultFormatter=function() {
       return new (function(result, namespaces){
         this._json = result;
         this._variables = this._json.head['vars']||{};
         this._results = this._json.results['bindings']||[];
         this._namespaces = namespaces;
-    
+
         this.toDOM = function() {
             var table = document.createElement('table');
             table.className = 'queryresults';
@@ -235,7 +215,7 @@ angular.module('snorql.service',[])
             }
             return table;
         }
-    
+
         // TODO: Refactor; non-standard link makers should be passed into the class by the caller
         this._getLinkMaker = function(varName) {
             if (varName == 'property') {
@@ -246,7 +226,7 @@ angular.module('snorql.service',[])
                 return function(uri) { return '?describe=' + encodeURIComponent(uri); };
             }
         }
-    
+
         this._createTableHeader = function() {
             var tr = document.createElement('tr');
             var hasNamedGraph = false;
@@ -265,7 +245,7 @@ angular.module('snorql.service',[])
             }
             return tr;
         }
-    
+
         this._createTableRow = function(binding, rowNumber) {
             var tr = document.createElement('tr');
             if (rowNumber % 2) {
@@ -293,7 +273,7 @@ angular.module('snorql.service',[])
             }
             return tr;
         }
-    
+
         this._formatNode = function(node, varName) {
             if (!node) {
                 return this._formatUnbound(node, varName);
@@ -312,7 +292,7 @@ angular.module('snorql.service',[])
             }
             return document.createTextNode('???');
         }
-    
+
         this._formatURI = function(node, varName) {
             var span = document.createElement('span');
             span.className = 'uri';
@@ -344,12 +324,12 @@ angular.module('snorql.service',[])
                 }
 
             }
-            match = node.value.match(/^(https?|ftp|mailto|irc|gopher|news):/);
+            var match = node.value.match(/^(https?|ftp|mailto|irc|gopher|news):/);
             if (match) {
                 span.appendChild(document.createTextNode(' '));
                 var externalLink = document.createElement('a');
                 externalLink.href = node.value;
-                img = document.createElement('img');
+                var img = document.createElement('img');
                 img.src = 'img/link.png';
                 img.alt = '[' + match[1] + ']';
                 img.title = 'Go to Web page';
@@ -361,7 +341,7 @@ angular.module('snorql.service',[])
 
             return span;
         }
-    
+
         this._formatPlainLiteral = function(node, varName) {
             var text = '"' + node.value + '"';
             if (node['xml:lang']) {
@@ -369,7 +349,7 @@ angular.module('snorql.service',[])
             }
             return document.createTextNode(text);
         }
-    
+
         this._formatTypedLiteral = function(node, varName) {
             var text = '"' + node.value + '"';
             if (node.datatype) {
@@ -383,11 +363,11 @@ angular.module('snorql.service',[])
             }
             return document.createTextNode(text);
         }
-    
+
         this._formatBlankNode = function(node, varName) {
             return document.createTextNode('_:' + node.value);
         }
-    
+
         this._formatUnbound = function(node, varName) {
             var span = document.createElement('span');
             span.className = 'unbound';
@@ -395,9 +375,9 @@ angular.module('snorql.service',[])
             span.appendChild(document.createTextNode('-'));
             return span;
         }
-    
+
         this._toQName = function(uri) {
-            for (prefix in this._namespaces) {
+            for (var prefix in this._namespaces) {
                 var nsURI = this._namespaces[prefix];
                 if (uri.indexOf(nsURI) == 0) {
                     return prefix + ':' + uri.substring(nsURI.length);
@@ -405,14 +385,14 @@ angular.module('snorql.service',[])
             }
             return null;
         }
-    
+
         this._toQNameOrURI = function(uri) {
             var qName = this._toQName(uri);
             return (qName == null) ? '<' + uri + '>' : qName;
         }
-    
+
         this._isNumericXSDType = function(datatypeURI) {
-            for (i = 0; i < this._numericXSDTypes.length; i++) {
+            for (var i = 0; i < this._numericXSDTypes.length; i++) {
                 if (datatypeURI == this._xsdNamespace + this._numericXSDTypes[i]) {
                     return true;
                 }
@@ -426,7 +406,7 @@ angular.module('snorql.service',[])
             'unsignedInt', 'unsignedShort', 'unsignedByte'];
       })(this.result, this.prefixes())
   }
-  
-  
+
+
   return new Snorql()
-});
+}]);
