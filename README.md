@@ -22,8 +22,8 @@ You can also set your own sparql endpoint by setting the variables (*namespacePr
 ### deploy compiled application on github pages
 ```
 #
-# change your project base directory in the script
-sh build-gh-pages.sh
+# change your project base directory in the script 
+sh build-gh-pages.sh [/base/ (default angular-snorql)] [remote (default origin)]
 ```
  
 ### minimize the project for production
