@@ -10,7 +10,7 @@
     "query": "#title:Q009 with 3 disulfide bonds and that are not hormones \n#pending\n#ac:A4D1T9,A6NC86,A6NDD2,A6NDV4,A6NGN9,A8MWS1,A8MWY0,A8MXU0,B1AKI9,D3W0D1\n#tags:selected\nselect distinct ?entry   WHERE {\n ?statement a :DisulfideBond.\n ?entry :isoform ?isoform.\n ?isoform :modifiedResidue ?statement .\n FILTER NOT EXISTS{?entry :classifiedWith term:KW-0372}\n\n# KW-0372 has related cv in go ontolology, the filter bellow will take care of them  \n FILTER NOT EXISTS{?entry :isoform/:function/:in/^:related term:KW-0372}\n}GROUP by ?entry ?isoform HAVING (count(?statement) =3 )\n"
   },
   {
-    "tags": "selected",
+    "tags": "domain",
     "title": "Q15, Proteins with a PDZ domain that interact with at least 1 protein which is expressed in brain",
     "query": "#title:Q15, Proteins with a PDZ domain that interact with at least 1 protein which is expressed in brain\n#ac:O00151,O00233,O00560,O14640,O14641,O14745,O14907,O14908,O14910,O14936\n#tags:selected\nSELECT distinct ?entry WHERE {\n\t?entry :isoform ?iso.\n\t?iso :region/:in term:DO-00477. #PDZ domain\n\t?iso :interaction/:with/:isoform?/:expression/:in/:childOf term:TS-0095 #brain\n}\n"
   },
