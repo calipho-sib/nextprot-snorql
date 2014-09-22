@@ -32,7 +32,7 @@ angular.module('snorql.config', []).factory('config', [
         // global application configuration
         var defaultConfig = {
             sparql : {
-              endpoint: 'http://localhost:8080/nextprot-api/sparql',
+              endpoint: 'http://crick.isb-sib.ch:8080/nextprot-api/sparql',
               examples: 'queries.json',
               prefixes: namespacePrefixes
           }
