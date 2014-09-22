@@ -38,6 +38,8 @@ git checkout gh-pages
 
 # make hit happy
 git pull $GH_DEST gh-pages
+git fetch --all
+git reset --hard $GH_DEST/gh-pages
 
 # remove everything and copy the new version
 rm -rf css fonts js partials && cp -a build/* .
