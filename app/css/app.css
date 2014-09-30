@@ -51,6 +51,31 @@ textarea.form-control{
   padding: 14px 1px ;
 }
 
+.label-snorql{
+  background-color: #ccf;
+  color: #666;
+}
+
+.headlines{
+  padding-top: 5px;
+  float: left;
+  width: 100%;
+}
+
+.headlines>div{
+  position: relative;
+  margin-right: 5px;
+  border-right: 1px solid #ddd;
+  width:30%;
+  float: left;
+  padding: 15px;
+  min-height: 300px;
+}
+
+.headlines>div .btn{
+  position: absolute;
+  bottom: 5px;
+}
 /*
  * Off Canvas
  * --------------------------------------------------
@@ -98,6 +123,20 @@ textarea.form-control{
     top: 0;
     width: 60%; /* 6 columns */
   }
+}
+
+@media screen and (max-width: 700px) {
+  .headlines>div{
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    width: 98%;
+    min-height: 5px;
+    margin-bottom:10px; 
+  }
+  .headlines>div .btn{
+    position: relative;
+    bottom: 5px;
+  }  
 }
 
 

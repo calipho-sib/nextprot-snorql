@@ -31,6 +31,7 @@ angular.module('snorql.config', []).factory('config', [
 
         // global application configuration
         var defaultConfig = {
+            home:'https://github.com/calipho-sib/nextprot-snorql',
             sparql : {
               endpoint: 'http://crick.isb-sib.ch:8080/nextprot-api/sparql',
               examples: 'queries.json',

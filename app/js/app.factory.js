@@ -32,17 +32,6 @@ angular.module('snorql.service',[])
   };
 
 
-  var defaultSnorqlTitle={
-    property:'All uses of property URI_COMPONENT:',
-
-    clazz :  'All instances of class URI_COMPONENT:',
-
-    describe:'Description of URI_COMPONENT:',
-
-    query:   'SPARQL results'
-  };
-
-
   var defaultSparqlParams={
     'default-graph-uri':null,
     'named-graph-uri':null,
@@ -119,13 +108,19 @@ angular.module('snorql.service',[])
    });
 
    this.$promise.then(function(config){
-      var index=0;
+      var index=0, rawtags=[];
       self.examples=(config.data);
       self.examples.forEach(function(example){
         example.index=index++;
-        if(self.tags.indexOf(example.tags)==-1){
-          self.tags.push(example.tags)
-        }
+        if(!example.tags)
+          return
+        //
+        // considering multiple tags
+        example.tags.split(',').forEach(function(tag){
+          if(self.tags.indexOf(tag.trim())==-1){
+            self.tags.push(tag)
+          }
+        })
       })
    });
 

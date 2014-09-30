@@ -7,7 +7,11 @@ var app = angular.module('snorql', [
   'ngRoute', 'ui.codemirror', 'snorql.config', 'snorql.service','snorql.ui'
 ]);
 
-app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql', function($scope, $timeout, $location, snorql) {
+app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql','config', function($scope, $timeout, $location, snorql, config) {
+  //
+  // go home link
+  $scope.home=config.home;
+
   //
   // snorql service provide examples, examples tags, config and executeQuery
   $scope.snorql=snorql;
@@ -34,6 +38,8 @@ app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql', function
 
 
   $scope.executeQuery=function(sparql){
+    var time=Date.now();
+    $scope.executionTime=false;
     $scope.waiting=true;
     $scope.error=false;
     $location.search('query',sparql)
@@ -43,6 +49,7 @@ app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql', function
     var params=angular.extend($location.search(),{output:$scope.output});
     snorql.executeQuery(sparql, params).$promise.then(function(){
       $scope.waiting=false;
+      $scope.executionTime=(Date.now()-time)/1000;
     },function(reason){
       $scope.error=reason.data
       $scope.waiting=false
@@ -52,12 +59,13 @@ app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql', function
   $scope.selectExample=function(elm){
     snorql.query=snorql.examples[elm].query;
     $scope.qSelected=elm
-    $('#toggle-examples').click();
+    $('.row-offcanvas').removeClass('active')
   };
 
   $scope.reset=function(){
     snorql.reset();
   };
+
 
   //
   // load sparql examples
@@ -71,6 +79,8 @@ app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql', function
   $scope.$on('$locationChangeSuccess',function(url){
     snorql.updateQuery($location.search())
   })
+
+
 
 }]);
 
