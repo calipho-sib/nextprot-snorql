@@ -10,6 +10,16 @@
       "query":"SELECT (count(?pe1)as ?protein_level) \n       (count(?pe2)as ?transcript_level) \n       (count(?pe3)as ?homology) \n       (count(?pe4)as ?predicted)\n       (count(?pe5)as ?uncertain)\nWHERE {\n  {?pe1 :existence :Evidence_at_protein_level}\n  union\n  {?pe2 :existence :Evidence_at_transcript_level}\n  union\n  {?pe3 :existence :Inferred_from_homology}\n  union\n  {?pe4 :existence :Predicted}\n  union\n  {?pe5 :existence :Uncertain}     \n}"
     },
     {
+        "title":"New proteins without InitiatorMethionine, identified by peptides at position 2",
+        "tags":"peptide,processing",
+        "query":"select  distinct ?entry ?pepac where {\n?entry :isoform ?iso .\n?iso :sequence / :chain ?seq;:mapping ?pepmap.\n?pepmap a :PeptideMapping;\n          :position [ :start ?pepstart ; :end ?pepend];\n          :position/:start 1;\n          :withEvidence/:reference/:accession ?pepac \n          . \nFILTER NOT EXISTS{ ?iso :processingProduct/rdf:type :InitiatorMethionine }\n}"
+    },
+    {
+        "tags":"peptide,splicing,isoforms",
+        "title":"potential new isoforms identified by N terminal peptides",
+        "query":"select  distinct ?entry ?pepac ?pepstart ?pepseq where {\n?entry :isoform ?iso .\n  ?iso :sequence / :chain ?seq;:peptideMapping ?pepmap.\n  ?pepmap :position [ :start ?pepstart ; :end ?pepend];\n          :withEvidence/:reference/:accession ?pepac \n          . \nfilter(?pepstart > 5)  \n#amino acid in peptide boundary\nBIND(substr(?seq, ?pepstart+1, 1) as ?firstAA) .\nBIND(substr(?seq, ?pepstart, 1) as ?prevAA) .\nBIND(substr(?seq, ?pepend, 1) as ?lastAA) .\n#sequence context  \nBIND(substr(?seq, ?pepstart-3, $pepend-?pepstart+3) as ?pepseq) .\nfilter(regex (?firstAA,'^M'))\nfilter(!regex (?prevAA,'^[KR]'))   \nfilter(regex (?lastAA,'^[KR]'))   \n}"
+    },
+    {
         "tags": "selected,localisation",
         "title": "Q5 located in mitochondrion and that lack a transit peptide",
         "query": "#title:Q5 located in mitochondrion and that lack a transit peptide\n#ac:A1XBS5,O00159,O00755,O14734,O14972,O15270,A2AJT9,A6NDV4,A6NFY7,A6NK06,B7ZC32\n#tags:selected\nselect distinct ?entry where{\n ?entry :isoform/:localisation/:in/:childOf term:SL-0173\n  FILTER NOT EXISTS{ ?entry :classifiedWith term:KW-0809 }\n}order by ?entry\n"
