@@ -17,7 +17,9 @@ exports.config =
         before: [
           'bower_components/jquery/dist/jquery.js',
           'bower_components/bootstrap/dist/js/bootstrap.js',
-          'bower_components/angular/angular.js'
+          'bower_components/angular/angular.js',
+          'bower_components/codemirror/lib/codemirror.js',
+          'bower_components/codemirror/mode/sparql/sparql.js'
         ]
 
     stylesheets:
@@ -26,7 +28,9 @@ exports.config =
         'css/app.css': /^app/
       order:
         before: [
-          'vendor/styles/booostrap.css'
+          'vendor/styles/booostrap.css',
+          'bower_components/codemirror/lib/codemirror.css',
+          'bower_components/codemirror/theme/twilight.css'
         ]
         after: [
           'vendor/styles/bootstrap-responsive.css'

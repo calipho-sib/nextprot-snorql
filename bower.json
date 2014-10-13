@@ -1,20 +1,22 @@
 {
-    "name": "angular-snorql",
-    "version": "0.1.0",
-    "main": "build/js/vendor.js",
-    "directory": "bower_components",
-    "ignore": [
-      "**/.*",
-      "node_modules",
-      "components",
-      "bower"
-    ],
-    "dependencies": {
-        "jquery": "2.1.x",
-        "bootstrap": "3.x.x",
-        "angular": "1.3.x",
-        "angular-route": "1.3.x",
-        "angular-animate": "1.3.x",
-        "angular-touch": "1.3.x"
-    }
+  "name": "angular-snorql",
+  "version": "0.1.0",
+  "main": "build/js/vendor.js",
+  "directory": "bower_components",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "bower"
+  ],
+  "dependencies": {
+    "jquery": "2.1.x",
+    "bootstrap": "3.x.x",
+    "angular": "1.3.x",
+    "angular-route": "1.3.x",
+    "angular-animate": "1.3.x",
+    "angular-touch": "1.3.x",
+    "angular-ui-codemirror": "~0.1.6",
+    "codemirror": "~4.6.0"
+  }
 }
