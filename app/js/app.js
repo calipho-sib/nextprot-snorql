@@ -37,7 +37,7 @@ app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql','config',
   };
 
 
-  $scope.executeQuery=function(sparql){
+  $scope.executeQuery=function(sparql,output){
     var time=Date.now();
     $scope.executionTime=false;
     $scope.waiting=true;
@@ -46,7 +46,7 @@ app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql','config',
     $location.search('class',null)
     $location.search('property',null)
     $location.search('describe',null)
-    var params=angular.extend($location.search(),{output:$scope.output});
+    var params=angular.extend($location.search(),{output:output});
     snorql.executeQuery(sparql, params).$promise.then(function(){
       $scope.waiting=false;
       $scope.executionTime=(Date.now()-time)/1000;
