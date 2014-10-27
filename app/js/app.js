@@ -7,7 +7,8 @@ var app = angular.module('snorql', [
   'ngRoute','ngResource', 'npHelp','ui.codemirror', 'snorql.config', 'snorql.service','snorql.ui'
 ]);
 
-app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql','config', function($scope, $timeout, $location, snorql, config) {
+app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql','config',
+                    function ( $scope,  $timeout,  $location,  snorql,  config) {
   //
   // go home link
   $scope.home=config.home;
