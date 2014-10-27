@@ -1,0 +1,29 @@
+    <div id="content" class="content " ng-controller="HelpCtrl">
+
+      <!-- CONTENT -->
+      <div class="container-fluid">
+        <div class="row">
+        <!-- LEFT PANE -->
+          <div class="col-sm-4 col-lg-3 sidebar">
+            <ul class="nav nav-sidebar">
+              <li ng-class="{'active':isActiveElement('')}"><a href="/doc">Home</a></li>
+              <li ng-class="{'active':isActiveElement('faq')}"><a href="/doc/faq">FAQ</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+              <li ng-repeat="rh in rdfHelp | filter : rdfHelp.triples.predicate" ng-class="{'active':isActiveElement(rh.typeName.replace(':',''))}")>
+                <a ng-href="/doc/entity/{{rh.typeName|cleanType}}">
+                  <i class="icon-chevron-right"></i>{{rh.typeName|cleanType}}
+                  ({{rh.instanceCount}})
+                </a>
+              </li>            
+            </ul>
+          </div>
+        <!-- CENTER PANE -->
+          <div class="col-sm-8 col-sm-offset-4 col-lg-9 col-lg-offset-3 main" rdf-help></div>   
+        </div>
+      </div>
+      <hr>
+      <footer>
+        <p>&copy; CALIPHO @ SIB 2014</p>
+      </footer>
+    </div><!--/.container-->

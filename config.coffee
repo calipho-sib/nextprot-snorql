@@ -18,7 +18,6 @@ exports.config =
           'bower_components/jquery/dist/jquery.js',
           'bower_components/bootstrap/dist/js/bootstrap.js',
           'bower_components/angular/angular.js',
-          'bower_components/codemirror/lib/codemirror.js',
           'bower_components/codemirror/mode/sparql/sparql.js'
         ]
 

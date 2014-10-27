@@ -4,7 +4,7 @@
  * create application snorql and load deps
  */
 var app = angular.module('snorql', [
-  'ngRoute', 'ui.codemirror', 'snorql.config', 'snorql.service','snorql.ui'
+  'ngRoute','ngResource', 'npHelp','ui.codemirror', 'snorql.config', 'snorql.service','snorql.ui'
 ]);
 
 app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql','config', function($scope, $timeout, $location, snorql, config) {
@@ -100,7 +100,10 @@ app.config([
 
         // List of routes of the application
         $routeProvider
-            .when('/', {title: 'welcome to snorql', templateUrl: 'partials/home.html'});
+            .when('/', {title: 'welcome to snorql', templateUrl: 'partials/home.html'})
+            .when('/doc',{title: 'help for snorql', templateUrl: 'partials/page.html'})
+            .when('/doc/faq',{title: 'help for snorql', templateUrl: 'partials/page.html'})
+            .when('/doc/entity/:entity',{title: 'help for snorql', templateUrl: 'partials/help.html'});
 
 
         // Without serve side support html5 must be disabled.

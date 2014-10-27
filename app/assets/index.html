@@ -14,6 +14,17 @@
   <!-- application -->
   <link rel="stylesheet" href="DIGEST(css/app.css)" />
 
+  <script>
+
+    //
+    // global settings for angular-nexprot-ui-help
+    var npHelpSettings={
+        // baseUrl:"http://uat-web2:8080",
+        helpUrl:'rdfhelp.json',
+        root:'doc',
+        pages:['doc/home','doc/faq','doc/entity']
+    }    
+  </script>
 
   <!-- Latest compiled and minified JavaScript -->
   <script src="DIGEST(js/vendor.js)"></script>
@@ -40,6 +51,7 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li><a href="#about">About</a></li>
+            <li><a href="/doc">Help</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
         </div><!-- /.nav-collapse -->
