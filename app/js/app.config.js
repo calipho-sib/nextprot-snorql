@@ -23,6 +23,7 @@ angular.module('snorql.config', []).factory('config', [
             publication: 'http://nextprot.org/rdf/publication/',
             identifier: 'http://nextprot.org/rdf/identifier/',
             term: 'http://nextprot.org/rdf/terminology/',
+            cv: 'http://nextprot.org/rdf/terminology/',
             gene: 'http://nextprot.org/rdf/gene/',
             source: 'http://nextprot.org/rdf/source/',
             db: 'http://nextprot.org/rdf/db/',
