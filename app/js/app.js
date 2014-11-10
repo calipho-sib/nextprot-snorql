@@ -12,6 +12,7 @@ app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql','config',
   //
   // go home link
   $scope.home=config.home;
+  $scope.pushState=config.pushState;
 
   //
   // snorql service provide examples, examples tags, config and executeQuery
