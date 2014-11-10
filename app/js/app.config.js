@@ -21,7 +21,9 @@ angular.module('snorql.config', []).factory('config', [
             evidence: 'http://nextprot.org/rdf/evidence/',
             xref: 'http://nextprot.org/rdf/xref/',
             publication: 'http://nextprot.org/rdf/publication/',
+            identifier: 'http://nextprot.org/rdf/identifier/',
             term: 'http://nextprot.org/rdf/terminology/',
+            cv: 'http://nextprot.org/rdf/terminology/',
             gene: 'http://nextprot.org/rdf/gene/',
             source: 'http://nextprot.org/rdf/source/',
             db: 'http://nextprot.org/rdf/db/',
@@ -34,8 +36,10 @@ angular.module('snorql.config', []).factory('config', [
             // home:'https://github.com/calipho-sib/nextprot-snorql',
             home:'/',
             sparql : {
-              endpoint: 'http://crick.isb-sib.ch:8080/nextprot-api-web/sparql',
-              examples: 'queries.json',
+              //endpoint: 'http://crick.isb-sib.ch:8080/nextprot-api-web/sparql',
+              endpoint: 'http://localhost:8080/nextprot-api-web/sparql',
+              examples: 'http://localhost:8080/nextprot-api-web/demo/sparql/queries.json',
+              //examples: 'queries.json',
               prefixes: namespacePrefixes
           }
         }
