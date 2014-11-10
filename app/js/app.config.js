@@ -36,10 +36,10 @@ angular.module('snorql.config', []).factory('config', [
             // home:'https://github.com/calipho-sib/nextprot-snorql',
             home:'/',
             sparql : {
-              //endpoint: 'http://crick.isb-sib.ch:8080/nextprot-api-web/sparql',
-              endpoint: 'http://localhost:8080/nextprot-api-web/sparql',
-              examples: 'http://localhost:8080/nextprot-api-web/demo/sparql/queries.json',
-              //examples: 'queries.json',
+              endpoint: 'http://crick.isb-sib.ch:8080/nextprot-api-web/sparql',
+              examples: 'queries.json',
+              // endpoint: 'http://localhost:8080/nextprot-api-web/sparql',
+              // examples: 'http://localhost:8080/nextprot-api-web/demo/sparql/queries.json',
               prefixes: namespacePrefixes
           }
         }
