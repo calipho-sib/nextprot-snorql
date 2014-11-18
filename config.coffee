@@ -47,29 +47,12 @@ exports.config =
     # using information from package.json
     map:
       distBase: -> (if process.env.BASE then process.env.BASE else '/')
+      distRelease: -> (Date.now())
 
   plugins:
 
     jade:
       pretty: yes # Adds pretty-indentation whitespaces to output (false by default)
-    digest:
-      # A RegExp where the first subgroup matches the filename to be replaced
-      pattern: /DIGEST\(\/?([^\)]*)\)/g
-      # After replacing the filename, should we discard the non-filename parts of the pattern?
-      discardNonFilenamePatternParts: yes
-      # RegExp that matches files that contain DIGEST references.
-      referenceFiles: /\.html$/
-      # How many digits of the SHA1 to append to digested files.
-      precision: 8
-      # Force digest-brunch to run in all environments when true.
-      alwaysRun: false
-      # Specify an array of environments to run in.
-      environments: ['production']
-      # Prepend an asset host URL to the file paths in the reference files. Use an object e.g. {production: 'http://production-asset-host.co'}
-      prependHost: null
-      # Output filename for a JSON manifest of reference file paths and their digest.
-      manifest: ''
-      # An array of infixes for alternate versions of files. This is useful when e.g. using retina.js (http://imulus.github.io/retinajs/) (@2x) for high density images.
-      infixes: []
+
   # Enable or disable minifying of result js / css files.
   # minify: true
