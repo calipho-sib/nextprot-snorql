@@ -9,7 +9,14 @@ var app = angular.module('snorql', [
 
 // init app
 app.run(function (gitHubContent) {
-  gitHubContent.initialize();
+  gitHubContent.initialize({
+        // baseUrl:"http://uat-web2:8080",
+        helpPath:'rdfhelp.json',
+        helpTitle:'Main truc',
+        root:'page', // specify the root of RDF entity routes
+        githubRepo:'calipho-sib/nextprot-docs',
+        githubToken:'2e36ce76cfb03358f0a38630007840e7cb432a24'
+    });
 });
 
 
@@ -109,7 +116,8 @@ app.config([
         $routeProvider
             .when('/', {title: 'welcome to snorql', templateUrl: 'partials/home.html'})
             .when('/page/entity/:entity',{title: 'help for snorql', templateUrl: 'partials/help.html'})
-            .when('/page/:docs?/:article?',{title: 'help for snorql', templateUrl: 'partials/page.html'})
+            .when('/page/title/:article?',{title: 'help for snorql', templateUrl: 'partials/page.html'})
+            .when('/page/:docs?/:article?',{title: 'help for snorql', templateUrl: 'partials/doc.html'})
 
 
         // Without serve side support html5 must be disabled.
