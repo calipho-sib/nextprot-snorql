@@ -9,6 +9,12 @@ The purpose of this project is to develop a new version of the original [SNORQL]
 ```
 $ npm install
 $ node_modules/.bin/bower install
+
+
+## later on when a dependency has changed
+
+$ node_modules/.bin/bower update
+
 ```
 ## Usage
 ```
