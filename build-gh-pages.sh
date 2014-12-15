@@ -13,7 +13,7 @@ control_c(){
   exit 1
 }
 
-echo "deploying application on $BASE_DIR $DEST"
+echo "deploying application on $DEST with base-url: $BASE_DIR"
 
 # check if file app.js exists
 [ -f app.js ] || {
