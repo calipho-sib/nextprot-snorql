@@ -13,7 +13,7 @@ control_c(){
   exit 1
 }
 
-echo "deploying application on github/$BASE_DIR"
+echo "deploying application on $BASE_DIR $DEST"
 
 # check if file app.js exists
 [ -f app.js ] || {
@@ -42,7 +42,9 @@ git checkout gh-pages
 # where destination is not github
 [ -n "$DEST" ] && {
   #  rsync -e ssh -auvz --delete-after . npteam@plato:/work/www/snorql.nextprot.org/
-  rsync -e ssh -auvz --delete-after . $DEST
+  rsync -e ssh -auvz --delete-after build/ $DEST
+  git commit -m "deploy inhouse new version" .
+  git push origin gh-pages; git checkout master
   exit 0;
 }
 
@@ -54,7 +56,7 @@ git reset --hard origin/gh-pages
 # remove everything and copy the new version
 rm -rf css fonts js partials && cp -a build/* .
 git add --all
-git commit -m "deploy a new version" .
+git commit -m "deploy github new version" .
 
 echo "READY to deploy in github gh-pages"
-git push origin gh-pages && git checkout master
+git push origin gh-pages; git checkout master
