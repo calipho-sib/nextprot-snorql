@@ -9,7 +9,7 @@
     "components",
     "bower"
   ],
- "overrides": {
+  "overrides": {
     "showdown": {
       "main": "src/showdown.js"
     }
@@ -24,5 +24,8 @@
     "angular-ui-codemirror": "~0.1.6",
     "codemirror": "~4.6.0",
     "angular-nextprot-help": "https://github.com/calipho-sib/nextprot-ui-help/tarball/master"
+  },
+  "resolutions": {
+    "angular": "1.3.x"
   }
 }
