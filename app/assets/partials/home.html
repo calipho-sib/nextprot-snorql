@@ -19,6 +19,7 @@
                   <select class="form-control" ng-disabled="waiting||!snorql.query" ng-model="output" ng-options="output for output in outputs"></select>
                   <button type="button" class="btn btn-primary" ng-disabled="waiting||!snorql.query" ng-click="executeQuery(snorql.query,output)">Go</button>
                   <button type="button" class="btn btn-default"  ng-click="snorql.reset()">Reset</button>
+                  <input type="text"  class="form-control" ng-model="">
               </div>
             </form>
           </div>
@@ -34,22 +35,7 @@
           
           <!-- DISPLAY SITE INFO -->
           <div class=" headlines" ng-show="!snorql.result.head.vars">
-            <div class="">
-              <h2>Get more than entries</h2>
-              <p>How to build sequences subsets centered around sites of interest <em>(in this case phosphotyrosines)</em> for further alignment and context pattern analysis</p>
-              <p><a class="btn btn-default" href="#" role="button" ng-click="selectExample(0)">View query &raquo;</a></p>
-
-            </div><!--/span-->
-            <div class="">
-              <h2>Existence level of proteins</h2>
-              <p>Count of all proteins by existence level</p>
-              <p><a class="btn btn-default" href="#" role="button" ng-click="selectExample(1)">View details &raquo;</a></p>
-            </div><!--/span-->
-            <div class="">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-            </div><!--/span-->
+            <markdown markdown-article="snorql-headlines" ></markdown>
           </div><!--/row-->
         </div><!--/span-->
 
