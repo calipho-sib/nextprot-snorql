@@ -72,7 +72,7 @@ app.controller('SnorqlCtrl', ['$scope','$timeout','$location','snorql','config',
   };
 
   $scope.selectExample=function(elm){
-    snorql.query=snorql.examples[elm].query;
+    snorql.query=snorql.examples[elm].sparql;
     $scope.qSelected=elm
     $('.row-offcanvas').removeClass('active')
   };

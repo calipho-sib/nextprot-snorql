@@ -3,7 +3,7 @@
  * create snorql directives
  */
 
-angular.module('snorql.ui',[]) 
+angular.module('snorql.ui',[])
 
 .directive("menuToggle",[function() {
 
@@ -13,10 +13,10 @@ angular.module('snorql.ui',[])
         //$('html').toggleClass('overvlow-hidden')
       });
     }
-    
+
     return {
       link: link
-    };    
+    };
 }])
 
 .directive("sparqlFormatter",['snorql',function(snorql) {
@@ -26,16 +26,18 @@ angular.module('snorql.ui',[])
         if (newValue){
           formatter= snorql.SPARQLResultFormatter()
           element.html(formatter.toDOM())
+          element.find('a').click(function(){
+            window.scrollTop();
+          })
         }
       });
     }
-    
+
     return {
         restrict: 'A',
         scope: {
             sparqlFormatter: '='
-        },      
+        },
         link: link
-    };    
+    };
 }])
-

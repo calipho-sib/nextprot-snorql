@@ -116,7 +116,7 @@ angular.module('snorql.service',[])
           return
         //
         // considering multiple tags
-        example.tags.split(',').forEach(function(tag){
+        example.tags.forEach(function(tag){
           if(self.tags.indexOf(tag.trim())==-1){
             self.tags.push(tag)
           }
