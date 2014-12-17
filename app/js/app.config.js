@@ -1,4 +1,5 @@
-'use strict';
+(function (angular, undefined) {'use strict';
+
 //Define the application global configuration
 angular.module('snorql.config', []).factory('config', [
     function () {
@@ -31,7 +32,7 @@ angular.module('snorql.config', []).factory('config', [
         };
 
 
-        var BASE_URL = "http://mac-097:8080/nextprot-api-web"
+        var BASE_URL = "http://crick.isb-sib.ch:8080/nextprot-api-web"
 
         // global application configuration
         var defaultConfig = {
@@ -50,3 +51,6 @@ angular.module('snorql.config', []).factory('config', [
         return defaultConfig;
     }
 ]);
+
+
+})(angular);

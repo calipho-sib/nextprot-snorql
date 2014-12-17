@@ -1,11 +1,17 @@
+(function (angular, undefined) {'use strict';
 
 /*
  * create snorql service
  */
 
 angular.module('snorql.service',[])
+.factory('snorql', snorql);
 
-.factory('snorql', ["$http", "$q", "$timeout", "$location", "config",function($http, $q, $timeout, $location, config) {
+
+//
+// implement snorql factory
+snorql.$inject=["$http", "$q", "$timeout", "$location", "config"]
+function snorql($http, $q, $timeout, $location, config) {
 
   var defaultSnorql={
     property:'SELECT DISTINCT ?resource ?value\n' +
@@ -404,4 +410,7 @@ angular.module('snorql.service',[])
 
 
   return new Snorql()
-}]);
+};
+
+
+})(angular);

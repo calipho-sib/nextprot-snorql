@@ -19,7 +19,12 @@
                   <select class="form-control" ng-disabled="waiting||!snorql.query" ng-model="output" ng-options="output for output in outputs"></select>
                   <button type="button" class="btn btn-primary" ng-disabled="waiting||!snorql.query" ng-click="executeQuery(snorql.query,output)">Go</button>
                   <button type="button" class="btn btn-default"  ng-click="snorql.reset()">Reset</button>
-                  <input type="text"  class="form-control" ng-model="">
+                  <div class="input-group pull-right">
+                    <input type="text"  class="form-control" ng-model="term" placeholder="eg. peroxisome, liver">
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default "  ng-click="searchTerm(term)" ng-disabled="!term"><i class="glyphicon glyphicon-search"></i></button>
+                    </span>
+                  </div>                  
               </div>
             </form>
           </div>

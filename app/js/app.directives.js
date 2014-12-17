@@ -1,25 +1,33 @@
+(function (angular, undefined) {'use strict';
 
 /*
  * create snorql directives
  */
 
 angular.module('snorql.ui',[])
+  .directive("menuToggle",menuToggle)
+  .directive("sparqlFormatter",sparqlFormatter);
 
-.directive("menuToggle",[function() {
 
-    function link(scope, element, attrs) {
-      element.click(function () {
-        $('.row-offcanvas').toggleClass('active')
-        //$('html').toggleClass('overvlow-hidden')
-      });
-    }
+//
+// implement menuToggle
+menuToggle.$inject=[]
+function menuToggle() {
+  function link(scope, element, attrs) {
+    element.click(function () {
+      $('.row-offcanvas').toggleClass('active')
+      //$('html').toggleClass('overvlow-hidden')
+    });
+  }
+  return {
+    link: link
+  };
+}
 
-    return {
-      link: link
-    };
-}])
-
-.directive("sparqlFormatter",['snorql',function(snorql) {
+//
+// implement sparqlFormatter
+sparqlFormatter.$inject=['snorql']
+function sparqlFormatter(snorql) {
     var formatter;
     function link(scope, element, attrs) {
       scope.$watch('sparqlFormatter', function(newValue, oldValue) {
@@ -40,4 +48,6 @@ angular.module('snorql.ui',[])
         },
         link: link
     };
-}])
+}
+
+})(angular);
