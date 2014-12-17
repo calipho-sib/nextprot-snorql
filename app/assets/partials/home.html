@@ -67,7 +67,7 @@
             </div>
 
             <a href="#" ng-click="selectExample(example.index)" ng-class="{'active':qSelected===example.index}"
-               class="list-group-item query-{{example.index}}" ng-repeat="example in snorql.examples|filter:filter">
+               class="list-group-item query-{{example.index}}" ng-repeat="example in snorql.examples|filter:filter|orderBy:'title'">
               <h5 class="list-group-item-heading">{{example.title}}</h5>
               <p class="list-group-item-text"><span  class=" label label-snorql"  >
                 {{example.tags}}</span></p>
