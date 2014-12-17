@@ -44,7 +44,7 @@ git checkout gh-pages
   #  rsync -e ssh -auvz --delete-after . npteam@plato:/work/www/snorql.nextprot.org/
   rsync -e ssh -auvz --delete-after build/ $DEST
   git commit -m "deploy inhouse new version" .
-  git push origin gh-pages; git checkout master
+  git checkout master
   exit 0;
 }
 
