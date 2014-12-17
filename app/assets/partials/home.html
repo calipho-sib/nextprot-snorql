@@ -22,7 +22,7 @@
                   <div class="input-group pull-right">
                     <input type="text"  class="form-control" ng-model="term" placeholder="eg. peroxisome, liver">
                     <span class="input-group-btn">
-                      <button type="button" class="btn btn-default "  ng-click="searchTerm(term)" ng-disabled="!term"><i class="glyphicon glyphicon-search"></i></button>
+                      <button type="button" class="btn btn-default "  ng-click="searchTerm(term)" ng-disabled="!term||waiting"><i class="glyphicon glyphicon-search"></i></button>
                     </span>
                   </div>                  
               </div>
@@ -31,7 +31,7 @@
           
           <!-- DISPLAY SPARQL RESULT -->
           <div class=" snorql " style="min-height:60px">
-            <div class="snorql-info" ng-show="waiting">{{message}}</div>
+            <div class="snorql-info" ng-show="waiting">Excuting query ...</div>
             <div class="snorql-info" ng-show="error">{{error}}</div>
             <div class="snorql-info" ng-show="executionTime">Query time is {{executionTime}}[s] for {{snorql.result.results.bindings.length||0}} rows</div>
             <div class=" " sparql-formatter="snorql.result"></div>
