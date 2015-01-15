@@ -118,7 +118,7 @@ function snorql($http, $q, $timeout, $location, config) {
       self.examples=(config.data);
       self.examples.forEach(function(example){
         example.index=index++;
-        if(!example.tags)
+        if(!example.tags) 
           return
         //
         // considering multiple tags
@@ -219,6 +219,7 @@ function snorql($http, $q, $timeout, $location, config) {
 
         // TODO: Refactor; non-standard link makers should be passed into the class by the caller
         this._getLinkMaker = function(varName) {
+          //console.log(varName);
             if (varName == 'property') {
                 return function(uri) { return '?property=' + encodeURIComponent(uri); };
             } else if (varName == 'class') {
@@ -305,6 +306,18 @@ function snorql($http, $q, $timeout, $location, config) {
             if (qname) {
                 a.appendChild(document.createTextNode(qname));
                 span.appendChild(a);
+                if((varName == 'entry') || (varName == 'iso')) {
+
+                  var spacer = document.createTextNode(' --- ');
+                  span.appendChild(spacer);
+                  var a2 = document.createElement('a');
+                  a2.href = node.value.replace("rdf","db").replace("isoform","entry");
+                  a2.title = '< View in NextProt >';
+                  a2.className = 'url';
+                  a2.target = '_blank'; // Opens in new tab
+                  a2.appendChild(document.createTextNode(' (NextProt link) '));
+                  span.appendChild(a2);
+                }
             } else {
               // embed image object
                 match = node.value.match(/\.(png|gif|jpg)(\?.+)?$/);
