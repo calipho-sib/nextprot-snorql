@@ -32,6 +32,11 @@ You can also set your own sparql endpoint by setting the variables (*namespacePr
 sh build-gh-pages.sh [/base/ (default angular-snorql)] [remote (default origin)]
 ```
 
+```
+# deploy to inhouse server
+sh build-gh-pages.sh / npteam@plato:/work/www/snorql.nextprot.org/
+```
+
 ### minimize the project for production
 ```
 $ ./node_modules/.bin/brunch build -m
