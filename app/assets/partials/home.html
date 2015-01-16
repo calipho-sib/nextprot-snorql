@@ -46,20 +46,16 @@
 
         <!-- DISPLAY SPARQL EXAMPLES -->
         <div class="col-xs-6 col-sm-6 col-md-5 sidebar-offcanvas" id="sidebar" role="navigation" >
-
-
           <div class="list-group examples">
             <div class="input-group">
-
             </div>
-
             <div class="input-group filter-search  has-feedback">
                   <div class="input-group-btn ">
-                    <button type="button" class="btn btn-default " data-toggle="dropdown">Section<span class="caret"></span></button>
+                    <button type="button" class="btn btn-default " data-toggle="dropdown">{{(filterTag == null) ? "Tags " : filterTag}}<span class="caret"></span></button>
                     <ul class="dropdown-menu" role="menu">
-                      <li ng-repeat="tag in snorql.tags" ng-click="$parent.filter = tag;"><a href="" >{{tag}}</a></li>
+                      <li ng-click="resetFilters(); filter=''"><a href="#" >Clear filter</a></li>
                       <li class="divider"></li>
-                      <li ng-click="filter = '';"><a href="#" >Clear filter</a></li>
+                      <li ng-repeat="tag in snorql.tags|orderBy" ng-click="setFilterTag(tag)"><a href="" >{{tag}}</a></li>
                     </ul>
                   </div><!-- /btn-group -->
                 <span class="glyphicon glyphicon-search form-control-feedback"></span>
@@ -67,10 +63,11 @@
             </div>
 
             <a href="#" ng-click="selectExample(example.index)" ng-class="{'active':qSelected===example.index}"
-               class="list-group-item query-{{example.index}}" ng-repeat="example in snorql.examples|filter:filter|orderBy:'title'">
-              <h5 class="list-group-item-heading">{{example.title}}</h5>
-              <p class="list-group-item-text"><span  class=" label label-snorql"  >
-                {{example.tags}}</span></p>
+               class="list-group-item query-{{example.index}}" ng-repeat="example in snorql.examples | containsTag:filterTag | filter:filter">
+              <h5 class="list-group-item-heading">{{example.userQueryId}} - {{example.title}}</h5>
+              <p class="list-group-item-text"><span  class="label"  >
+                <span ng-repeat="tag in example.tags" class="label label-default label-as-badge">{{tag}}</span>
+              </p>
             </a>
 
           </div>

@@ -6,7 +6,25 @@
 
 angular.module('snorql.ui',[])
   .directive("menuToggle",menuToggle)
-  .directive("sparqlFormatter",sparqlFormatter);
+  .directive("sparqlFormatter",sparqlFormatter)
+  .filter("containsTag",containsTag);
+
+
+containsTag.$inject=[]
+function containsTag() {
+  return function( items, selectedTag) {
+    var filtered = [];
+    if(selectedTag == null)
+      return items;
+      
+    angular.forEach(items, function(item) {
+      if(_.intersection([selectedTag], item.tags).length > 0) {
+        filtered.push(item);
+      }
+    });
+    return filtered;
+  };
+};
 
 
 //

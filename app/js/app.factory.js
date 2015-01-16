@@ -118,7 +118,7 @@ function snorql($http, $q, $timeout, $location, config) {
       self.examples=(config.data);
       self.examples.forEach(function(example){
         example.index=index++;
-        if(!example.tags) 
+        if(!example.tags)
           return
         //
         // considering multiple tags
@@ -312,10 +312,10 @@ function snorql($http, $q, $timeout, $location, config) {
                   span.appendChild(spacer);
                   var a2 = document.createElement('a');
                   a2.href = node.value.replace("rdf","db").replace("isoform","entry");
-                  a2.title = '< View in NextProt >';
+                  a2.title = '< View in neXtProt >';
                   a2.className = 'url';
                   a2.target = '_blank'; // Opens in new tab
-                  a2.appendChild(document.createTextNode(' (NextProt link) '));
+                  a2.appendChild(document.createTextNode(' (neXtProt link) '));
                   span.appendChild(a2);
                 }
             } else {

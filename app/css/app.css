@@ -18,7 +18,7 @@ footer {
 }
 .prefixes {
   font-family: monospace;
-  font-size: 80%;  
+  font-size: 80%;
 }
 .click{
   cursor: hand;
@@ -35,7 +35,7 @@ textarea.form-control{
 }
 
 .overvlow-hidden{
-  overflow:hidden;  
+  overflow:hidden;
 }
 
 .CodeMirror-code{
@@ -49,6 +49,8 @@ textarea.form-control{
 
 .filter-search{
   padding: 14px 1px ;
+  margin-top: -25px;
+
 }
 
 .label-snorql{
@@ -131,12 +133,10 @@ textarea.form-control{
     border: 1px solid #ddd;
     width: 98%;
     min-height: 5px;
-    margin-bottom:10px; 
+    margin-bottom:10px;
   }
   .headlines>div .btn{
     position: relative;
     bottom: 5px;
-  }  
+  }
 }
-
-

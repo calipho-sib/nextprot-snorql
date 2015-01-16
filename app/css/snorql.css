@@ -31,7 +31,7 @@ img{ width:16px;position:absolute;top:10px;left:50%;}
 	left: 0;
 	top: 0;
 	position: relative;
-	width: 100%;	
+	width: 100%;
 }
 
 .snorql-info{
@@ -42,4 +42,15 @@ img{ width:16px;position:absolute;top:10px;left:50%;}
 .snorql{
   background-color: #ccf;
   padding:4px;
+}
+
+.label-as-badge {
+	border-radius: 1em;
+}
+
+.examples .label-as-badge {
+	margin-right: 2px;
+	background: #ccf;
+	color: #428bca;
+	font-size: 10px;
 }

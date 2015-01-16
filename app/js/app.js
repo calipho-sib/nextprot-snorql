@@ -10,7 +10,6 @@ var app = angular.module('snorql', [
   .run(appRun)
 
 
-
 // init app
 appRun.$inject=['gitHubContent']
 function appRun(gitHubContent) {
@@ -49,6 +48,7 @@ function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubCont
 
   $scope.waiting=false;
   $scope.filter=""
+  $scope.filterTag = null;
 
   // codemirror option
   $scope.cmOption = {
@@ -97,6 +97,14 @@ function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubCont
     snorql.query=snorql.examples[elm].sparql;
     $scope.qSelected=elm
     $('.row-offcanvas').removeClass('active')
+  };
+
+  $scope.setFilterTag=function(tag){
+    $scope.filterTag=tag;
+  };
+
+  $scope.resetFilters=function(){
+    $scope.filterTag=null;
   };
 
   $scope.reset=function(){
