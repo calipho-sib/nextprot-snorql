@@ -69,7 +69,7 @@ function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubCont
         $scope.waiting=false;
         $scope.executionTime=(Date.now()-time)/1000;
       },function(reason){
-        $scope.error=reason.data
+        $scope.error=reason.data.message
         $scope.waiting=false
       });
   }
@@ -88,7 +88,7 @@ function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubCont
       $scope.waiting=false;
       $scope.executionTime=(Date.now()-time)/1000;
     },function(reason){
-      $scope.error=reason.data
+      $scope.error=reason.data.message
       $scope.waiting=false
     });
   };
