@@ -36,14 +36,13 @@ function addQueryPrefix() {
     };
 };
 
-addQueryPrefix.$inject=[]
-function getGitHubUrl() {
+getGitHubUrl.$inject=['config']
+function getGitHubUrl(config) {
   return function(queryId) {
 
     var s = "000000000" + queryId;
     var fileName = "NXQ_" + s.substr(s.length-5) + ".rq";
-    var url = "https://github.com/calipho-sib/nextprot-queries/edit/develop/src/main/resources/nextprot-queries/";
-    return url + fileName;
+    return config.githubEdit + fileName;
   };
 };
 

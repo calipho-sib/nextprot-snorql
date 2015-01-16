@@ -313,7 +313,7 @@ function snorql($http, $q, $timeout, $location, config) {
             if (qname) {
                 a.appendChild(document.createTextNode(qname));
                 span.appendChild(a);
-                if((varName == 'entry') || (varName == 'iso')) {
+                if((qname.indexOf('entry') == 0) || (qname.indexOf('iso') == 0)) {
 
                   var spacer = document.createTextNode(' --- ');
                   span.appendChild(spacer);
