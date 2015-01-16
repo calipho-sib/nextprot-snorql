@@ -86,6 +86,9 @@ function snorql($http, $q, $timeout, $location, config) {
     // initial selected query id
     this.selectedQueryId = 0;
 
+    // initial selected query title
+    this.queryTitle = "Query title";
+
     // initial url for examples
     this.examplesUrl=defaultSnorql.sparqlUrlExamples;
 
