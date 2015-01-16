@@ -7,8 +7,9 @@
 angular.module('snorql.ui',[])
   .directive("menuToggle",menuToggle)
   .directive("sparqlFormatter",sparqlFormatter)
-  .filter("containsTag",containsTag);
-
+  .filter("containsTag",containsTag)
+  .filter("addQueryPrefix",addQueryPrefix)
+  .filter("getGitHubUrl",getGitHubUrl);
 
 containsTag.$inject=[]
 function containsTag() {
@@ -16,7 +17,7 @@ function containsTag() {
     var filtered = [];
     if(selectedTag == null)
       return items;
-      
+
     angular.forEach(items, function(item) {
       if(_.intersection([selectedTag], item.tags).length > 0) {
         filtered.push(item);
@@ -26,6 +27,25 @@ function containsTag() {
   };
 };
 
+
+addQueryPrefix.$inject=[]
+function addQueryPrefix() {
+  return function(queryId) {
+      var s = "000000000" + queryId;
+      return "NXQ_" + s.substr(s.length-5);
+    };
+};
+
+addQueryPrefix.$inject=[]
+function getGitHubUrl() {
+  return function(queryId) {
+
+    var s = "000000000" + queryId;
+    var fileName = "NXQ_" + s.substr(s.length-5) + ".rq";
+    var url = "https://github.com/calipho-sib/nextprot-queries/edit/develop/src/main/resources/nextprot-queries/";
+    return url + fileName;
+  };
+};
 
 //
 // implement menuToggle

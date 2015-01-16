@@ -30,6 +30,9 @@ function snorql($http, $q, $timeout, $location, config) {
                   '}\n' +
                   'ORDER BY (!BOUND(?hasValue)) ?property ?hasValue ?isValueOf',
 
+    description:   'Here you can write your SPARQL queries',
+
+
     query:   'SELECT DISTINCT * WHERE {\n  ?s ?p ?o\n}\nLIMIT 10',
 
     // set your endpoint here
@@ -80,9 +83,13 @@ function snorql($http, $q, $timeout, $location, config) {
     // initial sparql query
     this.query=defaultSnorql.query;
 
+    // initial selected query id
+    this.selectedQueryId = 0;
+
     // initial url for examples
     this.examplesUrl=defaultSnorql.sparqlUrlExamples;
 
+    this.description = defaultSnorql.description;
     //
     // wrap promise to this object
     this.$promise=$q.when(this);
@@ -344,7 +351,7 @@ function snorql($http, $q, $timeout, $location, config) {
                 var externalLink = document.createElement('a');
                 externalLink.href = node.value;
                 var img = document.createElement('img');
-                img.src = 'img/link.png';
+                //img.src = 'img/link.png';
                 img.alt = '[' + match[1] + ']';
                 img.title = 'Go to Web page';
                 externalLink.appendChild(img);

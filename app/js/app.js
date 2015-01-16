@@ -95,6 +95,8 @@ function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubCont
 
   $scope.selectExample=function(elm){
     snorql.query=snorql.examples[elm].sparql;
+    snorql.description=snorql.examples[elm].description;
+    snorql.selectedQueryId=snorql.examples[elm].userQueryId;
     $scope.qSelected=elm
     $('.row-offcanvas').removeClass('active')
   };

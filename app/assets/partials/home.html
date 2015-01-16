@@ -7,13 +7,16 @@
             <button id="toggle-examples" type="button" class="btn btn-primary btn-xs" menu-toggle="offcanvas">sparql example</button>
           </p>
           <div class="snorql">
-            <h5>SPARQL explorer for <a ng-href="{{snorql.endpoint()}}">{{snorql.endpoint()}}</a></h5>
+            <h5>SPARQL endpoint: <a ng-href="{{snorql.endpoint()}}">{{snorql.endpoint()}}</a></h5>
             <a href="#" ng-click="showPrefixes = !showPrefixes">{{showPrefixes? "Hide SPARQL prefixes" : "PREFIX ..."}}</a>
             <ul ng-show="showPrefixes"  class="list-unstyled prefixes">
               <li ng-repeat="(prefix, url) in snorql.prefixes()">PREFIX {{prefix}}:&lt;{{url}}&gt;</li>
             </ul>
             <form>
-              <textarea class="form-control" rows="13" ui-codemirror="cmOption" ng-model="snorql.query"></textarea>
+
+              <textarea class="form-control" rows="12" ui-codemirror="cmOption" ng-model="snorql.query"></textarea>
+              <h5>Description</h5>
+              <textarea readonly class="form-control" rows="8" ng-model="snorql.description"></textarea>
 
               <div class=" form-inline">
                   <select class="form-control" ng-disabled="waiting||!snorql.query" ng-model="output" ng-options="output for output in outputs"></select>
@@ -26,7 +29,11 @@
                     </span>
                   </div>
               </div>
+
             </form>
+
+            <h5 ng-if="snorql.selectedQueryId != 0">Found a bug? <a target="_blank" href="{{snorql.selectedQueryId | getGitHubUrl}}">Improve this query!</a></h5>
+
           </div>
 
           <!-- DISPLAY SPARQL RESULT -->
@@ -52,7 +59,7 @@
             <div class="input-group filter-search  has-feedback">
                   <div class="input-group-btn ">
                     <button type="button" class="btn btn-default " data-toggle="dropdown">{{(filterTag == null) ? "Tags " : filterTag}}<span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu">
+                    <ul class="dropdown-menu scrollable-menu" role="menu">
                       <li ng-click="resetFilters(); filter=''"><a href="#" >Clear filter</a></li>
                       <li class="divider"></li>
                       <li ng-repeat="tag in snorql.tags|orderBy" ng-click="setFilterTag(tag)"><a href="" >{{tag}}</a></li>
@@ -64,9 +71,9 @@
 
             <a href="#" ng-click="selectExample(example.index)" ng-class="{'active':qSelected===example.index}"
                class="list-group-item query-{{example.index}}" ng-repeat="example in snorql.examples | containsTag:filterTag | filter:filter">
-              <h5 class="list-group-item-heading">{{example.userQueryId}} - {{example.title}}</h5>
+              <h5 class="list-group-item-heading">{{example.userQueryId | addQueryPrefix}} - {{example.title}}</h5>
               <p class="list-group-item-text"><span  class="label"  >
-                <span ng-repeat="tag in example.tags" class="label label-default label-as-badge">{{tag}}</span>
+                <span ng-repeat="tag in example.tags | orderBy" class="label label-default label-as-badge">{{tag}}</span>
               </p>
             </a>
 

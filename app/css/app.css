@@ -58,6 +58,12 @@ textarea.form-control{
   color: #666;
 }
 
+.scrollable-menu {
+  height: auto;
+  max-height: 400px;
+  overflow-x: hidden;
+}
+
 .headlines{
   padding-top: 5px;
   float: left;
