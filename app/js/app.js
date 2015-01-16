@@ -41,6 +41,7 @@ function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubCont
   // setup default output
   $scope.outputs=['html','json','csv','xml'];
   $scope.output='html';
+  $scope.showPrefixes = false;
 
   //
   // default message

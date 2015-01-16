@@ -7,9 +7,9 @@
             <button id="toggle-examples" type="button" class="btn btn-primary btn-xs" menu-toggle="offcanvas">sparql example</button>
           </p>
           <div class="snorql">
-
             <h5>SPARQL explorer for <a ng-href="{{snorql.endpoint()}}">{{snorql.endpoint()}}</a></h5>
-            <ul  class="list-unstyled prefixes">
+            <a href="#" ng-click="showPrefixes = !showPrefixes">{{showPrefixes? "Hide SPARQL prefixes" : "PREFIX ..."}}</a>
+            <ul ng-if="showPrefixes"  class="list-unstyled prefixes">
               <li ng-repeat="(prefix, url) in snorql.prefixes()">PREFIX {{prefix}}:&lt;{{url}}&gt;</li>
             </ul>
             <form>
@@ -24,11 +24,11 @@
                     <span class="input-group-btn">
                       <button type="button" class="btn btn-default "  ng-click="searchTerm(term)" ng-disabled="!term||waiting"><i class="glyphicon glyphicon-search"></i></button>
                     </span>
-                  </div>                  
+                  </div>
               </div>
             </form>
           </div>
-          
+
           <!-- DISPLAY SPARQL RESULT -->
           <div class=" snorql " style="min-height:60px">
             <div class="snorql-info" ng-show="waiting">Excuting query ...</div>
@@ -36,8 +36,8 @@
             <div class="snorql-info" ng-show="executionTime">Query time is {{executionTime}}[s] for {{snorql.result.results.bindings.length||0}} rows</div>
             <div class=" " sparql-formatter="snorql.result"></div>
           </div>
-          
-          
+
+
           <!-- DISPLAY SITE INFO -->
           <div class=" headlines" ng-show="!snorql.result.head.vars">
             <markdown markdown-article="snorql-headlines" ></markdown>
@@ -59,7 +59,7 @@
                     <ul class="dropdown-menu" role="menu">
                       <li ng-repeat="tag in snorql.tags" ng-click="$parent.filter = tag;"><a href="" >{{tag}}</a></li>
                       <li class="divider"></li>
-                      <li ng-click="filter = '';"><a href="#" >Clear filter</a></li>                      
+                      <li ng-click="filter = '';"><a href="#" >Clear filter</a></li>
                     </ul>
                   </div><!-- /btn-group -->
                 <span class="glyphicon glyphicon-search form-control-feedback"></span>
