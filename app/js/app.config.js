@@ -32,15 +32,18 @@ angular.module('snorql.config', []).factory('config', [
         };
 
 
+        //var BASE_URL = "http://localhost:8080/nextprot-api-web"
         var BASE_URL = "http://crick.isb-sib.ch:8080/nextprot-api-web"
 
         // global application configuration
         var defaultConfig = {
+            githubEdit : "https://github.com/calipho-sib/nextprot-queries/edit/develop/src/main/resources/nextprot-queries/",
+
             // home:'https://github.com/calipho-sib/nextprot-snorql',
             home:'/',
             sparql : {
               endpoint: BASE_URL + '/sparql',
-              examples: BASE_URL + '/queries/public.json',
+              examples: BASE_URL + '/queries/tutorial.json',
               // endpoint: 'http://localhost:8080/nextprot-api-web/sparql',
               // examples: 'http://localhost:8080/nextprot-api-web/demo/sparql/queries.json',
               prefixes: namespacePrefixes
