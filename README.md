@@ -5,7 +5,7 @@ See the live version here: [http://snorql.nextprot.org](http://snorql.nextprot.o
 
 [AngularJS](http://angularjs.org) + [Brunch](http://brunch.io) + [Bootstrap](http://twitter.github.com/bootstrap/)
 
-The purpose of this project is to develop a new version of the original [SNORQL](https://github.com/kurtjx/SNORQL) interface that use the latest web standards for javascript and CSS. Live site http://calipho-sib.github.io/nextprot-snorql
+The purpose of this project is to develop a new version of the original [SNORQL](https://github.com/kurtjx/SNORQL) interface that use the latest web standards for javascript and CSS.
 
 ## Installation
 ```
