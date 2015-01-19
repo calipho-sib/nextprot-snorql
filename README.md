@@ -1,8 +1,7 @@
 ## angular-snorql
 A sparql explorer ultra simple based on the original idea of [SNORQL](https://github.com/kurtjx/SNORQL):
 
-## In Live
-[SNORQL neXtProt](http://snorql.nextprot.org)
+See the live version here: [http://snorql.nextprot.org](http://snorql.nextprot.org)
 
 [AngularJS](http://angularjs.org) + [Brunch](http://brunch.io) + [Bootstrap](http://twitter.github.com/bootstrap/)
 
