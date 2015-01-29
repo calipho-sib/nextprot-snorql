@@ -33,7 +33,7 @@ angular.module('snorql.config', []).factory('config', [
 
 
         //var BASE_URL = "http://localhost:8080/nextprot-api-web"
-        var BASE_URL = "http://alpha-api.nextprot.org"
+        var BASE_URL = "http://dev-api.nextprot.org"
 
         // global application configuration
         var defaultConfig = {
