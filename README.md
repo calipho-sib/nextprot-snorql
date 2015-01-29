@@ -1,9 +1,10 @@
-## angular-snorql
+## nextprot-snorql
 A sparql explorer ultra simple based on the original idea of [SNORQL](https://github.com/kurtjx/SNORQL):
 
-[AngularJS](http://angularjs.org) + [Brunch](http://brunch.io) + [Bootstrap](http://twitter.github.com/bootstrap/)
+See the live version here: [http://snorql.nextprot.org](http://snorql.nextprot.org)
 
-The purpose of this project is to develop a new version of the original [SNORQL](https://github.com/kurtjx/SNORQL) interface that use the latest web standards for javascript and CSS. Live site http://calipho-sib.github.io/nextprot-snorql
+The purpose of this project is to develop a new version of the original [SNORQL](https://github.com/kurtjx/SNORQL) interface that use the latest web standards for javascript and CSS.
+[AngularJS](http://angularjs.org) + [Brunch](http://brunch.io) + [Bootstrap](http://twitter.github.com/bootstrap/)
 
 ## Installation
 ```
