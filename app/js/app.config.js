@@ -38,6 +38,7 @@ angular.module('snorql.config', []).factory('config', [
         // global application configuration
         var defaultConfig = {
             githubEdit : "https://github.com/calipho-sib/nextprot-queries/edit/develop/src/main/resources/nextprot-queries/",
+            environment : "alpha",
 
             // home:'https://github.com/calipho-sib/nextprot-snorql',
             home:'/',

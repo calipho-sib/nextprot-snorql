@@ -9,7 +9,8 @@ angular.module('snorql.ui',[])
   .directive("sparqlFormatter",sparqlFormatter)
   .filter("containsTag",containsTag)
   .filter("addQueryPrefix",addQueryPrefix)
-  .filter("getGitHubUrl",getGitHubUrl);
+  .filter("getGitHubUrl",getGitHubUrl)
+  .filter("getNeXtProtUrl",getNeXtProtUrl);
 
 containsTag.$inject=[]
 function containsTag() {
@@ -27,6 +28,12 @@ function containsTag() {
   };
 };
 
+getNeXtProtUrl.$inject=['config']
+function getNeXtProtUrl(config) {
+    return function(input) {
+        return "http://"+ config.environment + "-" + input + ".nextprot.org";
+     }
+ };
 
 addQueryPrefix.$inject=[]
 function addQueryPrefix() {

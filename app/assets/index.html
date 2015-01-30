@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AngularJS SnorQL</title>
+  <title>neXtProt SnorQL</title>
 
   <base href="{!distBase!}" />
 
@@ -38,14 +38,27 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" ng-href="{{home}}"><i class="glyphicon glyphicon-cloud pink"></i> SnorQL </a>
+        <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-cloud pink"></span> neXtProt SnorQL</a>
       </div>
+
+
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li><a ng-href="/page/title/about">About</a></li>
+
+          <!-- Ressources -->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+               aria-expanded="false">Resources <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <!-- Learn -->
+              <li ng-class=""><a href="{{'search' | getNeXtProtUrl}}">Search</a></li>
+              <li ng-class=""><a href="{{'snorql' | getNeXtProtUrl}}">Snorql</a></li>
+              <li ng-class=""><a href="{{'api' | getNeXtProtUrl}}">API</a></li>
+            </ul>
+          </li>
           <li><a href="/page">Help</a></li>
-          <li><a target="_blank" href="https://github.com/calipho-sib/nextprot-snorql">GitHub fork</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a ng-href="/page/title/about">About</a></li>
+          <li><a href="mailto:support@nextprot.org?subject=[neXtProt%20SnorQL]">Contact us</a></li>
         </ul>
       </div><!-- /.nav-collapse -->
     </div><!-- /.container -->
@@ -69,13 +82,39 @@
   </div>
 
 
-
+  <!-- Footer -->
   <div ng-view>
   </div>
-  <hr>
-  <footer>
-    <p>&copy; CALIPHO @ SIB 2014</p>
-    <p><a ng-href="page/title/about">About</a></p>
+  <!--
+    <hr>
+    <footer>
+      <p><a target="_blank" href="https://github.com/calipho-sib/nextprot-snorql">GitHub fork</a></p>
+      <p><a href="/pages/legal-disclaimer">Terms of Service</a></p>
+      <p><a href="/pages/copyright">&copy; SIB 2015</a></p>
+
+  </footer>
+  -->
+
+  <footer class="container text-center small">
+    <hr/>
+    <div class="row">
+        <div class="col-md-4">
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/pages/legal-disclaimer">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="/pages/copyright">&copy; 2015 SIB</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://github.com/calipho-sib/nextprot-snorql" target="_blank">GitHub fork</a></li>
+          </ul>
+        </div>
+      </div>
+    <hr/>
   </footer>
 
 
