@@ -16,7 +16,7 @@ function appRun(gitHubContent) {
   gitHubContent.initialize({
         // baseUrl:"http://uat-web2:8080",
         helpPath:'rdfhelp.json',
-        helpTitle:'Main truc',
+        helpTitle:'Generalities',
         root:'page', // specify the root of RDF entity routes
         githubRepo:'calipho-sib/nextprot-docs',
         githubToken:'2e36ce76cfb03358f0a38630007840e7cb432a24'
