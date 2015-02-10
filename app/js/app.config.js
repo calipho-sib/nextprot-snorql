@@ -44,7 +44,7 @@ angular.module('snorql.config', []).factory('config', [
             home:'/',
             sparql : {
               endpoint: BASE_URL + '/sparql',
-              examples: BASE_URL + '/queries/tutorial.json',
+              examples: BASE_URL + '/queries/tutorial.json?snorql=true',
               // endpoint: 'http://localhost:8080/nextprot-api-web/sparql',
               // examples: 'http://localhost:8080/nextprot-api-web/demo/sparql/queries.json',
               prefixes: namespacePrefixes
