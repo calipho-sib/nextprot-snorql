@@ -39,7 +39,7 @@ function getNeXtProtUrl(config) {
       }
     }
 
-    if(input == "api") return config.API_URL;
+    if(input == "api") return config.apiUrl;
     else return "http://"+ config.environment + "-" + input + ".nextprot.org";
   }
 };

@@ -50,7 +50,7 @@ angular.module('snorql.config', []).factory('config', [
         var defaultConfig = {
             githubEdit : "https://github.com/calipho-sib/nextprot-queries/edit/develop/src/main/resources/nextprot-queries/",
             environment : nxEnvironment,
-
+            apiUrl : BASE_URL,
             // home:'https://github.com/calipho-sib/nextprot-snorql',
             home:'/',
             sparql : {
