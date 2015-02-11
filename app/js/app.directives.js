@@ -30,10 +30,19 @@ function containsTag() {
 
 getNeXtProtUrl.$inject=['config']
 function getNeXtProtUrl(config) {
-    return function(input) {
-        return "http://"+ config.environment + "-" + input + ".nextprot.org";
-     }
- };
+  return function(input) {
+    if(config.api.environment === "pro"){
+      switch(input) {
+        case "api": return "https://api.nextprot.org" ;
+        case "search": return "https://search.nextprot.org" ;
+        case "snorql": return "http://snorql.nextprot.org" ;
+      }
+    }
+
+    if(input == "api") return config.api.API_URL;
+    else return "http://"+ config.api.environment + "-" + input + ".nextprot.org";
+  }
+};
 
 addQueryPrefix.$inject=[]
 function addQueryPrefix() {
