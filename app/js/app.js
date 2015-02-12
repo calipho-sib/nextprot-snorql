@@ -44,7 +44,7 @@ function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubCont
 
   //
   // default message
-  $scope.message="Excuting query ...";
+  $scope.message="Executing query ...";
 
   $scope.waiting=false;
   $scope.filter=""
