@@ -11,15 +11,16 @@ var app = angular.module('snorql', [
 
 
 // init app
-appRun.$inject=['gitHubContent']
-function appRun(gitHubContent) {
+appRun.$inject=['gitHubContent', 'config']
+function appRun(gitHubContent, config) {
   gitHubContent.initialize({
         // baseUrl:"http://uat-web2:8080",
         helpPath:'rdfhelp.json',
         helpTitle:'Generalities',
         root:'page', // specify the root of RDF entity routes
-        githubRepo:'calipho-sib/nextprot-docs',
-        githubToken:'2e36ce76cfb03358f0a38630007840e7cb432a24'
+        githubRepo: '/',
+        githubApi:config.apiUrl,
+        githubEditPage : "https://github.com/calipho-sib/nextprot-docs/edit/master/"
     });
 };
 
