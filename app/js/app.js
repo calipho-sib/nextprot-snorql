@@ -15,7 +15,7 @@ appRun.$inject=['gitHubContent', 'config']
 function appRun(gitHubContent, config) {
   gitHubContent.initialize({
         // baseUrl:"http://uat-web2:8080",
-        helpPath:config.apiUrl+'/rdf/help/type/all.json',
+        helpPath:'rdfhelp.json',
         helpTitle:'Generalities',
         root:'page', // specify the root of RDF entity routes
         githubRepo: '/',
