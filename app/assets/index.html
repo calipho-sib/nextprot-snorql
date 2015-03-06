@@ -24,13 +24,14 @@
 
   <!-- application script -->
   <script src="js/app.js?release={!distRelease!}"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 </head>
 
 <body ng-controller="SnorqlCtrl">
 
 
   <div class="navbar navbar-fixed-top navbar-snorql" role="navigation">
-    <div class="">
+    <div class="container-fluid">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
@@ -59,6 +60,23 @@
           <li><a href="/page">Help</a></li>
           <li><a ng-href="/page/title/about">About</a></li>
           <li><a href="mailto:support@nextprot.org?subject=[neXtProt%20SnorQL]">Contact us</a></li>
+        </ul>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+
+          <!-- login button -->
+          <li ng-if="!user.profile.email">
+            <a href='' type="button" class="link" ng-click="login()">Login</a>
+          </li>
+
+          <!-- once logged in user resources -->
+          <li class="dropdown" ng-if="user.profile.email" ng-cloak>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              {{user.profile.name || user.profile.email}}<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#" ng-click="logout()">Logout</a></li>
+            </ul>
+          </li>
         </ul>
       </div><!-- /.nav-collapse -->
     </div><!-- /.container -->

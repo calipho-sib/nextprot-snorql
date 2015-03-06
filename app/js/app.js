@@ -3,7 +3,17 @@
  * create application snorql and load deps
  */
 var app = angular.module('snorql', [
-  'ngRoute','ngResource', 'npHelp','ui.codemirror', 'snorql.config', 'snorql.service','snorql.ui'
+    'ngRoute',
+    'ngResource',
+    'npHelp',
+    'ui.codemirror',
+    'snorql.config',
+    'snorql.service',
+    'snorql.ui',
+    'snorql.user',  // user
+    'auth0',        // authorization (auth0)
+    'angular-jwt',  // token
+    'ipCookie'      // cookie
 ]).controller('SnorqlCtrl',SnorqlCtrl)
   .factory('errorInterceptor',errorInterceptor)
   .config(appConfig)
@@ -134,8 +144,21 @@ function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubCont
 /**
  * ANGULAR BOOTSTRAP
  */
-appConfig.$inject=['$routeProvider','$locationProvider','$httpProvider']
-function appConfig($routeProvider, $locationProvider, $httpProvider) {
+appConfig.$inject=['$routeProvider','$locationProvider','$httpProvider','authProvider','jwtInterceptorProvider']
+function appConfig($routeProvider, $locationProvider, $httpProvider, authProvider, jwtInterceptorProvider) {
+
+    authProvider.init({
+        clientID: '7vS32LzPoIR1Y0JKahOvUCgGbn94AcFW',
+        callbackURL: window.location.origin,
+        domain: 'nextprot.auth0.com',
+        icon: 'img/np.png'
+    });
+
+    jwtInterceptorProvider.tokenGetter = ['ipCookie', function (ipCookie) {
+    // Return the saved token
+        return ipCookie('nxtoken');
+    }];
+    $httpProvider.interceptors.push('jwtInterceptor');
 
     // intercept errors
     $httpProvider.interceptors.push('errorInterceptor')
