@@ -36,8 +36,11 @@ function appRun(gitHubContent, config) {
 
 //
 // implement controller SnorqlCtrl
-SnorqlCtrl.$inject=['$scope','$timeout','$location','snorql','config','gitHubContent']
-function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubContent) {
+SnorqlCtrl.$inject=['$scope','$timeout','$location','snorql','config','gitHubContent','user']
+function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubContent, user) {
+  // user
+  $scope.user=user;
+
   //
   // go home link
   $scope.home=config.home;
@@ -125,6 +128,13 @@ function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubCont
     snorql.reset();
   };
 
+  $scope.login=function(){
+    user.login();
+  };
+
+  $scope.logout=function(){
+    user.logout();
+  };
 
   //
   // load sparql examples
@@ -151,7 +161,7 @@ function appConfig($routeProvider, $locationProvider, $httpProvider, authProvide
         clientID: '7vS32LzPoIR1Y0JKahOvUCgGbn94AcFW',
         callbackURL: window.location.origin,
         domain: 'nextprot.auth0.com',
-        icon: 'img/np.png'
+        icon: '/img/np.png'
     });
 
     jwtInterceptorProvider.tokenGetter = ['ipCookie', function (ipCookie) {
@@ -167,9 +177,9 @@ function appConfig($routeProvider, $locationProvider, $httpProvider, authProvide
     // List of routes of the application
     $routeProvider
         .when('/', {title: 'welcome to snorql', templateUrl: 'partials/home.html'})
-        .when('/page/entity/:entity',{title: 'help for snorql', templateUrl: 'partials/help.html'})
-        .when('/page/title/:article?',{title: 'help for snorql', templateUrl: 'partials/page.html'})
-        .when('/page/:docs?/:article?',{title: 'help for snorql', templateUrl: 'partials/doc.html'})
+        .when('/page/entity/:entity',{title: 'help for snorql', templateUrl: 'partials/help.html'}) // use for help - rdf entities
+        .when('/page/title/:article?',{title: 'help for snorql', templateUrl: 'partials/page.html'}) // use for about
+        .when('/page/:docs?/:article?',{title: 'help for snorql', templateUrl: 'partials/doc.html'}) // use for help - generalities
 
 
     // Without serve side support html5 must be disabled.

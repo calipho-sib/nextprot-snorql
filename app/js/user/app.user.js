@@ -3,8 +3,7 @@
     angular.module('snorql.user', [
         'snorql.config'
     ]).config(userConfig)
-        .factory('user', user)
-        .controller('UserCtrl',UserCtrl);
+        .factory('user', user);
 
     userConfig.$inject=['$routeProvider'];
     function userConfig($routeProvider) {
@@ -14,8 +13,8 @@
 
     //
     // implement user factory
-    user.$inject=['$resource','$http','config','$timeout','$rootScope','$location','$cookieStore','auth','$q', 'ipCookie', '$window', 'store'];
-    function user($resource, $http, config, $timeout, $rootScope, $location, $cookieStore, auth, $q, ipCookie, $window, store) {
+    user.$inject=['$resource','$http','config','$timeout','$rootScope','$location','auth','$q', 'ipCookie', '$window'];
+    function user($resource, $http, config, $timeout, $rootScope, $location, auth, $q, ipCookie, $window) {
 
         //
         // default user data for anonymous
@@ -42,7 +41,7 @@
             //
             // init the dao
             this.dao={
-                $profile:$resource(config.api.baseUrl + '/user/me', {
+                $profile:$resource(config.apiUrl + '/user/me', {
                     get: { method: 'GET' }
                 })
             };
@@ -89,8 +88,7 @@
 
         User.prototype.login = function (cb) {
             var self=this;
-            log.console("Try log in");
-            auth.signin({popup: true, icon:'img/np.png', authParams: {
+            auth.signin({popup: true, icon:'/img/np.png', authParams: {
                     scope: 'openid email name picture'}},
                 function(profile, token) {
                     // Success callback
@@ -119,10 +117,6 @@
 
             ipCookie.remove('nxprofile');
             ipCookie.remove('nxtoken');
-
-            //legacy remove if it exists (should be removed from June 2015)
-            store.remove('profile');
-            store.remove('token');
         };
 
         User.prototype.me = function (cb) {
@@ -144,11 +138,5 @@
         return user;
     }
 
-//
-// implement user controller
-    UserCtrl.$inject=['$scope','user','flash','config'];
-    function UserCtrl($scope, user, flash, config) {
-        $scope.user = user;
-    }
 
 })(angular);
