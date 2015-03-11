@@ -30,7 +30,8 @@ function appRun(gitHubContent, config) {
         root:'page', // specify the root of RDF entity routes
         githubRepo: '/',
         githubApi:config.apiUrl,
-        githubEditPage : "https://github.com/calipho-sib/nextprot-docs/edit/master/"
+        githubEditPage : "https://github.com/calipho-sib/nextprot-docs/edit/master/",
+        githubToken : null
     });
 };
 
