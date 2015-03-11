@@ -69,13 +69,15 @@
                 <input type="text" class="form-control" placeholder="Filter sparql examples" ng-model="filter">
             </div>
 
-            <a href="#" ng-click="selectExample(example.index)" ng-class="{'active':qSelected===example.index}"
-               class="list-group-item query-{{example.index}}" ng-repeat="example in snorql.examples | containsTag:filterTag | filter:filter">
-              <h5 class="list-group-item-heading">{{example.userQueryId | addQueryPrefix}} - {{example.title}}</h5>
-              <p class="list-group-item-text"><span  class="label"  >
-                <span ng-repeat="tag in example.tags | orderBy" class="label label-default label-as-badge">{{tag}}</span>
-              </p>
-            </a>
+            <div class="example-list">
+              <a href="#" ng-click="selectExample(example.index)" ng-class="{'active':qSelected===example.index}"
+                 class="list-group-item query-{{example.index}}" ng-repeat="example in snorql.examples | containsTag:filterTag | filter:filter">
+                <h5 class="list-group-item-heading">{{example.userQueryId | addQueryPrefix}} - {{example.title}}</h5>
+                <p class="list-group-item-text"><span  class="label"  >
+                  <span ng-repeat="tag in example.tags | orderBy" class="label label-default label-as-badge">{{tag}}</span>
+                </p>
+              </a>
+            </div>
 
           </div>
         </div><!--/span-->

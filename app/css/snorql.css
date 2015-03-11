@@ -54,3 +54,8 @@ img{ width:16px;position:absolute;top:10px;left:50%;}
 	color: #428bca;
 	font-size: 10px;
 }
+
+.example-list {
+	height: 80vh;
+	overflow-y: scroll;
+}
