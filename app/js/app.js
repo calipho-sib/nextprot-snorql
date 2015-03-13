@@ -27,7 +27,7 @@ function appRun(gitHubContent, config) {
         // baseUrl:"http://uat-web2:8080",
         helpPath:'rdfhelp.json',
         helpTitle:'Generalities',
-        root:'page', // specify the root of RDF entity routes
+        root:'help', // specify the root of RDF entity routes
         githubRepo: '/',
         githubApi:config.apiUrl,
         githubEditPage : "https://github.com/calipho-sib/nextprot-docs/edit/master/",
@@ -177,11 +177,15 @@ function appConfig($routeProvider, $locationProvider, $httpProvider, authProvide
 
     // List of routes of the application
     $routeProvider
-        .when('/', {title: 'welcome to snorql', templateUrl: 'partials/home.html'})
-        .when('/page/entity/:entity',{title: 'help for snorql', templateUrl: 'partials/help.html'}) // use for help - rdf entities
-        .when('/page/title/:article?',{title: 'help for snorql', templateUrl: 'partials/page.html'}) // use for about
-        .when('/page/:docs?/:article?',{title: 'help for snorql', templateUrl: 'partials/doc.html'}) // use for help - generalities
-
+        // Home page
+        .when('/', {title: 'welcome to snorql', templateUrl: '/partials/home.html'})
+        // Pages (in nextprot-docs/pages): about, copyright...
+        .when('/:article', {title: 'page', templateUrl: '/partials/page.html'})
+        //// Help pages
+        // GENERALITIES
+        .when('/help/:article',{title: 'help for snorql', templateUrl: '/partials/doc.html'})
+        // RDF ENTITIES
+        .when('/help/entity/:entity',{title: 'help for snorql', templateUrl: '/partials/help.html'})
 
     // Without serve side support html5 must be disabled.
     $locationProvider.html5Mode(true);
