@@ -99,11 +99,11 @@
                     // Success callback
                     var expirationInDays = 730; // 730 days = 2 years
                     if ($window.location.hostname === "localhost") {
-                        ipCookie('nxprofile', profile, { expires: expirationInDays });
-                        ipCookie('nxtoken', token, { expires: expirationInDays });
+                        ipCookie('nxprofile', profile, { path: '/', expires: expirationInDays });
+                        ipCookie('nxtoken', token, { path: '/', expires: expirationInDays });
                     } else {
-                        ipCookie('nxprofile', profile, { domain: '.nextprot.org', expires: expirationInDays });
-                        ipCookie('nxtoken', token, { domain: '.nextprot.org', expires: expirationInDays });
+                        ipCookie('nxprofile', profile, { path: '/', domain: '.nextprot.org', expires: expirationInDays });
+                        ipCookie('nxtoken', token, { path: '/', domain: '.nextprot.org', expires: expirationInDays });
                     }
                     $location.path('/');
 
