@@ -183,7 +183,7 @@ function appConfig($routeProvider, $locationProvider, $httpProvider, authProvide
         .when('/:article', {title: 'page', templateUrl: '/partials/page.html'})
         //// Help pages
         // GENERALITIES
-        .when('/help/:article',{title: 'help for snorql', templateUrl: '/partials/doc.html'})
+        .when('/help/doc/:article',{title: 'help for snorql', templateUrl: '/partials/doc.html'})
         // RDF ENTITIES
         .when('/help/entity/:entity',{title: 'help for snorql', templateUrl: '/partials/help.html'})
 
