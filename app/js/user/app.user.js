@@ -29,8 +29,13 @@
             if(ipCookie('nxprofile') != null){
                 user.copy(ipCookie('nxprofile'));
             } else {
-                ipCookie.remove('nxprofile');
-                ipCookie.remove('nxtoken');
+                if ($window.location.hostname === "localhost") {
+                    ipCookie.remove('nxprofile', { path: '/' });
+                    ipCookie.remove('nxtoken', { path: '/' });
+                } else {
+                    ipCookie.remove('nxprofile', { path: '/', domain: ".nextprot.org" });
+                    ipCookie.remove('nxtoken', { path: '/', domain: ".nextprot.org" });
+                }
             }
         });
 
@@ -115,8 +120,14 @@
             this.clear();
             auth.signout();
 
-            ipCookie.remove('nxprofile');
-            ipCookie.remove('nxtoken');
+            if ($window.location.hostname === "localhost") {
+                ipCookie.remove('nxprofile', { path: '/' });
+                ipCookie.remove('nxtoken', { path: '/' });
+            } else {
+                ipCookie.remove('nxprofile', { path: '/', domain: ".nextprot.org" });
+                ipCookie.remove('nxtoken', { path: '/', domain: ".nextprot.org" });
+            }
+
         };
 
         User.prototype.me = function (cb) {
