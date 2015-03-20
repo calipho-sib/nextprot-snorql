@@ -9,11 +9,6 @@ body {
 body {
   padding-top: 70px;
 }
-
-.content{
-  margin:0 5px;
-  min-height: 80vh;
-}
 .prefixes {
   font-family: monospace;
   font-size: 80%;
