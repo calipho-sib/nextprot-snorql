@@ -37,8 +37,8 @@ function appRun(gitHubContent, config) {
 
 //
 // implement controller SnorqlCtrl
-SnorqlCtrl.$inject=['$scope','$timeout','$location','snorql','config','gitHubContent','user']
-function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubContent, user) {
+SnorqlCtrl.$inject=['$scope','$timeout','$window','$location','snorql','config','gitHubContent','user']
+function SnorqlCtrl( $scope,  $timeout, $window, $location,  snorql,  config, gitHubContent, user) {
   // user
   $scope.user=user;
 
@@ -148,6 +148,11 @@ function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubCont
   // $scope.executeQuery(snorql.updateQuery($location.search()));
   $scope.$on('$locationChangeSuccess',function(url){
     snorql.updateQuery($location.search())
+
+      if($location.path()==='/') {
+          $window.document.title = "neXtProt SnorQL";
+      }
+
   })
 };
 
