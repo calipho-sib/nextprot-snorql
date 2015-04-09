@@ -38,7 +38,7 @@
 
           <!-- DISPLAY SPARQL RESULT -->
           <div class=" snorql " style="min-height:60px">
-            <div class="snorql-info" ng-show="waiting">Excuting query ...</div>
+            <div class="snorql-info" ng-show="waiting">Executing query ...</div>
             <div class="snorql-info" ng-show="error">{{error}}</div>
             <div class="snorql-info" ng-show="executionTime">Query time is {{executionTime}}[s] for {{snorql.result.results.bindings.length||0}} rows</div>
             <div class=" " sparql-formatter="snorql.result"></div>
