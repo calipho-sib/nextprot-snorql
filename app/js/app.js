@@ -3,7 +3,17 @@
  * create application snorql and load deps
  */
 var app = angular.module('snorql', [
-  'ngRoute','ngResource', 'npHelp','ui.codemirror', 'snorql.config', 'snorql.service','snorql.ui'
+    'ngRoute',
+    'ngResource',
+    'npHelp',
+    'ui.codemirror',
+    'snorql.config',
+    'snorql.service',
+    'snorql.ui',
+    'snorql.user',  // user
+    'auth0',        // authorization (auth0)
+    'angular-jwt',  // token
+    'ipCookie'      // cookie
 ]).controller('SnorqlCtrl',SnorqlCtrl)
   .factory('errorInterceptor',errorInterceptor)
   .config(appConfig)
@@ -17,17 +27,21 @@ function appRun(gitHubContent, config) {
         // baseUrl:"http://uat-web2:8080",
         helpPath:'rdfhelp.json',
         helpTitle:'Generalities',
-        root:'page', // specify the root of RDF entity routes
+        root:'help', // specify the root of RDF entity routes
         githubRepo: '/',
         githubApi:config.apiUrl,
-        githubEditPage : "https://github.com/calipho-sib/nextprot-docs/edit/master/"
+        githubEditPage : "https://github.com/calipho-sib/nextprot-docs/edit/master/",
+        githubToken : null
     });
 };
 
 //
 // implement controller SnorqlCtrl
-SnorqlCtrl.$inject=['$scope','$timeout','$location','snorql','config','gitHubContent']
-function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubContent) {
+SnorqlCtrl.$inject=['$scope','$timeout','$window','$location','snorql','config','gitHubContent','user']
+function SnorqlCtrl( $scope,  $timeout, $window, $location,  snorql,  config, gitHubContent, user) {
+  // user
+  $scope.user=user;
+
   //
   // go home link
   $scope.home=config.home;
@@ -115,6 +129,13 @@ function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubCont
     snorql.reset();
   };
 
+  $scope.login=function(){
+    user.login();
+  };
+
+  $scope.logout=function(){
+    user.logout();
+  };
 
   //
   // load sparql examples
@@ -127,6 +148,11 @@ function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubCont
   // $scope.executeQuery(snorql.updateQuery($location.search()));
   $scope.$on('$locationChangeSuccess',function(url){
     snorql.updateQuery($location.search())
+
+      if($location.path()==='/') {
+          $window.document.title = "neXtProt SnorQL";
+      }
+
   })
 };
 
@@ -134,8 +160,21 @@ function SnorqlCtrl( $scope,  $timeout,  $location,  snorql,  config, gitHubCont
 /**
  * ANGULAR BOOTSTRAP
  */
-appConfig.$inject=['$routeProvider','$locationProvider','$httpProvider']
-function appConfig($routeProvider, $locationProvider, $httpProvider) {
+appConfig.$inject=['$routeProvider','$locationProvider','$httpProvider','authProvider','jwtInterceptorProvider']
+function appConfig($routeProvider, $locationProvider, $httpProvider, authProvider, jwtInterceptorProvider) {
+
+    authProvider.init({
+        clientID: '7vS32LzPoIR1Y0JKahOvUCgGbn94AcFW',
+        callbackURL: window.location.origin,
+        domain: 'nextprot.auth0.com',
+        icon: '/img/np.png'
+    });
+
+    jwtInterceptorProvider.tokenGetter = ['ipCookie', function (ipCookie) {
+    // Return the saved token
+        return ipCookie('nxtoken');
+    }];
+    $httpProvider.interceptors.push('jwtInterceptor');
 
     // intercept errors
     $httpProvider.interceptors.push('errorInterceptor')
@@ -143,11 +182,15 @@ function appConfig($routeProvider, $locationProvider, $httpProvider) {
 
     // List of routes of the application
     $routeProvider
-        .when('/', {title: 'welcome to snorql', templateUrl: 'partials/home.html'})
-        .when('/page/entity/:entity',{title: 'help for snorql', templateUrl: 'partials/help.html'})
-        .when('/page/title/:article?',{title: 'help for snorql', templateUrl: 'partials/page.html'})
-        .when('/page/:docs?/:article?',{title: 'help for snorql', templateUrl: 'partials/doc.html'})
-
+        // Home page
+        .when('/', {title: 'welcome to snorql', templateUrl: '/partials/home.html'})
+        // Pages (in nextprot-docs/pages): about, copyright...
+        .when('/:article', {title: 'page', templateUrl: '/partials/page.html'})
+        //// Help pages
+        // GENERALITIES
+        .when('/help/doc/:article',{title: 'help for snorql', templateUrl: '/partials/doc.html'})
+        // RDF ENTITIES
+        .when('/help/entity/:entity',{title: 'help for snorql', templateUrl: '/partials/help.html'})
 
     // Without serve side support html5 must be disabled.
     $locationProvider.html5Mode(true);

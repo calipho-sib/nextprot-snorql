@@ -1,7 +1,5 @@
 /* Put your css in here */
 
-img{ width:16px;position:absolute;top:10px;left:50%;}
-
 .link { background: url(link.png) center right no-repeat; padding-right: 13px; }
 .queryresults { border-collapse: collapse; margin-top: 0.3em;width:100%;font-size:90%; }
 .queryresults td, .queryresults th { padding: 0.2em 0.4em; vertical-align: top; }
@@ -53,4 +51,10 @@ img{ width:16px;position:absolute;top:10px;left:50%;}
 	background: #ccf;
 	color: #428bca;
 	font-size: 10px;
+}
+
+.example-list {
+	height: 90vh;
+	min-height: 580px;
+	overflow-y: scroll;
 }

@@ -9,13 +9,6 @@ body {
 body {
   padding-top: 70px;
 }
-footer {
-  padding: 30px 0;
-}
-
-.content{
-  margin:0 5px;
-}
 .prefixes {
   font-family: monospace;
   font-size: 80%;
