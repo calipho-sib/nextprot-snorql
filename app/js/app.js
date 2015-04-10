@@ -10,6 +10,7 @@ var app = angular.module('snorql', [
     'snorql.config',
     'snorql.service',
     'snorql.ui',
+    'snorql.version',
     'snorql.user',  // user
     'auth0',        // authorization (auth0)
     'angular-jwt',  // token
