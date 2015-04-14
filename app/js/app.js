@@ -97,7 +97,7 @@ function SnorqlCtrl( $scope, $routeParams,  $timeout, $window, $location,  snorq
         };
 
         if (typeof funcLabel !== 'undefined')
-            event.eventLabel = funcLabel();
+            event.eventLabel = 'snorql-'+funcLabel();
 
         return event;
   }
@@ -119,6 +119,24 @@ function SnorqlCtrl( $scope, $routeParams,  $timeout, $window, $location,  snorq
       return object;
   }
 
+  function SparqlSearchRouteEvent(output) {
+
+      var delimitor = '_';
+
+      function category() {
+          return 'sparql-search';
+      }
+
+      function action() {
+
+          var action = category()+delimitor+output;
+
+          return action;
+      }
+
+      return new RouteEvent(category, action);
+  }
+
   function gaTrackRouteChangeEvent() {
 
       var event = {};
@@ -129,9 +147,12 @@ function SnorqlCtrl( $scope, $routeParams,  $timeout, $window, $location,  snorq
       else if ("entity" in $routeParams) {
           event = new HelpRouteEvent('entity', $routeParams.entity);
       }
+      else if ("query" in $routeParams) {
+          event = new SparqlSearchRouteEvent($routeParams.output);
+      }
 
       console.log("$location:", $location, ", $routeParams:", $routeParams);
-      console.log("event:", event);
+      console.log("ga event:", event);
 
       if (Object.keys(event).length>0) {
           ga('send', event);
