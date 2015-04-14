@@ -124,7 +124,7 @@ function SnorqlCtrl( $scope, $routeParams,  $timeout, $window, $location,  snorq
       var delimitor = '_';
 
       function category() {
-          return 'sparql-search';
+          return 'sparql_search';
       }
 
       function action() {

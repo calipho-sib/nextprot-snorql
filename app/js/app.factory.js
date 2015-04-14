@@ -197,7 +197,7 @@ function snorql($http, $q, $timeout, $location, config) {
 
    var gaEvent = {
     'hitType': 'event',
-    'eventCategory': 'snorql-sparql-search'
+    'eventCategory': 'snorql-sparql_search'
    };
 
    this.$promise.then(function(config){
