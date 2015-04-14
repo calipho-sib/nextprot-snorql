@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('snorql.version', [
-  'snorql.version.interpolate-filter',
   'snorql.version.version-directive'
 ])
 
