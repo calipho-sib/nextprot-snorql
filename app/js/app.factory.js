@@ -194,10 +194,23 @@ function snorql($http, $q, $timeout, $location, config) {
    // html output is done by parsing json
    params.output='json'
    this.$promise=$http({method:'GET', url:url,params:params,headers:accept, timeout: this.canceler.promise});
-   console.log(this.$promise)
+
+   var gaEvent = {
+    'hitType': 'event',
+    'eventCategory': 'snorql-sparql-search'
+   };
+
    this.$promise.then(function(config){
       self.result=(config.data);
-      console.log(self.result);
+
+      gaEvent.eventAction = gaEvent.eventCategory+'-succeed';
+
+      ga('send', gaEvent);
+   }, function() {
+
+      gaEvent.eventLabel = gaEvent.eventCategory+'-fails';
+
+      ga('send', gaEvent);
    })
    return this;
   }
@@ -229,7 +242,6 @@ function snorql($http, $q, $timeout, $location, config) {
 
         // TODO: Refactor; non-standard link makers should be passed into the class by the caller
         this._getLinkMaker = function(varName) {
-          //console.log(varName);
             if (varName == 'property') {
                 return function(uri) { return '?property=' + encodeURIComponent(uri); };
             } else if (varName == 'class') {
