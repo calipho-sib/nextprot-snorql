@@ -195,22 +195,10 @@ function snorql($http, $q, $timeout, $location, config) {
    params.output='json'
    this.$promise=$http({method:'GET', url:url,params:params,headers:accept, timeout: this.canceler.promise});
 
-   var gaEvent = {
-    'hitType': 'event',
-    'eventCategory': 'snorql-search'
-   };
-
    this.$promise.then(function(config){
       self.result=(config.data);
-
-      gaEvent.eventAction = gaEvent.eventCategory+'-succeed';
-
-      ga('send', gaEvent);
    }, function() {
-
-      gaEvent.eventLabel = gaEvent.eventCategory+'-fails';
-
-      ga('send', gaEvent);
+      console.log('promise failed');
    })
    return this;
   }

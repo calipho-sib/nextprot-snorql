@@ -92,12 +92,12 @@ function SnorqlCtrl( $scope, $routeParams,  $timeout, $window, $location,  snorq
 
         var event = {
             'hitType': 'event',
-            'eventCategory': 'snorql-'+funcCategory(),
-            'eventAction': 'snorql-'+funcAction()
+            'eventCategory': 'snorql_'+funcCategory(),
+            'eventAction': 'snorql_'+funcAction()
         };
 
         if (typeof funcLabel !== 'undefined')
-            event.eventLabel = 'snorql-'+funcLabel();
+            event.eventLabel = 'snorql_'+funcLabel();
 
         return event;
   }
@@ -106,7 +106,7 @@ function SnorqlCtrl( $scope, $routeParams,  $timeout, $window, $location,  snorq
 
       var delimitor = '_';
 
-      var object = new RouteEvent(category, action);
+      var object = new RouteEvent(category, action, label);
 
       function category() {
           return 'help';
@@ -133,39 +133,52 @@ function SnorqlCtrl( $scope, $routeParams,  $timeout, $window, $location,  snorq
 
       function action() {
 
-          var action = category()+delimitor+((output) ? output : 'html');
-
-          return action;
+          return category()+delimitor+'sparql';
       }
 
-      return new RouteEvent(category, action);
+      function label() {
+
+          return action()+delimitor+((output) ? output : 'html');
+      }
+
+      return new RouteEvent(category, action, label);
   }
 
   function gaTrackRouteChangeEvent() {
 
-      var event = {};
+      var gaEvent = {};
 
       if ("article" in $routeParams) {
-          event = new HelpRouteEvent('doc', $routeParams.article);
+          gaEvent = new HelpRouteEvent('doc', $routeParams.article);
       }
       else if ("entity" in $routeParams) {
-          event = new HelpRouteEvent('entity', $routeParams.entity);
+          gaEvent = new HelpRouteEvent('entity', $routeParams.entity);
       }
       else if ("query" in $routeParams) {
-          event = new SparqlSearchRouteEvent($routeParams.output);
+          gaEvent = new SparqlSearchRouteEvent($routeParams.output);
       }
 
-      console.log("$location:", $location, ", $routeParams:", $routeParams);
-      console.log("ga event:", event);
+      console.log("tracking route -> ga event:", gaEvent);
 
-      if (Object.keys(event).length>0) {
-          ga('send', event);
+      if (Object.keys(gaEvent).length>0) {
+          ga('send', gaEvent);
       }
   }
 
   // vocabulary query
   var vocSparqlQuery='SELECT DISTINCT * WHERE { ?term rdfs:label ?label ; a ?type . filter(regex(?label,"^__CV__","i")) } LIMIT 30';
   $scope.searchTerm=function(term){
+
+      var gaEvent = {
+        'hitType': 'event',
+        'eventCategory': 'snorql_search'
+      };
+
+      gaEvent.eventAction = gaEvent.eventCategory+'_term';
+      gaEvent.eventLabel = gaEvent.eventAction+'_'+term;
+
+      console.log("tracking search term -> ga event:", gaEvent);
+
       var time=Date.now();
       $scope.executionTime=false;
       $scope.waiting=true;
@@ -173,9 +186,14 @@ function SnorqlCtrl( $scope, $routeParams,  $timeout, $window, $location,  snorq
       snorql.executeQuery(vocSparqlQuery.replace('__CV__',term), {output:'html'}).$promise.then(function(){
         $scope.waiting=false;
         $scope.executionTime=(Date.now()-time)/1000;
+
+        ga('send', gaEvent);
       },function(reason){
-        $scope.error=reason.data.message
-        $scope.waiting=false
+        $scope.error=reason.data.message;
+        $scope.waiting=false;
+
+        gaEvent.eventLabel = gaEvent.eventLabel+'_failed';
+        ga('send', gaEvent);
       });
   }
 
@@ -224,11 +242,13 @@ function SnorqlCtrl( $scope, $routeParams,  $timeout, $window, $location,  snorq
 
     var gaEvent = {
         'hitType': 'event',
-        'eventCategory': 'snorql-select_example',
-        'eventAction': 'snorql-select_example-'+formatQuery(snorql.selectedQueryId)
+        'eventCategory': 'snorql_select-example'
     };
 
-    //console.log("event:", gaEvent);
+    gaEvent.eventAction = gaEvent.eventCategory;
+    gaEvent.eventLabel = gaEvent.eventAction+'_'+formatQuery(snorql.selectedQueryId);
+
+    console.log("tracking selection event -> ga event:", gaEvent);
 
     ga('send', gaEvent);
   };
