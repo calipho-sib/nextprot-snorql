@@ -109,11 +109,15 @@ function SnorqlCtrl( $scope, $routeParams,  $timeout, $window, $location,  snorq
       var object = new RouteEvent(category, action);
 
       function category() {
-          return 'help-'+doctype;
+          return 'help';
       }
 
       function action() {
-          return category()+delimitor+docname;
+          return category()+delimitor+doctype;
+      }
+
+      function label() {
+          return action()+delimitor+docname;
       }
 
       return object;
