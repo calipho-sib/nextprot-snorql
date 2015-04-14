@@ -128,12 +128,12 @@ function SnorqlCtrl( $scope, $routeParams,  $timeout, $window, $location,  snorq
       var delimitor = '_';
 
       function category() {
-          return 'sparql_search';
+          return 'search';
       }
 
       function action() {
 
-          var action = category()+delimitor+output;
+          var action = category()+delimitor+((output) ? output : 'html');
 
           return action;
       }
@@ -179,6 +179,22 @@ function SnorqlCtrl( $scope, $routeParams,  $timeout, $window, $location,  snorq
       });
   }
 
+  function formatQuery(queryId) {
+
+    function log10(val) {
+        return Math.log(val) / Math.LN10;
+    }
+    var numOf0s = 4-Math.floor(log10(queryId));
+    var query = "NXQ_";
+
+    while (numOf0s--) {
+        query += '0';
+    }
+    query += snorql.selectedQueryId;
+
+    return query;
+  }
+
   $scope.executeQuery=function(sparql,output){
     var time=Date.now();
     $scope.executionTime=false;
@@ -205,6 +221,16 @@ function SnorqlCtrl( $scope, $routeParams,  $timeout, $window, $location,  snorq
     snorql.queryTitle=snorql.examples[elm].title;
     $scope.qSelected=elm
     $('.row-offcanvas').removeClass('active')
+
+    var gaEvent = {
+        'hitType': 'event',
+        'eventCategory': 'snorql-select_example',
+        'eventAction': 'snorql-select_example-'+formatQuery(snorql.selectedQueryId)
+    };
+
+    //console.log("event:", gaEvent);
+
+    ga('send', gaEvent);
   };
 
   $scope.setFilterTag=function(tag){
