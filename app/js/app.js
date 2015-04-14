@@ -38,8 +38,8 @@ function appRun(gitHubContent, config) {
 
 //
 // implement controller SnorqlCtrl
-SnorqlCtrl.$inject=['$scope','$timeout','$window','$location','snorql','config','gitHubContent','user']
-function SnorqlCtrl( $scope,  $timeout, $window, $location,  snorql,  config, gitHubContent, user) {
+SnorqlCtrl.$inject=['$scope', '$routeParams' ,'$timeout','$window','$location','snorql','config','gitHubContent','user']
+function SnorqlCtrl( $scope, $routeParams,  $timeout, $window, $location,  snorql,  config, gitHubContent, user) {
   // user
   $scope.user=user;
 
@@ -73,6 +73,70 @@ function SnorqlCtrl( $scope,  $timeout, $window, $location,  snorql,  config, gi
     uiRefresh:true,
     mode:'sparql'
   };
+
+  $scope.$on('$routeChangeSuccess', function(event, next, current) {
+    gaTrackPageView();
+    gaTrackRouteChangeEvent();
+  });
+
+  // Track the page path and query string of the page
+  function gaTrackPageView() {
+
+    $window.ga('send', 'pageview', $location.url());
+  }
+
+  function RouteEvent(funcCategory, funcAction, funcLabel) {
+
+        funcCategory = typeof funcCategory !== 'undefined' ? funcCategory : function() {return ""};
+        funcAction = typeof funcAction !== 'undefined' ? funcAction : function() {return ""};
+
+        var event = {
+            'hitType': 'event',
+            'eventCategory': 'snorql-'+funcCategory(),
+            'eventAction': 'snorql-'+funcAction()
+        };
+
+        if (typeof funcLabel !== 'undefined')
+            event.eventLabel = funcLabel();
+
+        return event;
+  }
+
+  function HelpRouteEvent(doctype, docname) {
+
+      var delimitor = '_';
+
+      var object = new RouteEvent(category, action);
+
+      function category() {
+          return 'help-'+doctype;
+      }
+
+      function action() {
+          return category()+delimitor+docname;
+      }
+
+      return object;
+  }
+
+  function gaTrackRouteChangeEvent() {
+
+      var event = {};
+
+      if ("article" in $routeParams) {
+          event = new HelpRouteEvent('doc', $routeParams.article);
+      }
+      else if ("entity" in $routeParams) {
+          event = new HelpRouteEvent('entity', $routeParams.entity);
+      }
+
+      console.log("$location:", $location, ", $routeParams:", $routeParams);
+      console.log("event:", event);
+
+      if (Object.keys(event).length>0) {
+          ga('send', event);
+      }
+  }
 
   // vocabulary query
   var vocSparqlQuery='SELECT DISTINCT * WHERE { ?term rdfs:label ?label ; a ?type . filter(regex(?label,"^__CV__","i")) } LIMIT 30';
