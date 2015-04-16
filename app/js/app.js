@@ -104,6 +104,9 @@
             });
         }
 
+        $scope.routingOutside = function(input) {
+            Tracker.trackTransitionRouteChangeEvent(input);
+        };
 
         $scope.executeQuery = function (sparql, output) {
             var time = Date.now();

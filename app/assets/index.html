@@ -71,9 +71,9 @@
                aria-expanded="false">Resources <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <!-- Learn -->
-              <li ng-class=""><a href="{{'search' | getNeXtProtUrl}}">Search</a></li>
-              <li ng-class=""><a href="{{'snorql' | getNeXtProtUrl}}">Snorql</a></li>
-              <li ng-class=""><a href="{{'api' | getNeXtProtUrl}}">API</a></li>
+              <li ng-class=""><a href="{{'search' | getNeXtProtUrl}}" ng-click="routingOutside('ui')">Search</a></li>
+              <li ng-class=""><a href="{{'snorql' | getNeXtProtUrl}}" ng-click="routingOutside('snorql')">Snorql</a></li>
+              <li ng-class=""><a href="{{'api' | getNeXtProtUrl}}" ng-click="routingOutside('api')">API</a></li>
             </ul>
           </li>
             <li><a href="/help/doc/introduction">Help</a></li>

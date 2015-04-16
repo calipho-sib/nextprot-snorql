@@ -14,6 +14,19 @@ TrackingService.factory('Tracker', [
             $window.ga('send', 'pageview', $location.url());
         };
 
+        Tracker.prototype.trackTransitionRouteChangeEvent = function(dest) {
+
+            var gaEvent = {
+                'hitType': 'event',
+                'eventCategory': 'snorql_routing-'+dest
+            };
+            console.log("tracking route -> ga event:", gaEvent);
+
+            if (Object.keys(gaEvent).length>0) {
+                ga('send', gaEvent);
+            }
+        };
+
         Tracker.prototype.trackRouteChangeEvent = function() {
 
             var gaEvent = {};
@@ -31,7 +44,7 @@ TrackingService.factory('Tracker', [
             console.log("tracking route -> ga event:", gaEvent);
 
             if (Object.keys(gaEvent).length>0) {
-                ga('send', gaEvent);
+                //ga('send', gaEvent);
             }
         };
 
