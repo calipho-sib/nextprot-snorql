@@ -148,7 +148,7 @@ TrackingService.factory('Tracker', [
             while (numOf0s--) {
                 query += '0';
             }
-            query += snorql.selectedQueryId;
+            query += queryId;
 
             return query;
         }
