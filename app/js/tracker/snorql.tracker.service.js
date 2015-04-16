@@ -63,16 +63,13 @@ TrackingService.factory('Tracker', [
             ga('send', gaEvent);
         };
 
-        Tracker.prototype.trackSearchTermEventOnSuccess = function(term) {
-
-            ga('send', newSearchTermEvent(term));
-        };
-
-        Tracker.prototype.trackSearchTermEventOnFailure = function(term) {
+        Tracker.prototype.trackSearchTermEvent = function(term, hasSucceed) {
 
             var gaEvent = newSearchTermEvent(term);
 
-            gaEvent.eventLabel = gaEvent.eventLabel+'_failed';
+            if (hasSucceed) gaEvent.eventLabel = gaEvent.eventLabel+'_success';
+            else gaEvent.eventLabel = gaEvent.eventLabel+'_failure';
+
             ga('send', gaEvent);
         };
 

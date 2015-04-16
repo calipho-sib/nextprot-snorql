@@ -95,12 +95,12 @@
                 $scope.waiting = false;
                 $scope.executionTime = (Date.now() - time) / 1000;
 
-                Tracker.trackSearchTermEventOnSuccess(term);
+                Tracker.trackSearchTermEvent(term, true);
             }, function (reason) {
                 $scope.error = reason.data.message;
                 $scope.waiting = false;
 
-                Tracker.trackSearchTermEventOnFailure(term);
+                Tracker.trackSearchTermEvent(term, false);
             });
         }
 
