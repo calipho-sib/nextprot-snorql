@@ -2,13 +2,20 @@
 
 var TrackingService = angular.module('snorql.tracker', []);
 
+TrackingService
+    .value('developTrackingId', 'UA-61448300-1')
+    .value('productionTrackingId', 'UA-61448300-2')
+    .value('trackingProduction', 'NX_TRACKING_PROD');
+
 TrackingService.factory('Tracker', [
     '$window',
     '$location',
     '$routeParams',
-    'version',
-    'build',
-    function ($window, $location, $routeParams, version, build) {
+    'version', 'build',
+    'developTrackingId','productionTrackingId','trackingProduction',
+    function ($window, $location, $routeParams,
+              version, build,
+              developTrackingId, productionTrackingId, trackingProduction) {
 
         var separator = '_';
 
@@ -193,8 +200,18 @@ TrackingService.factory('Tracker', [
             ga('create', propertyId, 'auto');
         }
 
+        function getTrackingId() {
+
+            var trackingId = (trackingProduction != 'NX_TRACKING_PROD') ? productionTrackingId : developTrackingId;
+
+            console.log('tracking ids: develop:', developTrackingId, ', production:', productionTrackingId);
+            console.log('tracking '+trackingId);
+
+            return trackingId;
+        }
+
         // Setup Universal Analytics Web Tracking (analytics.js)
-        createAndInitGATracker('UA-61448300-1');
+        createAndInitGATracker(getTrackingId());
 
         // Sends a first pageview hit for the current page to Google Analytics
         ga('send', 'pageview');
