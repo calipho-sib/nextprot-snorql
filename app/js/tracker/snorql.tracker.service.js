@@ -31,9 +31,10 @@ TrackingService.factory('Tracker', [
                 'hitType': 'event',
                 'eventCategory': 'snorql'+separator+'routing-'+dest
             };
-            console.log("tracking route -> ga event:", gaEvent);
 
             if (Object.keys(gaEvent).length>0) {
+
+                console.log("tracking transition route -> ga event:", gaEvent);
                 ga('send', gaEvent);
             }
         };
@@ -52,9 +53,9 @@ TrackingService.factory('Tracker', [
                 gaEvent = new SparqlSearchRouteEvent($routeParams.output);
             }
 
-            console.log("tracking route -> ga event:", gaEvent);
-
             if (Object.keys(gaEvent).length>0) {
+
+                console.log("tracking route -> ga event:", gaEvent);
                 ga('send', gaEvent);
             }
         };
@@ -69,7 +70,7 @@ TrackingService.factory('Tracker', [
             gaEvent.eventAction = gaEvent.eventCategory;
             gaEvent.eventLabel = gaEvent.eventAction+separator+formatQueryId(selectedQueryId);
 
-            console.log("tracking selection event -> ga event:", gaEvent);
+            console.log("tracking example selection event -> ga event:", gaEvent);
 
             ga('send', gaEvent);
         };
@@ -97,6 +98,19 @@ TrackingService.factory('Tracker', [
                 console.log("tracking searching term event -> ga event:", gaEvent);
                 ga('send', gaEvent);
             }
+        };
+
+        tracker.trackContactUsEvent = function(subject) {
+
+            var gaEvent = {
+                'hitType': 'event',
+                'eventCategory': 'snorql'+separator+'contact-us'
+            };
+
+            gaEvent.actionCategory = gaEvent.eventCategory+separator+subject;
+
+            console.log("tracking contacting us -> ga event:", gaEvent);
+            ga('send', gaEvent);
         };
 
         function newSearchTermEvent(term) {
