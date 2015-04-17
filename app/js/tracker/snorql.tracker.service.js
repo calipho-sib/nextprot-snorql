@@ -8,13 +8,13 @@ TrackingService.factory('Tracker', [
     '$routeParams',
     function ($window, $location, $routeParams) {
 
-        var Tracker = function () {};
+        var tracker = {};
 
-        Tracker.prototype.trackPageView = function () {
+        tracker.trackPageView = function () {
             $window.ga('send', 'pageview', $location.url());
         };
 
-        Tracker.prototype.trackTransitionRouteChangeEvent = function(dest) {
+        tracker.trackTransitionRouteChangeEvent = function(dest) {
 
             var gaEvent = {
                 'hitType': 'event',
@@ -27,7 +27,7 @@ TrackingService.factory('Tracker', [
             }
         };
 
-        Tracker.prototype.trackRouteChangeEvent = function() {
+        tracker.trackRouteChangeEvent = function() {
 
             var gaEvent = {};
 
@@ -48,7 +48,7 @@ TrackingService.factory('Tracker', [
             }
         };
 
-        Tracker.prototype.trackSelectExampleEvent = function(selectedQueryId) {
+        tracker.trackSelectExampleEvent = function(selectedQueryId) {
 
             var gaEvent = {
                 'hitType': 'event',
@@ -63,7 +63,7 @@ TrackingService.factory('Tracker', [
             ga('send', gaEvent);
         };
 
-        Tracker.prototype.trackSearchTermEvent = function(term, hasSucceed) {
+        tracker.trackSearchTermEvent = function(term, hasSucceed) {
 
             var gaEvent = newSearchTermEvent(term);
 
@@ -163,6 +163,6 @@ TrackingService.factory('Tracker', [
             return query;
         }
 
-        return new Tracker();
+        return tracker;
     }]);
 
