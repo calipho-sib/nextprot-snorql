@@ -8,6 +8,8 @@ TrackingService.factory('Tracker', [
     '$routeParams',
     function ($window, $location, $routeParams) {
 
+        var separator = '_';
+
         var tracker = {};
 
         tracker.trackPageView = function () {
@@ -18,7 +20,7 @@ TrackingService.factory('Tracker', [
 
             var gaEvent = {
                 'hitType': 'event',
-                'eventCategory': 'snorql_routing-'+dest
+                'eventCategory': 'snorql'+separator+'routing-'+dest
             };
             console.log("tracking route -> ga event:", gaEvent);
 
@@ -44,7 +46,7 @@ TrackingService.factory('Tracker', [
             console.log("tracking route -> ga event:", gaEvent);
 
             if (Object.keys(gaEvent).length>0) {
-                //ga('send', gaEvent);
+                ga('send', gaEvent);
             }
         };
 
@@ -52,11 +54,11 @@ TrackingService.factory('Tracker', [
 
             var gaEvent = {
                 'hitType': 'event',
-                'eventCategory': 'snorql_select-example'
+                'eventCategory': 'snorql'+separator+'select-example'
             };
 
             gaEvent.eventAction = gaEvent.eventCategory;
-            gaEvent.eventLabel = gaEvent.eventAction+'_'+formatQueryId(selectedQueryId);
+            gaEvent.eventLabel = gaEvent.eventAction+separator+formatQueryId(selectedQueryId);
 
             console.log("tracking selection event -> ga event:", gaEvent);
 
@@ -67,8 +69,8 @@ TrackingService.factory('Tracker', [
 
             var gaEvent = newSearchTermEvent(term);
 
-            if (hasSucceed) gaEvent.eventLabel = gaEvent.eventLabel+'_success';
-            else gaEvent.eventLabel = gaEvent.eventLabel+'_failure';
+            if (hasSucceed) gaEvent.eventLabel = gaEvent.eventLabel+separator+'success';
+            else gaEvent.eventLabel = gaEvent.eventLabel+separator+'failure';
 
             ga('send', gaEvent);
         };
@@ -77,11 +79,11 @@ TrackingService.factory('Tracker', [
 
             var gaEvent = {
                 'hitType': 'event',
-                'eventCategory': 'snorql_search'
+                'eventCategory': 'snorql'+separator+'search'
             };
 
-            gaEvent.eventAction = gaEvent.eventCategory+'_term';
-            gaEvent.eventLabel = gaEvent.eventAction+'_'+term;
+            gaEvent.eventAction = gaEvent.eventCategory+separator+'term';
+            gaEvent.eventLabel = gaEvent.eventAction+separator+term;
 
             console.log("tracking search term -> ga event:", gaEvent);
 
@@ -95,19 +97,17 @@ TrackingService.factory('Tracker', [
 
             var event = {
                 'hitType': 'event',
-                'eventCategory': 'snorql_'+funcCategory(),
-                'eventAction': 'snorql_'+funcAction()
+                'eventCategory': 'snorql'+separator+funcCategory(),
+                'eventAction': 'snorql'+separator+funcAction()
             };
 
             if (typeof funcLabel !== 'undefined')
-                event.eventLabel = 'snorql_'+funcLabel();
+                event.eventLabel = 'snorql'+separator+funcLabel();
 
             return event;
         }
 
         function HelpRouteEvent(doctype, docname) {
-
-            var delimitor = '_';
 
             var object = new RouteEvent(category, action, label);
 
@@ -116,11 +116,11 @@ TrackingService.factory('Tracker', [
             }
 
             function action() {
-                return category()+delimitor+doctype;
+                return category()+separator+doctype;
             }
 
             function label() {
-                return action()+delimitor+docname;
+                return action()+separator+docname;
             }
 
             return object;
@@ -128,20 +128,18 @@ TrackingService.factory('Tracker', [
 
         function SparqlSearchRouteEvent(output) {
 
-            var delimitor = '_';
-
             function category() {
                 return 'search';
             }
 
             function action() {
 
-                return category()+delimitor+'sparql';
+                return category()+separator+'sparql';
             }
 
             function label() {
 
-                return action()+delimitor+((output) ? output : 'html');
+                return action()+separator+((output) ? output : 'html');
             }
 
             return new RouteEvent(category, action, label);
@@ -162,6 +160,27 @@ TrackingService.factory('Tracker', [
 
             return query;
         }
+
+        // The ga() function provides a single access point for everything in the analytics.js library
+        // all tracking calls are made via the ga() function
+        function createAndInitGATracker(propertyId) {
+
+            // Google Analytics
+            // Asynchronously loads the analytics.js library onto this page
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            // Creates a new default tracker object
+            ga('create', propertyId, 'auto');
+        }
+
+        // Setup Universal Analytics Web Tracking (analytics.js)
+        createAndInitGATracker('UA-61448300-1');
+
+        // Sends a first pageview hit for the current page to Google Analytics
+        ga('send', 'pageview');
 
         return tracker;
     }]);
