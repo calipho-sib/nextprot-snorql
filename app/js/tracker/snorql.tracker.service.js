@@ -6,7 +6,9 @@ TrackingService.factory('Tracker', [
     '$window',
     '$location',
     '$routeParams',
-    function ($window, $location, $routeParams) {
+    'version',
+    'build',
+    function ($window, $location, $routeParams, version, build) {
 
         var separator = '_';
 
@@ -67,12 +69,27 @@ TrackingService.factory('Tracker', [
 
         tracker.trackSearchTermEvent = function(term, hasSucceed) {
 
-            var gaEvent = newSearchTermEvent(term);
+            if (!hasSucceed) {
 
-            if (hasSucceed) gaEvent.eventLabel = gaEvent.eventLabel+separator+'success';
-            else gaEvent.eventLabel = gaEvent.eventLabel+separator+'failure';
+                var exceptionEvent = {
+                    'exDescription': 'could not search term "'+term+'"',
+                    'exFatal': false,
+                    'appName': 'nextprot-snorql',
+                    'appVersion': version
+                };
 
-            ga('send', gaEvent);
+                if (!isNaN(build))
+                    exceptionEvent.appVersion += "-build."+build;
+
+                console.log("tracking searching term exception -> ga event:", exceptionEvent);
+                ga('send', 'exception', exceptionEvent);
+            } else {
+
+                var gaEvent = newSearchTermEvent(term);
+
+                console.log("tracking searching term event -> ga event:", gaEvent);
+                ga('send', gaEvent);
+            }
         };
 
         function newSearchTermEvent(term) {
