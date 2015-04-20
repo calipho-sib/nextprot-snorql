@@ -42,7 +42,6 @@
         <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-cloud pink"></span> neXtProt SnorQL</a>
       </div>
 
-
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
 
@@ -52,9 +51,9 @@
                aria-expanded="false">Resources <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <!-- Learn -->
-              <li ng-class=""><a href="{{'search' | getNeXtProtUrl}}">Search</a></li>
-              <li ng-class=""><a href="{{'snorql' | getNeXtProtUrl}}">Snorql</a></li>
-              <li ng-class=""><a href="{{'api' | getNeXtProtUrl}}">API</a></li>
+              <li ng-class=""><a href="{{'search' | getNeXtProtUrl}}" ng-click="routingOutside('ui')">Search</a></li>
+              <li ng-class=""><a href="{{'snorql' | getNeXtProtUrl}}" ng-click="routingOutside('snorql')">Snorql</a></li>
+              <li ng-class=""><a href="{{'api' | getNeXtProtUrl}}" ng-click="routingOutside('api')">API</a></li>
             </ul>
           </li>
             <li><a href="/help/doc/introduction">Help</a></li>
@@ -116,22 +115,31 @@
   <footer class="container text-center small">
     <hr/>
     <div class="row">
-        <div class="col-md-4">
+      <div class="col-lg-12">
+        <div class="col-md-3">
           <ul class="nav nav-pills nav-stacked">
             <li><a href="/legal-disclaimer">Legal disclaimer</a></li>
           </ul>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <ul class="nav nav-pills nav-stacked">
             <li><a href="/copyright">&copy; 2015 SIB</a></li>
           </ul>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <ul class="nav nav-pills nav-stacked">
-            <li><a href="https://github.com/calipho-sib/nextprot-snorql" target="_blank"><i class="icon-github"></i>For developers</a></li></a></li>
+            <li><a href="https://github.com/calipho-sib/nextprot-snorql" target="_blank"><i class="icon-github"></i>For
+              developers</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="https://github.com/calipho-sib/nextprot-snorql/releases" target="_blank">
+              <i class="icon-tag"></i>Version: <span sq-build-version></span></a></li>
           </ul>
         </div>
       </div>
+    </div>
     <hr/>
   </footer>
 
