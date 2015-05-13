@@ -62,6 +62,8 @@
                     <ul class="dropdown-menu scrollable-menu" role="menu">
                       <li ng-click="resetFilters(); filter=''"><a href="#" >Clear filter</a></li>
                       <li class="divider"></li>
+                      <li> <a ng-click="setFilterTag('My queries')" href="">My queries</a></li>
+                      <li class="divider"></li>
                       <li ng-repeat="tag in snorql.tags|orderBy" ng-click="setFilterTag(tag)"><a href="" >{{tag}}</a></li>
                     </ul>
                   </div><!-- /btn-group -->
@@ -72,12 +74,20 @@
             <div class="example-list">
               <a href="#" ng-click="selectExample(example.index)" ng-class="{'active':qSelected===example.index}"
                  class="list-group-item query-{{example.index}}" ng-repeat="example in snorql.examples | containsTag:filterTag | filter:filter">
-                <h5 class="list-group-item-heading">{{example.userQueryId | addQueryPrefix}} - {{example.title}}</h5>
-                <p class="list-group-item-text"><span  class="label"  >
+                <h5 class="list-group-item-heading">{{(example.owner === 'nextprot') ? example.publicId + " - " : ""}}{{example.title}}</h5>
+                <p class="list-group-item-text">
+                  <span  class="label"  />
                   <span ng-repeat="tag in example.tags | orderBy" class="label label-default label-as-badge">{{tag}}</span>
                 </p>
               </a>
-            </div>
+            <div  ng-if="filterTag == 'My queries'">
+                <p>
+                  You can create / save your own queries on the
+                  <a target="_blank" href="https://search.nextprot.org/proteins/search?mode=advanced">search.nextprot.org</a> interface or
+                  using the <a target="_blank" href="https://api.nextprot.org">API.</a>
+               </p>
+              </div>
+           </div>
 
           </div>
         </div><!--/span-->

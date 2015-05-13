@@ -8,24 +8,35 @@ angular.module('snorql.ui',[])
   .directive("menuToggle",menuToggle)
   .directive("sparqlFormatter",sparqlFormatter)
   .filter("containsTag",containsTag)
-  .filter("addQueryPrefix",addQueryPrefix)
   .filter("getGitHubUrl",getGitHubUrl)
   .filter("getNeXtProtUrl",getNeXtProtUrl);
 
-containsTag.$inject=[]
-function containsTag() {
-  return function( items, selectedTag) {
+containsTag.$inject=['user']
+function containsTag(user) {
+
+  return function(items, selectedTag) {
     var filtered = [];
     if(selectedTag == null)
       return items;
 
-    angular.forEach(items, function(item) {
-      if(_.intersection([selectedTag], item.tags).length > 0) {
-        filtered.push(item);
-      }
-    });
+    if(selectedTag === 'My queries'){
+      angular.forEach(items, function(item) {
+        if(item.owner === user.username) {
+          filtered.push(item);
+        }
+      });
+    }else {
+      angular.forEach(items, function(item) {
+        if(_.intersection([selectedTag], item.tags).length > 0) {
+          filtered.push(item);
+        }
+      });
+
+    }
+
     return filtered;
   };
+
 };
 
 getNeXtProtUrl.$inject=['config']
@@ -42,14 +53,6 @@ function getNeXtProtUrl(config) {
     if(input == "api") return config.apiUrl;
     else return "http://"+ config.environment + "-" + input + ".nextprot.org";
   }
-};
-
-addQueryPrefix.$inject=[]
-function addQueryPrefix() {
-  return function(queryId) {
-      var s = "000000000" + queryId;
-      return "NXQ_" + s.substr(s.length-5);
-    };
 };
 
 getGitHubUrl.$inject=['config']
