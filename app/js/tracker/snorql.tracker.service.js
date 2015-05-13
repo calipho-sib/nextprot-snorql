@@ -68,9 +68,9 @@ TrackingService.factory('Tracker', [
             };
 
             gaEvent.eventAction = gaEvent.eventCategory;
-            gaEvent.eventLabel = gaEvent.eventAction+separator+formatQueryId(selectedQueryId);
+            gaEvent.eventLabel = gaEvent.eventAction+separator+selectedQueryId;
 
-            console.log("tracking example selection event -> ga event:", gaEvent);
+            //console.log("tracking example selection event -> ga event:", gaEvent);
 
             ga('send', gaEvent);
         };

@@ -135,7 +135,7 @@
             $scope.qSelected = elm
             $('.row-offcanvas').removeClass('active')
 
-            Tracker.trackSelectExampleEvent(snorql.selectedQueryId);
+            Tracker.trackSelectExampleEvent(snorql.examples[elm].publicId);
         };
 
         $scope.setFilterTag = function (tag) {
