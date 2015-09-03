@@ -27,6 +27,10 @@ angular.module('snorql.config', []).factory('config', [
             gene: 'http://nextprot.org/rdf/gene/',
             source: 'http://nextprot.org/rdf/source/',
             db: 'http://nextprot.org/rdf/db/',
+            interaction: 'http://nextprot.org/rdf/interaction/',
+            skos: 'http://www.w3.org/2004/02/skos/core#',
+            uniprot: 'http://purl.uniprot.org/uniprot/',
+            unipage: 'http://www.uniprot.org/uniprot/',
             context: 'http://nextprot.org/rdf/context/'
         };
 
