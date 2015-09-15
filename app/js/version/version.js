@@ -3,6 +3,9 @@
 angular.module('snorql.version', [
   'snorql.version.version-directive'
 ])
-
-.value('version', '0.1.4')
-.value('build', 'NX_BUILD');
+    .constant('RELEASE_INFOS', {
+        'version': '0.1.5',
+        "isProduction": 'IS_PRODUCTION', // i.e 'true'
+        'build': 'BUILD_NUMBER', // '926'
+        'githash': 'GIT_HASH' // 'e3a1a30'
+    });

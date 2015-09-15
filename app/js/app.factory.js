@@ -5,13 +5,13 @@
  */
 
 angular.module('snorql.service',[])
-.factory('snorql', snorql);
+.factory('snorql', snorql)
+.service('sparqlPrefixService', sparqlPrefixService);
 
 
-//
 // implement snorql factory
-snorql.$inject=["$http", "$q", "$timeout", "$location", "config"]
-function snorql($http, $q, $timeout, $location, config) {
+snorql.$inject=["$http", "$q", "$timeout", "config", "sparqlPrefixService"]
+function snorql($http, $q, $timeout, config, sparqlPrefixService) {
 
   var defaultSnorql={
     property:'SELECT DISTINCT ?resource ?value\n' +
@@ -37,14 +37,16 @@ function snorql($http, $q, $timeout, $location, config) {
 
     // set your endpoint here
     sparqlEndpoint:config.sparql.endpoint,
-    sparqlUrlExamples:config.sparql.examples
+    sparqlUrlExamples:config.sparql.examples,
+    sparqlUrlPrefixes:config.sparql.prefixesUrl
+
   };
 
 
   var defaultSparqlParams={
     'default-graph-uri':null,
     'named-graph-uri':null,
-     output:'json',
+     output:'json'
   };
 
   var defaultAcceptHeaders={
@@ -53,18 +55,6 @@ function snorql($http, $q, $timeout, $location, config) {
     xml:'application/sparql-results+xml,*/*',
     csv:'application/sparql-results+csv,*/*'
   };
-
-  //
-  // serialize prefixes
-  var query_getPrefixes = function() {
-    var prefixes = '';
-    for (var prefix in config.sparql.prefixes) {
-        var uri = config.sparql.prefixes[prefix];
-        prefixes = prefixes + 'PREFIX ' + prefix + ': <' + uri + '>\n';
-    }
-    return prefixes;
-  };
-
 
   var Snorql=function(){
     //
@@ -172,7 +162,7 @@ function snorql($http, $q, $timeout, $location, config) {
    var params=angular.extend(defaultSparqlParams,filter, {query:sparql});
 
    // setup prefixes
-   params.query=query_getPrefixes()+'\n'+params.query
+   params.query=sparqlPrefixService.getSparqlPrefixes()+'\n'+params.query
 
    var accept={'Accept':defaultAcceptHeaders[params.output]};
 
@@ -434,6 +424,31 @@ function snorql($http, $q, $timeout, $location, config) {
 
   return new Snorql()
 };
+
+
+
+    sparqlPrefixService.$inject = ['$http', 'config'];
+    function sparqlPrefixService($http, config) {
+
+        var self = this;
+        $http({url: config.sparql.prefixesUrl, method: "GET", isArray: true}).success(function (result){
+            self.prefixes = "";
+            self.prefixesArray = result;
+
+            for (var index in result) {
+                self.prefixes += (result[index] + "\n");
+            }
+        });
+
+        this.getSparqlPrefixes = function () {
+            return this.prefixes;
+        }
+
+        this.getSparqlPrefixesArray = function () {
+            return this.prefixesArray;
+        }
+
+    }
 
 
 })(angular);
