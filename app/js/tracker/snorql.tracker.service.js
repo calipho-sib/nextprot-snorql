@@ -10,10 +10,10 @@ TrackingService.factory('Tracker', [
     '$window',
     '$location',
     '$routeParams',
-    'VERSION_INFOS',
+    'RELEASE_INFOS',
     'developTrackingId','productionTrackingId',
     function ($window, $location, $routeParams,
-              VERSION_INFOS,
+              RELEASE_INFOS,
               developTrackingId, productionTrackingId) {
 
         var separator = '_';
@@ -82,11 +82,11 @@ TrackingService.factory('Tracker', [
                     'exDescription': 'could not search term "'+term+'"',
                     'exFatal': false,
                     'appName': 'nextprot-snorql',
-                    'appVersion': VERSION_INFOS.version
+                    'appVersion': RELEASE_INFOS.version
                 };
 
-                if (!isNaN(VERSION_INFOS.build))
-                    exceptionEvent.appVersion += "-build."+VERSION_INFOS.build;
+                if (!isNaN(RELEASE_INFOS.build))
+                    exceptionEvent.appVersion += "-build."+RELEASE_INFOS.build;
 
                 console.log("tracking searching term exception -> ga event:", exceptionEvent);
                 ga('send', 'exception', exceptionEvent);
@@ -215,7 +215,7 @@ TrackingService.factory('Tracker', [
 
         function getTrackingId() {
 
-            var trackingId = (VERSION_INFOS.isProductionVersion == "true") ? productionTrackingId : developTrackingId;
+            var trackingId = (RELEASE_INFOS.isProduction == "true") ? productionTrackingId : developTrackingId;
 
             console.log('Tracking ids: { develop:', developTrackingId, ', production:', productionTrackingId, ', current tracking:', trackingId, '}');
 
