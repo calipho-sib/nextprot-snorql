@@ -4,18 +4,17 @@ var TrackingService = angular.module('snorql.tracker', []);
 
 TrackingService
     .value('developTrackingId', 'UA-61448300-1')
-    .value('productionTrackingId', 'UA-61448300-2')
-    .value('trackingProduction', 'NX_TRACKING_PROD');
+    .value('productionTrackingId', 'UA-61448300-2');
 
 TrackingService.factory('Tracker', [
     '$window',
     '$location',
     '$routeParams',
-    'version', 'build',
-    'developTrackingId','productionTrackingId','trackingProduction',
+    'VERSION_INFOS',
+    'developTrackingId','productionTrackingId',
     function ($window, $location, $routeParams,
-              version, build,
-              developTrackingId, productionTrackingId, trackingProduction) {
+              VERSION_INFOS,
+              developTrackingId, productionTrackingId) {
 
         var separator = '_';
 
@@ -83,11 +82,11 @@ TrackingService.factory('Tracker', [
                     'exDescription': 'could not search term "'+term+'"',
                     'exFatal': false,
                     'appName': 'nextprot-snorql',
-                    'appVersion': version
+                    'appVersion': VERSION_INFOS.version
                 };
 
-                if (!isNaN(build))
-                    exceptionEvent.appVersion += "-build."+build;
+                if (!isNaN(VERSION_INFOS.build))
+                    exceptionEvent.appVersion += "-build."+VERSION_INFOS.build;
 
                 console.log("tracking searching term exception -> ga event:", exceptionEvent);
                 ga('send', 'exception', exceptionEvent);
@@ -216,7 +215,7 @@ TrackingService.factory('Tracker', [
 
         function getTrackingId() {
 
-            var trackingId = (trackingProduction == "true") ? productionTrackingId : developTrackingId;
+            var trackingId = (VERSION_INFOS.isProductionVersion == "true") ? productionTrackingId : developTrackingId;
 
             console.log('Tracking ids: { develop:', developTrackingId, ', production:', productionTrackingId, ', current tracking:', trackingId, '}');
 
