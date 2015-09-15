@@ -10,7 +10,7 @@
             <h5>SPARQL endpoint: <a ng-href="{{snorql.endpoint()}}">{{snorql.endpoint()}}</a></h5>
             <a href="#" ng-click="showPrefixes = !showPrefixes">{{showPrefixes? "Hide SPARQL prefixes" : "PREFIX ..."}}</a>
             <ul ng-show="showPrefixes"  class="list-unstyled prefixes">
-              <li ng-repeat="(prefix, url) in snorql.prefixes()">PREFIX {{prefix}}:&lt;{{url}}&gt;</li>
+              <li ng-repeat="prefix in getPrefixes()">{{prefix}}</li>
             </ul>
             <form>
 
