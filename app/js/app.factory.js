@@ -193,11 +193,6 @@ function snorql($http, $q, $timeout, config, sparqlPrefixService) {
    return this;
   }
 
-  // access the singleton
-  Snorql.prototype.prefixes=function(){
-    return config.sparql.prefixes;
-  }
-
   /**
    * SPARQLResultFormatter: Renders a SPARQL/JSON result set into an HTML table.
    */
@@ -418,36 +413,46 @@ function snorql($http, $q, $timeout, config, sparqlPrefixService) {
             'short', 'byte', 'integer', 'nonPositiveInteger', 'negativeInteger',
             'nonNegativeInteger', 'positiveInteger', 'unsignedLong',
             'unsignedInt', 'unsignedShort', 'unsignedByte'];
-      })(this.result, this.prefixes())
+      })(this.result, sparqlPrefixService.getSparqlPrefixesMap())
   }
 
 
   return new Snorql()
 };
 
-
-
     sparqlPrefixService.$inject = ['$http', 'config'];
     function sparqlPrefixService($http, config) {
 
         var self = this;
+
         $http({url: config.sparql.prefixesUrl, method: "GET", isArray: true}).success(function (result){
             self.prefixes = "";
             self.prefixesArray = result;
+            self.prefixMap = {};
+
+            // i.e. PREFIX :<http://nextprot.org/rdf#>
+            // or.  PREFIX : <http://nextprot.org/rdf#>
+            var regex = /\s*PREFIX\s+([^:]*):\s*<(.+)>/;
 
             for (var index in result) {
                 self.prefixes += (result[index] + "\n");
+                var match = regex.exec(result[index]);
+
+                self.prefixMap[match[1]] = match[2];
             }
         });
 
         this.getSparqlPrefixes = function () {
             return this.prefixes;
-        }
+        };
 
         this.getSparqlPrefixesArray = function () {
             return this.prefixesArray;
-        }
+        };
 
+        this.getSparqlPrefixesMap = function () {
+            return this.prefixMap;
+        };
     }
 
 
