@@ -32,14 +32,23 @@
 	width: 100%;
 }
 
+.snorql-container{
+	margin: -7px 10px 0 10px;
+}
+
 .snorql-info{
 	color:gray;
 	padding: 10px;
 }
 
+.snorql-result{
+	max-height: 38vh;
+	overflow: scroll;
+}
+
 .snorql{
   background-color: #ccf;
-  padding:4px;
+  padding:5px;
 }
 
 .label-as-badge {
@@ -54,7 +63,10 @@
 }
 
 .example-list {
-	height: 90vh;
+	max-height: 100vh;
 	min-height: 580px;
 	overflow-y: scroll;
+}
+.fixed_headers tbody tr:nth-child(even) {
+	background-color: #dddddd;
 }
