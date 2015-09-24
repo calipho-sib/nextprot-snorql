@@ -1,96 +1,104 @@
-    <div id="content" class="content " >
-
-      <div class="row row-offcanvas row-offcanvas-right">
-
+<div id="content" class="snorql-container">
+    <div class="row row-offcanvas row-offcanvas-right">
         <div class="col-xs-12 col-sm-12 col-md-7 ">
-          <p class="pull-right visible-sm visible-xs -visible-md">
-            <button id="toggle-examples" type="button" class="btn btn-primary btn-xs" menu-toggle="offcanvas">sparql example</button>
-          </p>
-          <div class="snorql">
-            <h5>SPARQL endpoint: <a ng-href="{{snorql.endpoint()}}">{{snorql.endpoint()}}</a></h5>
-            <a href="#" ng-click="showPrefixes = !showPrefixes">{{showPrefixes? "Hide SPARQL prefixes" : "PREFIX ..."}}</a>
-            <ul ng-show="showPrefixes"  class="list-unstyled prefixes">
-              <li ng-repeat="prefix in getPrefixes()">{{prefix}}</li>
-            </ul>
-            <form>
+            <p class="pull-right visible-sm visible-xs -visible-md">
+                <button id="toggle-examples" type="button" class="btn btn-primary btn-xs" menu-toggle="offcanvas">sparql example
+                </button>
+            </p>
+            <div class="snorql">
+                <h5>SPARQL endpoint: <a ng-href="{{snorql.endpoint()}}">{{snorql.endpoint()}}</a></h5>
+                <a href="#" ng-click="showPrefixes = !showPrefixes">{{showPrefixes? "Hide SPARQL prefixes" : "PREFIX..."}}</a>
+                <ul ng-show="showPrefixes" class="list-unstyled prefixes">
+                    <li ng-repeat="prefix in getPrefixes()">{{prefix}}</li>
+                </ul>
+                <form>
+                    <textarea class="form-control" rows="12" ui-codemirror="cmOption" ng-model="snorql.query"></textarea>
+                    <h5>{{snorql.queryTitle}}</h5>
+                    <textarea readonly class="form-control" rows="8" ng-model="snorql.description"></textarea>
 
-              <textarea class="form-control" rows="12" ui-codemirror="cmOption" ng-model="snorql.query"></textarea>
-              <h5>{{snorql.queryTitle}}</h5>
-              <textarea readonly class="form-control" rows="8" ng-model="snorql.description"></textarea>
-
-              <div class=" form-inline">
-                  <select class="form-control" ng-disabled="waiting||!snorql.query" ng-model="output" ng-options="output for output in outputs"></select>
-                  <button type="button" class="btn btn-primary" ng-disabled="waiting||!snorql.query" ng-click="executeQuery(snorql.query,output)">Go</button>
-                  <button type="button" class="btn btn-default"  ng-click="snorql.reset()">Reset</button>
-                  <div class="input-group pull-right">
-                    <input type="text"  class="form-control" ng-model="term" placeholder="eg. peroxisome, liver">
+                    <div class=" form-inline">
+                        <select class="form-control" ng-disabled="waiting||!snorql.query" ng-model="output"
+                                ng-options="output for output in outputs"></select>
+                        <button type="button" class="btn btn-primary" ng-disabled="waiting||!snorql.query"
+                                ng-click="executeQuery(snorql.query,output)">Go
+                        </button>
+                        <button type="button" class="btn btn-default" ng-click="snorql.reset()">Reset</button>
+                        <div class="input-group pull-right">
+                            <input type="text" class="form-control" ng-model="term" placeholder="eg. peroxisome, liver">
                     <span class="input-group-btn">
-                      <button type="button" class="btn btn-default "  ng-click="searchTerm(term)" ng-disabled="!term||waiting"><i class="glyphicon glyphicon-search"></i></button>
+                      <button type="button" class="btn btn-default " ng-click="searchTerm(term)"
+                              ng-disabled="!term||waiting"><i class="glyphicon glyphicon-search"></i></button>
                     </span>
-                  </div>
-              </div>
+                        </div>
+                    </div>
+                </form>
 
-            </form>
+                <h5 ng-if="snorql.selectedQueryId != 0">Found a bug? <a target="_blank" href="{{snorql.selectedQueryId | getGitHubUrl}}">Improve this query!</a></h5>
 
-            <h5 ng-if="snorql.selectedQueryId != 0">Found a bug? <a target="_blank" href="{{snorql.selectedQueryId | getGitHubUrl}}">Improve this query!</a></h5>
+            </div>
 
-          </div>
+            <!-- DISPLAY SPARQL RESULT -->
+            <div class="snorql " style="min-height:60px">
+                <div class="snorql-info" ng-show="waiting">Executing query ...</div>
+                <div class="snorql-info" ng-show="error">{{error}}</div>
+                <div class="snorql-info" ng-show="executionTime">Query time is {{executionTime}}[s] for
+                    {{snorql.result.results.bindings.length||0}} rows
+                </div>
+                <div class="snorql-result" sparql-formatter="snorql.result"></div>
+            </div>
 
-          <!-- DISPLAY SPARQL RESULT -->
-          <div class=" snorql " style="min-height:60px">
-            <div class="snorql-info" ng-show="waiting">Executing query ...</div>
-            <div class="snorql-info" ng-show="error">{{error}}</div>
-            <div class="snorql-info" ng-show="executionTime">Query time is {{executionTime}}[s] for {{snorql.result.results.bindings.length||0}} rows</div>
-            <div class=" " sparql-formatter="snorql.result"></div>
-          </div>
-
-
-          <!-- DISPLAY SITE INFO -->
-          <div class=" headlines" ng-show="!snorql.result.head.vars">
-            <markdown markdown-article="snorql-headlines" ></markdown>
-          </div><!--/row-->
-        </div><!--/span-->
+            <!-- DISPLAY SITE INFO -->
+            <div class=" headlines" ng-show="!snorql.result.head.vars">
+                <markdown markdown-article="snorql-headlines"></markdown>
+            </div>
+            <!--/row-->
+        </div>
+        <!--/span-->
 
         <!-- DISPLAY SPARQL EXAMPLES -->
-        <div class="col-xs-6 col-sm-6 col-md-5 sidebar-offcanvas" id="sidebar" role="navigation" >
-          <div class="list-group examples">
-            <div class="input-group">
+        <div class="col-xs-6 col-sm-6 col-md-5 sidebar-offcanvas" id="sidebar" role="navigation">
+            <div class="list-group examples">
+                <div class="input-group">
+                </div>
+                <div class="input-group filter-search  has-feedback">
+                    <div class="input-group-btn ">
+                        <button type="button" class="btn btn-default " data-toggle="dropdown">{{(filterTag == null) ? "Tags " : filterTag}}<span class="caret"></span></button>
+                        <ul class="dropdown-menu scrollable-menu" role="menu">
+                            <li ng-click="resetFilters(); filter=''"><a href="#">Clear filter</a></li>
+                            <li class="divider"></li>
+                            <li><a ng-click="setFilterTag('My queries')" href="">My queries</a></li>
+                            <li class="divider"></li>
+                            <li ng-repeat="tag in snorql.tags|orderBy" ng-click="setFilterTag(tag)"><a
+                                    href="">{{tag}}</a></li>
+                        </ul>
+                    </div>
+                    <!-- /btn-group -->
+                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                    <input type="text" class="form-control" placeholder="Filter sparql examples" ng-model="filter">
+                </div>
+                <div class="example-list">
+                    <a href="#" ng-click="selectExample(example.index)" ng-class="{'active':qSelected===example.index}" class="list-group-item query-{{example.index}}"
+                       ng-repeat="example in snorql.examples | containsTag:filterTag | filter:filter">
+                        <h5 class="list-group-item-heading">{{(example.owner === 'nextprot') ? example.publicId + " - " : ""}}{{example.title}}</h5>
+
+                        <p class="list-group-item-text">
+                            <span class="label"/>
+                            <span ng-repeat="tag in example.tags | orderBy" class="label label-default label-as-badge">{{tag}}</span>
+                        </p>
+                    </a>
+                    <div ng-if="filterTag == 'My queries'">
+                        <p style="margin: 10px">
+                            You can create / save your own queries on the
+                            <a target="_blank" href="https://search.nextprot.org/proteins/search?mode=advanced">search.nextprot.org</a>
+                            interface or
+                            using the <a target="_blank" href="https://api.nextprot.org">API.</a>
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div class="input-group filter-search  has-feedback">
-                  <div class="input-group-btn ">
-                    <button type="button" class="btn btn-default " data-toggle="dropdown">{{(filterTag == null) ? "Tags " : filterTag}}<span class="caret"></span></button>
-                    <ul class="dropdown-menu scrollable-menu" role="menu">
-                      <li ng-click="resetFilters(); filter=''"><a href="#" >Clear filter</a></li>
-                      <li class="divider"></li>
-                      <li> <a ng-click="setFilterTag('My queries')" href="">My queries</a></li>
-                      <li class="divider"></li>
-                      <li ng-repeat="tag in snorql.tags|orderBy" ng-click="setFilterTag(tag)"><a href="" >{{tag}}</a></li>
-                    </ul>
-                  </div><!-- /btn-group -->
-                <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                <input type="text" class="form-control" placeholder="Filter sparql examples" ng-model="filter">
-            </div>
+        </div>
+        <!--/span-->
+    </div>
+    <!--/row-->
 
-            <div class="example-list">
-              <a href="#" ng-click="selectExample(example.index)" ng-class="{'active':qSelected===example.index}"
-                 class="list-group-item query-{{example.index}}" ng-repeat="example in snorql.examples | containsTag:filterTag | filter:filter">
-                <h5 class="list-group-item-heading">{{(example.owner === 'nextprot') ? example.publicId + " - " : ""}}{{example.title}}</h5>
-                <p class="list-group-item-text">
-                  <span  class="label"  />
-                  <span ng-repeat="tag in example.tags | orderBy" class="label label-default label-as-badge">{{tag}}</span>
-                </p>
-              </a>
-            <div  ng-if="filterTag == 'My queries'">
-                <p style="margin: 10px">
-                  You can create / save your own queries on the
-                  <a target="_blank" href="https://search.nextprot.org/proteins/search?mode=advanced">search.nextprot.org</a> interface or
-                  using the <a target="_blank" href="https://api.nextprot.org">API.</a>
-               </p>
-              </div>
-           </div>
-
-          </div>
-        </div><!--/span-->
-      </div><!--/row-->
-
-    </div><!--/.container-->
+</div><!--/.container-->
