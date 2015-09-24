@@ -317,7 +317,7 @@ function snorql($http, $q, $timeout, config, sparqlPrefixService) {
               // embed image object
                 match = node.value.match(/\.(png|gif|jpg)(\?.+)?$/);
                 if (match) {
-                    img = document.createElement('img');
+                    var img = document.createElement('img');
                     img.src =node.value;
                     img.title = node.value;
                     img.className = 'media';
@@ -338,15 +338,13 @@ function snorql($http, $q, $timeout, config, sparqlPrefixService) {
                 span.appendChild(document.createTextNode(' '));
                 var externalLink = document.createElement('a');
                 externalLink.href = node.value;
-                var img = document.createElement('img');
+                /*var img = document.createElement('img');
                 //img.src = 'img/link.png';
                 img.alt = '[' + match[1] + ']';
                 img.title = 'Go to Web page';
                 externalLink.appendChild(img);
-                span.appendChild(externalLink);
+                span.appendChild(externalLink);*/
             }
-
-
 
             return span;
         }
