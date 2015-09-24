@@ -205,11 +205,13 @@ function snorql($http, $q, $timeout, config, sparqlPrefixService) {
 
         this.toDOM = function() {
             var table = document.createElement('table');
-            table.className = 'queryresults';
+            table.className = 'queryresults fixed_headers';
             table.appendChild(this._createTableHeader());
+            var tbody = document.createElement('tbody');
             for (var i = 0; i < this._results.length; i++) {
-                table.appendChild(this._createTableRow(this._results[i], i));
+                tbody.appendChild(this._createTableRow(this._results[i], i));
             }
+            table.appendChild(tbody);
             return table;
         }
 
@@ -225,6 +227,7 @@ function snorql($http, $q, $timeout, config, sparqlPrefixService) {
         }
 
         this._createTableHeader = function() {
+            var thead = document.createElement('thead')
             var tr = document.createElement('tr');
             var hasNamedGraph = false;
             for (var i = 0; i < this._variables.length; i++) {
@@ -240,7 +243,8 @@ function snorql($http, $q, $timeout, config, sparqlPrefixService) {
                 th.appendChild(document.createTextNode(' '));
                 tr.insertBefore(th, tr.firstChild);
             }
-            return tr;
+            thead.appendChild(tr);
+            return thead;
         }
 
         this._createTableRow = function(binding, rowNumber) {
