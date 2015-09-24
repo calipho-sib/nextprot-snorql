@@ -2,15 +2,25 @@
 
 angular.module('snorql.version.version-directive', [])
 
-.directive('sqBuildVersion', ['version', 'build', function (version, build) {
+    .directive('sqBuildVersion', ['RELEASE_INFOS', function (RELEASE_INFOS) {
 
-  return function (scope, elm, attrs) {
+        return {
+            restrict: 'AE',
+            replace: true,
+            scope: {},
+            link: function(scope, element, attrs) {
 
-    var content = version;
+                var content = RELEASE_INFOS.version;
 
-    if (!isNaN(build))
-      content += " (build "+build+")";
+                if (!isNaN(RELEASE_INFOS.build)) {
 
-    elm.text(content);
-  };
-}]);
+                    content += " (build " + RELEASE_INFOS.build;
+                    if (RELEASE_INFOS.isProduction !== 'true') content += "#" + RELEASE_INFOS.githash;
+                    content += ")";
+                }
+
+                element.text(content);
+            }
+        }
+    }]);
+

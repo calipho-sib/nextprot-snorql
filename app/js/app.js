@@ -42,8 +42,8 @@
 
 //
 // implement controller SnorqlCtrl
-    SnorqlCtrl.$inject = ['Tracker', '$scope', '$routeParams', '$timeout', '$window', '$location', 'snorql', 'config', 'gitHubContent', 'user']
-    function SnorqlCtrl(Tracker, $scope, $routeParams, $timeout, $window, $location, snorql, config, gitHubContent, user) {
+    SnorqlCtrl.$inject = ['Tracker', '$scope', '$routeParams', '$timeout', '$window', '$location', 'snorql', 'config', 'gitHubContent', 'user', 'sparqlPrefixService']
+    function SnorqlCtrl(Tracker, $scope, $routeParams, $timeout, $window, $location, snorql, config, gitHubContent, user, sparqlPrefixService) {
         // user
         $scope.user = user;
 
@@ -104,7 +104,11 @@
             });
         }
 
-        $scope.routingOutside = function(input) {
+        $scope.getPrefixes = function() {
+            return sparqlPrefixService.getSparqlPrefixesArray();
+        }
+
+            $scope.routingOutside = function(input) {
             Tracker.trackTransitionRouteChangeEvent(input);
         };
 

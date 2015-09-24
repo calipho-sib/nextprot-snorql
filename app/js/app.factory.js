@@ -5,13 +5,13 @@
  */
 
 angular.module('snorql.service',[])
-.factory('snorql', snorql);
+.factory('snorql', snorql)
+.service('sparqlPrefixService', sparqlPrefixService);
 
 
-//
 // implement snorql factory
-snorql.$inject=["$http", "$q", "$timeout", "$location", "config"]
-function snorql($http, $q, $timeout, $location, config) {
+snorql.$inject=["$http", "$q", "$timeout", "config", "sparqlPrefixService"]
+function snorql($http, $q, $timeout, config, sparqlPrefixService) {
 
   var defaultSnorql={
     property:'SELECT DISTINCT ?resource ?value\n' +
@@ -37,14 +37,16 @@ function snorql($http, $q, $timeout, $location, config) {
 
     // set your endpoint here
     sparqlEndpoint:config.sparql.endpoint,
-    sparqlUrlExamples:config.sparql.examples
+    sparqlUrlExamples:config.sparql.examples,
+    sparqlUrlPrefixes:config.sparql.prefixesUrl
+
   };
 
 
   var defaultSparqlParams={
     'default-graph-uri':null,
     'named-graph-uri':null,
-     output:'json',
+     output:'json'
   };
 
   var defaultAcceptHeaders={
@@ -53,18 +55,6 @@ function snorql($http, $q, $timeout, $location, config) {
     xml:'application/sparql-results+xml,*/*',
     csv:'application/sparql-results+csv,*/*'
   };
-
-  //
-  // serialize prefixes
-  var query_getPrefixes = function() {
-    var prefixes = '';
-    for (var prefix in config.sparql.prefixes) {
-        var uri = config.sparql.prefixes[prefix];
-        prefixes = prefixes + 'PREFIX ' + prefix + ': <' + uri + '>\n';
-    }
-    return prefixes;
-  };
-
 
   var Snorql=function(){
     //
@@ -172,7 +162,7 @@ function snorql($http, $q, $timeout, $location, config) {
    var params=angular.extend(defaultSparqlParams,filter, {query:sparql});
 
    // setup prefixes
-   params.query=query_getPrefixes()+'\n'+params.query
+   params.query=sparqlPrefixService.getSparqlPrefixes()+'\n'+params.query
 
    var accept={'Accept':defaultAcceptHeaders[params.output]};
 
@@ -203,11 +193,6 @@ function snorql($http, $q, $timeout, $location, config) {
    return this;
   }
 
-  // access the singleton
-  Snorql.prototype.prefixes=function(){
-    return config.sparql.prefixes;
-  }
-
   /**
    * SPARQLResultFormatter: Renders a SPARQL/JSON result set into an HTML table.
    */
@@ -220,11 +205,13 @@ function snorql($http, $q, $timeout, $location, config) {
 
         this.toDOM = function() {
             var table = document.createElement('table');
-            table.className = 'queryresults';
+            table.className = 'queryresults fixed_headers';
             table.appendChild(this._createTableHeader());
+            var tbody = document.createElement('tbody');
             for (var i = 0; i < this._results.length; i++) {
-                table.appendChild(this._createTableRow(this._results[i], i));
+                tbody.appendChild(this._createTableRow(this._results[i], i));
             }
+            table.appendChild(tbody);
             return table;
         }
 
@@ -240,6 +227,7 @@ function snorql($http, $q, $timeout, $location, config) {
         }
 
         this._createTableHeader = function() {
+            var thead = document.createElement('thead')
             var tr = document.createElement('tr');
             var hasNamedGraph = false;
             for (var i = 0; i < this._variables.length; i++) {
@@ -255,7 +243,8 @@ function snorql($http, $q, $timeout, $location, config) {
                 th.appendChild(document.createTextNode(' '));
                 tr.insertBefore(th, tr.firstChild);
             }
-            return tr;
+            thead.appendChild(tr);
+            return thead;
         }
 
         this._createTableRow = function(binding, rowNumber) {
@@ -332,7 +321,7 @@ function snorql($http, $q, $timeout, $location, config) {
               // embed image object
                 match = node.value.match(/\.(png|gif|jpg)(\?.+)?$/);
                 if (match) {
-                    img = document.createElement('img');
+                    var img = document.createElement('img');
                     img.src =node.value;
                     img.title = node.value;
                     img.className = 'media';
@@ -353,15 +342,13 @@ function snorql($http, $q, $timeout, $location, config) {
                 span.appendChild(document.createTextNode(' '));
                 var externalLink = document.createElement('a');
                 externalLink.href = node.value;
-                var img = document.createElement('img');
+                /*var img = document.createElement('img');
                 //img.src = 'img/link.png';
                 img.alt = '[' + match[1] + ']';
                 img.title = 'Go to Web page';
                 externalLink.appendChild(img);
-                span.appendChild(externalLink);
+                span.appendChild(externalLink);*/
             }
-
-
 
             return span;
         }
@@ -428,12 +415,47 @@ function snorql($http, $q, $timeout, $location, config) {
             'short', 'byte', 'integer', 'nonPositiveInteger', 'negativeInteger',
             'nonNegativeInteger', 'positiveInteger', 'unsignedLong',
             'unsignedInt', 'unsignedShort', 'unsignedByte'];
-      })(this.result, this.prefixes())
+      })(this.result, sparqlPrefixService.getSparqlPrefixesMap())
   }
 
 
   return new Snorql()
 };
+
+    sparqlPrefixService.$inject = ['$http', 'config'];
+    function sparqlPrefixService($http, config) {
+
+        var self = this;
+
+        $http({url: config.sparql.prefixesUrl, method: "GET", isArray: true}).success(function (result){
+            self.prefixes = "";
+            self.prefixesArray = result;
+            self.prefixMap = {};
+
+            // i.e. PREFIX :<http://nextprot.org/rdf#>
+            // or.  PREFIX : <http://nextprot.org/rdf#>
+            var regex = /\s*PREFIX\s+([^:]*):\s*<(.+)>/;
+
+            for (var index in result) {
+                self.prefixes += (result[index] + "\n");
+                var match = regex.exec(result[index]);
+
+                self.prefixMap[match[1]] = match[2];
+            }
+        });
+
+        this.getSparqlPrefixes = function () {
+            return this.prefixes;
+        };
+
+        this.getSparqlPrefixesArray = function () {
+            return this.prefixesArray;
+        };
+
+        this.getSparqlPrefixesMap = function () {
+            return this.prefixMap;
+        };
+    }
 
 
 })(angular);
