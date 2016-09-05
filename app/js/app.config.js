@@ -11,12 +11,13 @@
 
             //Environment that should be set from outside //TODO should replace this using GRUNT
             var nxEnvironment = "NX_ENV"; //env can be replaced, by dev, alpha or pro
-
-            if (nxEnvironment.indexOf("NX_") == -1) // means an environment has been set, sed command has done some magic tricks
-            {
+            if (nxEnvironment.indexOf("NX_") == -1) { // means an environment has been set, sed command has done some magic tricks 
                 BASE_URL = 'http://' + nxEnvironment.toLowerCase() + '-api.nextprot.org';
                 if (nxEnvironment.toLowerCase() === "pro") {
                     BASE_URL = 'https://api.nextprot.org'; // Don't forget https!
+                }
+                else if (nxEnvironment.toLowerCase() === "vit") {
+                    BASE_URL = 'https://vit-api.nextprot.org'; // Don't forget https!
                 }
             }
 
