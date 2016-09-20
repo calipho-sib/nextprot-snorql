@@ -56,8 +56,8 @@
               <li ng-class=""><a href="{{'api' | getNeXtProtUrl}}" ng-click="routingOutside('api')">API</a></li>
             </ul>
           </li>
-            <li><a href="/help/doc/introduction">Help</a></li>
-            <li><a ng-href="/about">About</a></li>
+          <li><a href="/help/doc/introduction">Help</a></li>
+          <li><a ng-href="/nextprot">About</a></li>
           <li><a href="mailto:support@nextprot.org?subject=[neXtProt%20SnorQL]">Contact us</a></li>
         </ul>
         </ul>
@@ -112,38 +112,26 @@
   </footer>
   -->
 
-  <footer class="container text-center small">
+  <footer class="container-fluid small">
     <hr/>
     <div class="row">
       <div class="col-lg-12">
-        <div class="col-md-3">
-          <ul class="nav nav-pills nav-stacked">
-            <li><a href="/legal-disclaimer">Legal disclaimer</a></li>
-          </ul>
+
+        <div class="col-md-10 text-left">
+          <a href="/copyright">&copy; 2015 SIB Swiss Institute of Bioinformatics</a>
+          <span> | </span>
+          <a href="/legal-disclaimer">Legal disclaimer</a>
+          <span>| </span>
+          <a href="https://github.com/calipho-sib/nextprot-snorql" target="_blank"><i class="icon-github"></i>
+            v<span sq-build-version></span></a>
         </div>
-        <div class="col-md-3">
-          <ul class="nav nav-pills nav-stacked">
-            <li><a href="/copyright">&copy; 2015 SIB</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <ul class="nav nav-pills nav-stacked">
-            <li><a href="https://github.com/calipho-sib/nextprot-snorql" target="_blank"><i class="icon-github"></i>For
-              developers</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <ul class="nav nav-pills nav-stacked">
-            <li><a href="https://github.com/calipho-sib/nextprot-snorql/releases" target="_blank">
-              <i class="icon-tag"></i>Version: <span sq-build-version></span></a></li>
-          </ul>
-        </div>
+      </div>
+      <div class="col-md-2 text-right">
+        <!--<a ng-click="goToTop()">Back to the top</a>-->
       </div>
     </div>
     <hr/>
   </footer>
-
-
 
 </body>
 

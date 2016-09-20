@@ -45,11 +45,17 @@ function getNeXtProtUrl(config) {
     if(config.environment === "pro"){
       switch(input) {
         case "api": return "https://api.nextprot.org" ;
-        case "search": return "https://search.nextprot.org" ;
+        case "search": return "https://www.nextprot.org" ;
         case "snorql": return "http://snorql.nextprot.org" ;
       }
+    } 
+    else if(config.environment === "vit"){
+      switch(input) {
+        case "api": return "https://vit-api.nextprot.org" ;
+        case "search": return "https://vit-www.nextprot.org" ;
+        case "snorql": return "http://vit-snorql.nextprot.org" ;
+      }
     }
-
     if(input == "api") return config.apiUrl;
     else return "http://"+ config.environment + "-" + input + ".nextprot.org";
   }
