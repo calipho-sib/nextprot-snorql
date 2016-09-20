@@ -1,7 +1,7 @@
 {
-  "name": "angular-snorql",
-  "version": "0.0.1",
-  "description": "Angular SnorQL",
+  "name": "nextprot-snorql",
+  "version": "2.0.0",
+  "description": "neXtProt SnorQL",
   "authors": [
     "Olivier Evalet <evaleto@gmail.com>"
   ],
