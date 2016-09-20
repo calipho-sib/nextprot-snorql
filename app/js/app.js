@@ -13,6 +13,7 @@
         'snorql.ui',
         'snorql.version',
         'snorql.tracker',
+        'app.release.info',
         'snorql.user',  // user
         'auth0',        // authorization (auth0)
         'angular-jwt',  // token
