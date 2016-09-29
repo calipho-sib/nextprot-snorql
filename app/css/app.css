@@ -8,6 +8,7 @@ body {
 }
 body {
   padding-top: 70px;
+  font-family: "Lato","Helvetica Neue", "Helvetica", sans-serif;
 }
 .prefixes {
   font-family: monospace;
