@@ -14,9 +14,11 @@ angular.module('snorql.version.version-directive', [])
 
                 if (!isNaN(RELEASE_INFOS.build)) {
 
-                    content += " (build " + RELEASE_INFOS.build;
-                    if (RELEASE_INFOS.isProduction !== 'true') content += "#" + RELEASE_INFOS.githash;
-                    content += ")";
+                    if (RELEASE_INFOS.isProduction !== 'true') {
+                        content += " (build " + RELEASE_INFOS.build;
+                        content += "#" + RELEASE_INFOS.githash;
+                        content += ")";
+                    }
                 }
 
                 element.text(content);
