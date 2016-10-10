@@ -55,6 +55,10 @@
 	border-radius: 1em;
 }
 
+.small {
+	font-size: 93%;
+}
+
 .examples .label-as-badge {
 	margin-right: 2px;
 	background: #ccf;

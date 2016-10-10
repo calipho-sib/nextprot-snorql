@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
   <title>neXtProt SnorQL</title>
 
   <base href="{!distBase!}" />
@@ -98,40 +99,9 @@
     </div>
   </div>
 
+  <div id="main" class="container-fluid" ng-view=""></div>
 
-  <!-- Footer -->
-  <div ng-view>
-  </div>
-  <!--
-    <hr>
-    <footer>
-      <p><a target="_blank" href="https://github.com/calipho-sib/nextprot-snorql">GitHub fork</a></p>
-      <p><a href="/legal-disclaimer">Terms of Service</a></p>
-      <p><a href="/copyright">&copy; SIB 2015</a></p>
-
-  </footer>
-  -->
-
-  <footer class="container-fluid small">
-    <hr/>
-    <div class="row">
-      <div class="col-lg-12">
-
-        <div class="col-md-10 text-left">
-          <a href="/copyright">&copy; 2015 SIB Swiss Institute of Bioinformatics</a>
-          <span> | </span>
-          <a href="/legal-disclaimer">Legal disclaimer</a>
-          <span>| </span>
-          <a href="https://github.com/calipho-sib/nextprot-snorql" target="_blank"><i class="icon-github"></i>
-            v<span sq-build-version></span></a>
-        </div>
-      </div>
-      <div class="col-md-2 text-right">
-        <!--<a ng-click="goToTop()">Back to the top</a>-->
-      </div>
-    </div>
-    <hr/>
-  </footer>
+  <div ng-include="'partials/footer.html'"></div>
 
 </body>
 
