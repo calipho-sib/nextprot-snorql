@@ -12,10 +12,10 @@
         function formatReleaseInfos(releaseInfos) {
             var content = "v" + releaseInfos.version;
 
-            if (!isNaN(releaseInfos.build)) {
+            if (!isNaN(releaseInfos.build) && releaseInfos.isProduction !== 'true') {
 
                 content += " (build " + releaseInfos.build;
-                if (releaseInfos.isProduction !== 'true') content += "#" + releaseInfos.githash;
+                content += "#" + releaseInfos.githash;
                 content += ")";
             }
             return content;
