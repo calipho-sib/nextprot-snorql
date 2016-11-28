@@ -1,10 +1,8 @@
 'use strict';
 
-angular.module('snorql.version', [
-  'snorql.version.version-directive'
-])
+angular.module('snorql.version', [])
     .constant('RELEASE_INFOS', {
-        'version': '2.0.0',
+        'version': '2.1.0',
         "isProduction": 'IS_PRODUCTION', // i.e 'true'
         'build': 'BUILD_NUMBER', // '926'
         'githash': 'GIT_HASH' // 'e3a1a30'
