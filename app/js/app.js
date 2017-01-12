@@ -31,7 +31,8 @@
     function appRun(gitHubContent, config) {
         gitHubContent.initialize({
             // baseUrl:"http://uat-web2:8080",
-            helpPath: config.apiUrl + '/assets/rdfhelp.json',
+            //helpPath: config.apiUrl + '/assets/rdfhelp.json',
+            helpPath: config.apiUrl + '/rdf/help/type/all.json',
             helpTitle: 'Generalities',
             root: 'help', // specify the root of RDF entity routes
             githubRepo: '/',
