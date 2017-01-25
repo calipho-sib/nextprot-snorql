@@ -1,7 +1,7 @@
 (function (angular, undefined) {
     'use strict';
     /**
-     * create application snorql and load deps
+     * create application snorql and load dependencies
      */
     var app = angular.module('snorql', [
         'ngRoute',
