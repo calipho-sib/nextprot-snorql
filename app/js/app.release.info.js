@@ -9,6 +9,8 @@
     ReleaseInfoCtrl.$inject = ['$scope','releaseInfoService', 'RELEASE_INFOS'];
     function ReleaseInfoCtrl($scope, releaseInfoService, RELEASE_INFOS) {
 
+        $scope.currentYear=new Date().getFullYear();
+
         function formatReleaseInfos(releaseInfos) {
             var content = "v" + releaseInfos.version;
 
