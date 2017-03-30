@@ -23,10 +23,6 @@ app.use(express.static(path.join(__dirname, '/build')));
 // Render *.html files using ejs
 app.engine('html', require('ejs').__express);
 // hello
-app.use(require('connect-livereload')({
-    port: 35729
-}));
-
 //app.use(errorHandler());
 
 var env = process.env.NODE_ENV || 'development';
