@@ -61,7 +61,7 @@ function snorql($http, $q, $timeout, config, sparqlPrefixService) {
     // this service depend on two $resources (eg. dao in Java world)
     // this.$dao={queries:$resource('queries.json'), sparqlQuery:$resource('sparql.json')};
 
-
+    var that = this;
     // queries examples
     this.examples=[];
     // examples tags
@@ -98,7 +98,93 @@ function snorql($http, $q, $timeout, config, sparqlPrefixService) {
     this.canceler = $q.defer();
   };
 
-  Snorql.prototype.endpoint=function(){
+   Snorql.prototype.createEntryValues=function(){
+    var valuestr = "values ?entry {\n";
+    if(this.query.indexOf("\t") > 0) {
+      var orgquery = this.query; // like sp|P00533|EGFR_HUMAN IPLENLQIIR
+      orgquery = orgquery.replace(/sp\|/g,"");
+      orgquery = orgquery.replace(/\|.*_HUMAN/g,"");
+      valuestr = "values (?entry ?peptide) {\n";
+      valuestr += orgquery.replace(/(\w+)\s(\w+)/g,"(entry:NX_$1 \"$2\"^^xsd:string)");
+      }
+    else {
+      if(this.query.indexOf("NX_") >= 0)
+        valuestr += this.query.replace(/(\w+)/g,"entry:$1");
+      else
+        valuestr += this.query.replace(/(\w+)/g,"entry:NX_$1");
+      }
+
+    valuestr += "}\n"
+    this.query = valuestr; // replace in query textarea
+    };
+
+function copyTextToClipboard(text) {
+  var textArea = document.createElement("textarea");
+
+  //
+  // *** This styling is an extra step which is likely not required. ***
+  //
+  // Why is it here? To ensure:
+  // 1. the element is able to have focus and selection.
+  // 2. if element was to flash render it has minimal visual impact.
+  // 3. less flakyness with selection and copying which **might** occur if
+  //    the textarea element is not visible.
+  //
+  // The likelihood is the element won't even render, not even a flash,
+  // so some of these are just precautions. However in IE the element
+  // is visible whilst the popup box asking the user for permission for
+  // the web page to copy to the clipboard.
+  //
+
+  // Place in top-left corner of screen regardless of scroll position.
+  textArea.style.position = 'fixed';
+  textArea.style.top = 0;
+  textArea.style.left = 0;
+
+  // Ensure it has a small width and height. Setting to 1px / 1em
+  // doesn't work as this gives a negative w/h on some browsers.
+  textArea.style.width = '2em';
+  textArea.style.height = '2em';
+
+  // We don't need padding, reducing the size if it does flash render.
+  textArea.style.padding = 0;
+
+  // Clean up any borders.
+  textArea.style.border = 'none';
+  textArea.style.outline = 'none';
+  textArea.style.boxShadow = 'none';
+
+  // Avoid flash of white box if rendered for any reason.
+  textArea.style.background = 'transparent';
+  textArea.value = text;
+  document.body.appendChild(textArea);
+  textArea.select();
+
+  try {
+    var successful = document.execCommand('copy');
+    var msg = successful ? 'successful' : 'unsuccessful';
+    console.log('Copying text command was ' + msg);
+  } catch (err) {
+    console.log('Oops, unable to copy');
+  }
+  document.body.removeChild(textArea);
+}
+
+ Snorql.prototype.copyResults=function(bindings){
+    var res0 = JSON.stringify(bindings[0]);
+    var stop = res0.indexOf(":");
+    var varName = res0.substring(2,stop-1);
+    var valuestr = "values ?" + varName + " {\n";
+    for (var i = 0; i < bindings.length; i++) {
+      var uri = JSON.stringify(bindings[i][varName]["value"])
+      var qname = this.SPARQLResultFormatter()._toQName(uri.split(/"/)[1]);
+      valuestr += qname + ' \n';
+     }
+    valuestr += '}\n';
+    copyTextToClipboard(valuestr);
+    };
+
+ Snorql.prototype.endpoint=function(){
     return defaultSnorql.sparqlEndpoint;
   };
 
@@ -180,16 +266,25 @@ function snorql($http, $q, $timeout, config, sparqlPrefixService) {
      return self;
    }
 
-   //
+  params.output='json';
    // html output is done by parsing json
-   params.output='json'
-   this.$promise=$http({method:'GET', url:url,params:params,headers:accept, timeout: this.canceler.promise});
+
+  if(params.query.length > 6000) { //  use POST, eg: a values list quickly exceeds browser's limits
+    var post_data = "query=" + encodeURIComponent(params.query) + "&format=json" ; // Thanks Matthieu !
+    this.$promise=$http({method:'POST', url:url, data:post_data, timeout: this.canceler.promise, headers: {'content-Type': 'application/x-www-form-urlencoded'}});
+    alert("Using POST due to query length, history will non be available...");
+   }
+   else {
+    params.output='json';
+    this.$promise=$http({method:'GET', url:url, params:params, headers:accept, timeout: this.canceler.promise});
+   }
 
    this.$promise.then(function(config){
       self.result=(config.data);
-   }, function() {
-      console.log('promise failed');
-   })
+   }).catch(function(err){ // Show reason for error (syntax, etc)
+   alert(err.data.substring(0,err.data.indexOf("SPARQL query")-1));
+   console.log(err.data);
+  })
    return this;
   }
 
@@ -305,12 +400,11 @@ function snorql($http, $q, $timeout, config, sparqlPrefixService) {
             if (qname) {
                 a.appendChild(document.createTextNode(qname));
                 span.appendChild(a);
-                if((qname.indexOf('entry') == 0) || (qname.indexOf('iso') == 0)) {
-
-                  var spacer = document.createTextNode(' --- ');
+                if((qname.indexOf('entry:') == 0) || (qname.indexOf('isoform:') == 0) || (qname.indexOf('cv:') == 0)) {
+                  var spacer = document.createTextNode(' -- ');
                   span.appendChild(spacer);
                   var a2 = document.createElement('a');
-                  a2.href = node.value.replace("rdf","db").replace("isoform","entry");
+                  a2.href = node.value.replace("http","https").replace("nextprot.org","www.nextprot.org").replace("rdf/","").replace("terminology","term").replace("GO_","GO:").replace("isoform","entry");
                   a2.title = '< View in neXtProt >';
                   a2.className = 'url';
                   a2.target = '_blank'; // Opens in new tab
@@ -390,7 +484,7 @@ function snorql($http, $q, $timeout, config, sparqlPrefixService) {
         this._toQName = function(uri) {
             for (var prefix in this._namespaces) {
                 var nsURI = this._namespaces[prefix];
-                if (uri.indexOf(nsURI) == 0) {
+                if (uri.indexOf(nsURI) == 0) {                
                     return prefix + ':' + uri.substring(nsURI.length);
                 }
             }
