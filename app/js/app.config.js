@@ -6,7 +6,7 @@
     function ($http) {
 
             ///// TODO: fixing; we are breaking the DRY principle and it is really bad (see duplication in nextprot-ui/app/js/np.js) !!!!
-            //var BASE_URL = "http://localhost:8080/nextprot-api-web"
+            //var BASE_URL = "https://api.nextprot.org"
             var BASE_URL = "https://dev-api.nextprot.org"
 
             //Environment that should be set from outside //TODO should replace this using GRUNT
@@ -37,8 +37,12 @@
                 sparql: {
                     prefixesUrl: BASE_URL + "/sparql-prefixes",
                     endpoint: BASE_URL + '/sparql',
-                    examples: BASE_URL + '/queries/tutorial.json?snorql=true'
-                        // endpoint: 'http://localhost:8080/nextprot-api-web/sparql',
+                    examples: BASE_URL + '/queries/tutorial.json?snorql=true',
+                         //endpoint: 'http://192.168.10.163:8899/sparql'
+                         //endpoint: 'http://10.2.2.58:8899/sparql'
+                         //endpoint: 'http://localhost:8899/sparql'
+                         //endpoint: 'http://mac-097.isb-sib.ch:8080/sparql'
+                         //endpoint: 'http://kant:8890/sparql'
                         // examples: 'http://localhost:8080/nextprot-api-web/demo/sparql/queries.json',
                 }
             }

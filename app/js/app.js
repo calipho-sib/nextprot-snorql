@@ -119,7 +119,9 @@
             $scope.executionTime = false;
             $scope.waiting = true;
             $scope.error = false;
-            $location.search('query', sparql)
+            if(sparql.length < 6000) // We'll use GET method, show url
+                $location.search('query', sparql)
+            //$location.search('query', sparql) removed because urls can become too long for the referer header and cause 400 BAD request
             $location.search('class', null)
             $location.search('property', null)
             $location.search('describe', null)
@@ -127,8 +129,10 @@
             snorql.executeQuery(sparql, params).$promise.then(function () {
                 $scope.waiting = false;
                 $scope.executionTime = (Date.now() - time) / 1000;
-            }, function (reason) {
-                $scope.error = reason.data.message
+            }
+            , function (reason) {
+                //alert(reason.data.message);
+               $scope.error = reason.data.message
                 $scope.waiting = false
             });
         };

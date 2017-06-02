@@ -1,5 +1,12 @@
-## nextprot-snorql
-A sparql explorer ultra simple based on the original idea of [SNORQL](https://github.com/kurtjx/SNORQL):
+# neXtProt - The knowledge resource on human proteins
+
+This is a code repository for the SIB - Swiss Institute of Bioinformatics CALIPHO group neXtProt project
+
+See: http://www.nextprot.org/
+
+# neXtProt SNORQL
+
+A ultra simple SPARQL explorer for neXtProt data based on the original idea of [SNORQL](https://github.com/kurtjx/SNORQL):
 
 See the live version here: [http://snorql.nextprot.org](http://snorql.nextprot.org)
 
