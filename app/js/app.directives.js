@@ -43,23 +43,27 @@ getNeXtProtUrl.$inject=['config']
 function getNeXtProtUrl(config) {
   return function(input) {
     if(config.environment === "pro"){
-      switch(input) {
-        case "api": return "https://api.nextprot.org" ;
-        case "search": return "https://www.nextprot.org" ;
-        case "snorql": return "http://snorql.nextprot.org" ;
-      }
-    } 
-    else if(config.environment === "vit"){
-      switch(input) {
-        case "api": return "https://vit-api.nextprot.org" ;
-        case "search": return "https://vit-www.nextprot.org" ;
-        case "snorql": return "http://vit-snorql.nextprot.org" ;
-      }
+        switch(input) {
+            case "api": return "https://api.nextprot.org" ;
+            case "search": return "https://search.nextprot.org" ;
+            case "snorql": return "http://snorql.nextprot.org" ;
+            case "sparql": return "https://sparql.nextprot.org" ;
+        }
     }
-    if(input == "api") return config.apiUrl;
-    else return "http://"+ config.environment + "-" + input + ".nextprot.org";
-  }
-};
+    //Because dev is HTTPS
+    else if(config.environment === "dev" || (config.environment.indexOf("NX_") > -1)) {
+        switch(input) {
+            case "api": return "https://dev-api.nextprot.org" ;
+            case "search": return "https://dev-search.nextprot.org" ;
+            case "snorql": return "http://dev-snorql.nextprot.org" ;
+            case "sparql": return "https://dev-api.nextprot.org/sparql" ;
+        }
+    }
+    else if(input === "sparql") {
+        return "http://" + config.environment + "-api.nextprot.org/sparql";
+    }
+    else return "http://" + config.environment + "-" + input + ".nextprot.org";
+}};
 
 getGitHubUrl.$inject=['config']
 function getGitHubUrl(config) {
