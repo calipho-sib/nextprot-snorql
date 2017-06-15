@@ -169,6 +169,14 @@
         };
 
         //
+
+         $(document).keydown(function(event) {
+             if (event.which === 82) // bind copyresults to r
+              snorql.copyResults(snorql.result.results.bindings);
+             else if (event.which === 80) // bind create values to p
+               snorql.createEntryValues();
+         });
+        
         // load sparql examples
         snorql.loadExamples()
 
