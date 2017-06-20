@@ -168,14 +168,15 @@
             user.logout();
         };
 
-        //
-
+        // Have a keystroke handling function
          $(document).keydown(function(event) {
-             if (event.which === 82) // bind copyresults to r
+            //alert(event.which);
+             if (event.which === 112) // bind copyresults to F1
               snorql.copyResults(snorql.result.results.bindings);
-             else if (event.which === 80) // bind create values to p
+             else if (event.which === 113) {// bind create values to F2
                snorql.createEntryValues();
-         });
+            }
+        });
         
         // load sparql examples
         snorql.loadExamples()
