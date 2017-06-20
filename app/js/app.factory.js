@@ -100,14 +100,14 @@ function snorql($http, $q, $timeout, config, sparqlPrefixService) {
 
    Snorql.prototype.createEntryValues=function(){
     var valuestr = "values ?entry {\n";
-    if(this.query.indexOf("\t") > 0) {
+    if(this.query.indexOf("\t") > 0) { // Assume a multivalue variable
       var orgquery = this.query; // like sp|P00533|EGFR_HUMAN IPLENLQIIR
       orgquery = orgquery.replace(/sp\|/g,"");
       orgquery = orgquery.replace(/\|.*_HUMAN/g,"");
       valuestr = "values (?entry ?peptide) {\n";
       valuestr += orgquery.replace(/(\w+)\s(\w+)/g,"(entry:NX_$1 \"$2\"^^xsd:string)");
       }
-    else {
+    else { alert("creating values");
       if(this.query.indexOf("NX_") >= 0)
         valuestr += this.query.replace(/(\w+)/g,"entry:$1");
       else
