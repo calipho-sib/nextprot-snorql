@@ -53,8 +53,11 @@
             <ul class="dropdown-menu" role="menu">
               <!-- Learn -->
               <li ng-class=""><a href="{{'search' | getNeXtProtUrl}}" ng-click="routingOutside('ui')">Search</a></li>
-              <li ng-class=""><a href="{{'snorql' | getNeXtProtUrl}}" ng-click="routingOutside('snorql')">Snorql</a></li>
+              <li class="divider"></li>
+              <li class="disabled" style="font-size:12px; margin-left: 10px"><i>Programmatic access</i></li>
               <li ng-class=""><a href="{{'api' | getNeXtProtUrl}}" ng-click="routingOutside('api')">API</a></li>
+              <li ng-class=""><a href="{{'sparql' | getNeXtProtUrl}}" ng-click="routingOutside('sparql')">SPARQL endpoint</a></li>
+              <li ng-class=""><a href="{{'snorql' | getNeXtProtUrl}}" ng-click="routingOutside('snorql')">Snorql</a></li>
             </ul>
           </li>
           <li><a href="/help/doc/introduction">Help</a></li>
