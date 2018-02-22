@@ -18,6 +18,7 @@
 
                 content += " (build " + releaseInfos.build;
                 content += "#" + releaseInfos.githash;
+                content += " [branch " + releaseInfos.branch + "]";
                 content += ")";
             }
             return content;
