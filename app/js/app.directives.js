@@ -8,7 +8,7 @@ angular.module('snorql.ui',[])
   .directive("menuToggle",menuToggle)
   .directive("sparqlFormatter",sparqlFormatter)
   .filter("containsTag",containsTag)
-  .filter("getGitHubUrl",getGitHubUrl)
+  .filter("getNxqId",getNxqId)
   .filter("getNeXtProtUrl",getNeXtProtUrl);
 
 containsTag.$inject=['user']
@@ -65,13 +65,11 @@ function getNeXtProtUrl(config) {
     else return "http://" + config.environment + "-" + input + ".nextprot.org";
 }};
 
-getGitHubUrl.$inject=['config']
-function getGitHubUrl(config) {
+function getNxqId() {
   return function(queryId) {
 
     var s = "000000000" + queryId;
-    var fileName = "NXQ_" + s.substr(s.length-5) + ".rq";
-    return config.githubEdit + fileName;
+    return "NXQ_" + s.substr(s.length-5);
   };
 };
 
