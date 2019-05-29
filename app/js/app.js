@@ -190,7 +190,7 @@
             snorql.updateQuery($location.search())
 
             if ($location.path() === '/') {
-                $window.document.title = "neXtProt SnorQL";
+                $window.document.title = "neXtProt SNORQL";
             }
 
         })
