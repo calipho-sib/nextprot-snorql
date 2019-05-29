@@ -10,7 +10,7 @@
             var BASE_URL = "https://dev-api.nextprot.org"
 
             //Environment that should be set from outside //TODO should replace this using GRUNT
-            var nxEnvironment = "NX_ENV"; //env can be replaced, by dev, alpha or pro
+            var nxEnvironment = "alpha"; //env can be replaced, by dev, alpha or pro
             if (nxEnvironment.indexOf("NX_") == -1) { // means nxEnvironment content has been replaced by "dev", "alpha", "pro" or "vit"
                 var protocol = "http";
 
