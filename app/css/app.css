@@ -7,8 +7,21 @@ body {
   overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
 body {
-  padding-top: 70px;
   font-family: "Lato","Helvetica Neue", "Helvetica", sans-serif;
+  height: 100vh;
+  padding-top: 0px;
+}
+#main {
+  padding-top: 50px;
+}
+#content .sidebar {
+  height: inherit;
+  top: 50px;
+}
+#content .help {
+  height: inherit;
+  position: relative;
+  padding-top: 0px;
 }
 .prefixes {
   font-family: monospace;
