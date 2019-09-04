@@ -6,9 +6,6 @@ html,
 body {
   overflow-x: hidden; /* Prevent scroll on narrow devices */
 }
-.query-165 { /* HOTFIX: to remove experimental query from API*/
-  display: none;
-}
 body {
   font-family: "Lato","Helvetica Neue", "Helvetica", sans-serif;
   height: 100vh;
@@ -155,4 +152,7 @@ textarea.form-control{
     position: relative;
     bottom: 5px;
   }
+}
+.query-165 { /* HOTFIX: to remove experimental query from API*/
+  display: none;
 }
