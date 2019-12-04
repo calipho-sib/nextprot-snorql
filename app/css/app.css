@@ -153,6 +153,3 @@ textarea.form-control{
     bottom: 5px;
   }
 }
-.query-165 { /* HOTFIX: to remove experimental query from API*/
-  display: none;
-}
