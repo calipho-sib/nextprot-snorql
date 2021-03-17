@@ -15,7 +15,7 @@
                 var protocol = "http";
 
                 // set protocol
-                if (nxEnvironment.toLowerCase() === "pro" || nxEnvironment.toLowerCase() === "vit" || nxEnvironment.toLowerCase() === "dev") {
+                if (nxEnvironment.toLowerCase() === "pro" || nxEnvironment.toLowerCase() === "vit" || nxEnvironment.toLowerCase() === "dev" || nxEnvironment.toLowerCase() === "alpha") {
                     protocol = "https";
                 }
 
