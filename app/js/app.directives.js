@@ -60,9 +60,9 @@ function getNeXtProtUrl(config) {
         }
     }
     else if(input === "sparql") {
-        return "http://" + config.environment + "-api.nextprot.org/sparql";
+        return "https://" + config.environment + "-api.nextprot.org/sparql";
     }
-    else return "http://" + config.environment + "-" + input + ".nextprot.org";
+    else return "https://" + config.environment + "-" + input + ".nextprot.org";
 }};
 
 function getNxqId() {
