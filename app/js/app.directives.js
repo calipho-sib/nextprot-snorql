@@ -45,7 +45,7 @@ function getNeXtProtUrl(config) {
     if(config.environment === "pro"){
         switch(input) {
             case "api": return "https://api.nextprot.org" ;
-            case "search": return "https://search.nextprot.org" ;
+            case "search": return "https://www.nextprot.org" ;
             case "snorql": return "http://snorql.nextprot.org" ;
             case "sparql": return "https://sparql.nextprot.org" ;
         }
