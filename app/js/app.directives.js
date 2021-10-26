@@ -45,7 +45,7 @@ function getNeXtProtUrl(config) {
     if(config.environment === "pro"){
         switch(input) {
             case "api": return "https://api.nextprot.org" ;
-            case "search": return "https://search.nextprot.org" ;
+            case "search": return "https://www.nextprot.org" ;
             case "snorql": return "http://snorql.nextprot.org" ;
             case "sparql": return "https://sparql.nextprot.org" ;
         }
@@ -60,9 +60,9 @@ function getNeXtProtUrl(config) {
         }
     }
     else if(input === "sparql") {
-        return "http://" + config.environment + "-api.nextprot.org/sparql";
+        return "https://" + config.environment + "-api.nextprot.org/sparql";
     }
-    else return "http://" + config.environment + "-" + input + ".nextprot.org";
+    else return "https://" + config.environment + "-" + input + ".nextprot.org";
 }};
 
 function getNxqId() {
