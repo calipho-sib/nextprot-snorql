@@ -393,7 +393,7 @@ function copyTextToClipboard(text) {
             var span = document.createElement('span');
             span.className = 'uri';
             var a = document.createElement('a');
-            a.href = this._getLinkMaker(varName)(node.value);
+            a.href = node.value;
             a.title = '<' + node.value + '>';
             a.className = 'graph-link';
             var qname = this._toQName(node.value);
