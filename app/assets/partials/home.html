@@ -27,12 +27,11 @@
                         <button type="button" class="btn btn-default" ng-click="snorql.copyResults(snorql.result.results.bindings)">Copy results<br/>as values</button> -->
                         <div class="input-group pull-right">
                             <input type="text" class="form-control" ng-model="term" placeholder="eg. peroxisome, liver">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-default " ng-click="searchTerm(term)"
-                                        ng-disabled="!term||waiting"><i class="glyphicon glyphicon-search"></i></button>
-                            </span>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default " ng-click="searchTerm(term)"
+                              ng-disabled="!term||waiting"><i class="glyphicon glyphicon-search"></i></button>
+                    </span>
                         </div>
-                        <div class="pull-right" style="padding-top:18px;padding-right:5px;font-weight:bold"> Search for Terms</div>
                     </div>
                 </form>
 
