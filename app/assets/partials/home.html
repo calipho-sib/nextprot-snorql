@@ -6,7 +6,7 @@
                 </button>
             </p>
             <div class="snorql">
-                <h5>SPARQL endpoint: <a ng-href="https://sparql.nextprot.org<">https://sparql.nextprot.org</a></h5>
+                <h5>SPARQL endpoint: <a ng-href="https://sparql.nextprot.org">https://sparql.nextprot.org</a></h5>
                 <a href="#" ng-click="showPrefixes = !showPrefixes">{{showPrefixes? "Hide SPARQL prefixes" : "PREFIX..."}}</a>
                 <ul ng-show="showPrefixes" class="list-unstyled prefixes">
                     <li ng-repeat="prefix in getPrefixes()">{{prefix}}</li>
