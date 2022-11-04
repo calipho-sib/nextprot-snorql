@@ -393,24 +393,13 @@ function copyTextToClipboard(text) {
             var span = document.createElement('span');
             span.className = 'uri';
             var a = document.createElement('a');
-            a.href = this._getLinkMaker(varName)(node.value);
+            a.href = node.value;
             a.title = '<' + node.value + '>';
             a.className = 'graph-link';
             var qname = this._toQName(node.value);
             if (qname) {
                 a.appendChild(document.createTextNode(qname));
                 span.appendChild(a);
-                if((qname.indexOf('entry:') == 0) || (qname.indexOf('isoform:') == 0) || (qname.indexOf('cv:') == 0)) {
-                  var spacer = document.createTextNode(' -- ');
-                  span.appendChild(spacer);
-                  var a2 = document.createElement('a');
-                  a2.href = node.value.replace("http","https").replace("nextprot.org","www.nextprot.org").replace("rdf/","").replace("terminology","term").replace("GO_","GO:").replace("isoform","entry");
-                  a2.title = '< View in neXtProt >';
-                  a2.className = 'url';
-                  a2.target = '_blank'; // Opens in new tab
-                  a2.appendChild(document.createTextNode(' (neXtProt link) '));
-                  span.appendChild(a2);
-                }
             } else {
               // embed image object
                 match = node.value.match(/\.(png|gif|jpg)(\?.+)?$/);
